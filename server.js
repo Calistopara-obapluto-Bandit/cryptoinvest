@@ -28,7 +28,61 @@ let marketCache = { updatedAt: 0, assets: fallbackMarkets, source: 'demo' };
 app.disable('x-powered-by');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, '.')));
+
+// Page routes (EJS rendering) must run before static middleware so the EJS
+// pages are served instead of the legacy index.html (React SPA).
+app.use((req, res, next) => {
+  if (req.path === '/' || req.path === '') {
+    return res.render('index');
+  }
+  if (req.path === '/services') {
+    return res.render('services', { title: 'Services — Global Mass Funds', description: 'Explore Global Mass Funds services — commodities & gold, cryptocurrency, real estate, stock & ETFs, loan, card, membership ID, and staking.' });
+  }
+  if (req.path === '/services/commodities-gold') {
+    return res.render('services/commodities-gold', { title: 'Commodities & Gold — Global Mass Funds', description: 'Simulate spot gold, silver, and energy markets with local mass funds. ' });
+  }
+  if (req.path === '/services/cryptocurrency') {
+    return res.render('services/cryptocurrency', { title: 'Cryptocurrency — Global Mass Funds', description: 'Trade BTC, ETH, SOL, and more with paper funds. ' });
+  }
+  if (req.path === '/services/real-estate') {
+    return res.render('services/real-estate', { title: 'Real Estate — Global Mass Funds', description: 'Simulate residential, commercial, and mixed-use property deals with demo cash. ' });
+  }
+  if (req.path === '/services/stock-etfs') {
+    return res.render('services/stock-etfs', { title: 'Stock & ETFs — Global Mass Funds', description: 'Trade individual stocks, broad market ETFs, and index funds with the same leveled demo portfolio used across every asset class.' });
+  }
+  if (req.path === '/services/loan') {
+    return res.render('services/loan', { title: 'Loan — Global Mass Funds', description: 'Practice borrowing, amortization, and debt service with paper cash.' });
+  }
+  if (req.path === '/services/card') {
+    return res.render('services/card', { title: 'Card — Global Mass Funds', description: 'Simulate a premium credit card with interest-free grace periods, APR, rewards, and balance management using demo funds.' });
+  }
+  if (req.path === '/services/membership') {
+    return res.render('services/membership', { title: 'Membership ID — Global Mass Funds', description: 'Your unified access key. One Membership ID covers every market.' });
+  }
+  if (req.path === '/services/staking') {
+    return res.render('services/staking', { title: 'Staking — Global Mass Funds', description: 'Earn demo yields on BTC, ETH, SOL, and more.' });
+  }
+  if (req.path === '/about') {
+    return res.render('about');
+  }
+  if (req.path === '/contact') {
+    return res.render('contact');
+  }
+  next();
+});
+
+// Static middleware (Clearwave CSS, JS, images). Serves static assets only,
+// never the legacy index.html so the EJS views are never shadowed.
+app.use((req, res, next) => {
+  if (req.path === '/' || req.path === '') {
+    return;
+  }
+  if (req.path.startsWith('/assets/') || req.path.endsWith('.css') || req.path.endsWith('.js') || req.path.endsWith('.png') || req.path.endsWith('.jpg') || req.path.endsWith('.svg') || req.path.endsWith('.woff2') || req.path.endsWith('.ico')) {
+    return express.static(path.join(__dirname, '.'))(req, res, next);
+  }
+  next();
+});
+
 app.use(express.json({ limit: '10kb' }));
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');

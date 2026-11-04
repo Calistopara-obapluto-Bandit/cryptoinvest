@@ -1,0 +1,13 @@
+{
+  "name": "clearwave-paper-investing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A paper-investing crypto dashboard built with Express.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

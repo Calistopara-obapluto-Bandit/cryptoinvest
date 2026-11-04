@@ -35,10 +35,10 @@ app.use((req, res, next) => {
 
 async function readAccount() {
   try {
-    return JSON.parse(await fs.readFile(accountFile, 'utf8'));
+    return JSON.parse((await fsPromises.readFile(accountFile)).toString('utf8'));
   } catch (error) {
     if (error.code !== 'ENOENT') throw error;
-    await fs.mkdir(dataDirectory, { recursive: true });
+    await fsPromises.mkdir(dataDirectory, { recursive: true });
     const account = initialAccount();
     await writeAccount(account);
     return account;
@@ -46,10 +46,10 @@ async function readAccount() {
 }
 
 async function writeAccount(account) {
-  await fs.mkdir(dataDirectory, { recursive: true });
+  await fsPromises.mkdir(dataDirectory, { recursive: true });
   const temporaryFile = `${accountFile}.tmp`;
-  await fs.writeFile(temporaryFile, JSON.stringify(account, null, 2));
-  await fs.rename(temporaryFile, accountFile);
+  await fsPromises.writeFile(temporaryFile, JSON.stringify(account, null, 2));
+  await fsPromises.rename(temporaryFile, accountFile);
 }
 
 async function getMarkets() {

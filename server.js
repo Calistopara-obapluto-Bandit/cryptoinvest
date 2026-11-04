@@ -1,5 +1,6 @@
 const express = require('express');
-const fs = require('node:fs/promises');
+const fs = require('node:fs');
+const fsPromises = require('node:fs/promises');
 const path = require('node:path');
 
 const app = express();
@@ -181,9 +182,14 @@ app.use(express.static(distAssets));
 app.use((req, res, next) => {
   if (req.path.startsWith('/api/')) return next();
   if (req.path === '/' || req.path === '') {
-    res.sendFile(distIndex).on('error', () => {
-      res.status(200).send(`<!doctype html><html><head><meta charset="utf-8"><title>Global Mass Funds</title><script type="module" src="/assets/index.js"></script></head><body><div id="root"></div></body></html>`);
-    });
+    // Serve the built SPA. If dist/ is missing or malformed on a fresh build,
+    // fall back to a minimal HTML shell — the one file in dist that Vite never
+    // renames (index.html) is the entry, so sendFile() must come before it.
+    if (!fs.existsSync(distIndex)) {
+      res.status(200).send(`<!doctype html><html><head><meta charset="utf-8"><title>Global Mass Funds</title><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><div id="root"></div><script type="module" src="/assets/index.js"></script></body></html>`);
+      return;
+    }
+    res.sendFile(distIndex);
   } else {
     next();
   }

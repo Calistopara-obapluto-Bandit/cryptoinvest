@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Build output (Vite)
+dist/
+
+# Local data (paper trading accounts)
+data/
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# OS / editor
+.DS_Store
+*.log

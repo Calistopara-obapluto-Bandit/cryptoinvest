@@ -3,45 +3,236 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TemplateMo 622 Clearwave</title>
+  <title><%= title || 'Global Mass Funds' %></title>
   <!--
-  TemplateMo 622 Clearwave
-  https://templatemo.com/tm-622-clearwave
-  Free for personal and commercial use
+  Global Mass Funds — built on Clearwave visual style
   -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="templatemo-622-clearwave.css" />
+  <style>
+    /* GMF content adaptations — keeps Clearwave global tokens/styling intact */
+    .gmf-video {
+      width: 100%; aspect-ratio: 16/9; border-radius: var(--radius);
+      background: var(--accent); overflow: hidden; box-shadow: var(--shadow-lg);
+      display: flex; align-items: center; justify-content:center;
+    }
+    .gmf-video img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gmf-plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .gmf-plan {
+      background: var(--surface-2); border-radius: var(--radius-lg);
+      border: 1px solid var(--border); padding: 32px 28px;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--silk-dur) var(--silk), box-shadow var(--silk-dur) var(--silk), border-color 0.4s;
+      position: relative;
+    }
+    .gmf-plan:hover { transform: scale(1.02); box-shadow: var(--shadow-md); border-color: var(--accent-border); }
+    .gmf-plan-featured { border-color: var(--accent); box-shadow: 0 20px 60px rgba(26,122,110,0.22); }
+    .gmf-plan-featured:hover { box-shadow: 0 28px 80px rgba(26,122,110,0.32); }
+    .gmf-plan-badge {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: #fff; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 5px 16px; border-radius: 100px; white-space: nowrap;
+    }
+    .gmf-plan-tier { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 12px; }
+    .gmf-plan-rate { font-size: 2rem; font-weight: 700; color: var(--accent); letter-spacing: -0.03em; margin-bottom: 4px; }
+    .gmf-plan-rate small { font-size: 0.875rem; color: var(--text-3); font-weight: 500; }
+    .gmf-plan-rule { height: 1px; background: var(--border); margin: 18px 0 22px; }
+    .gmf-plan-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 6px 0; color: var(--text-2); }
+    .gmf-plan-row strong { color: var(--text-1); font-weight: 600; }
+    .gmf-plan-cta {
+      display: block; text-align: center; font-size: 0.9rem; font-weight: 600;
+      padding: 13px; border-radius: 100px; margin-top: 22px;
+      border: 1.5px solid var(--accent-border); color: var(--accent);
+      background: var(--accent-ghost); transition: all 0.4s var(--silk);
+    }
+    .gmf-plan-cta:hover { background: var(--accent); color: #fff; box-shadow: 0 6px 24px rgba(26,122,110,0.35); }
+    .gmf-plan-featured .gmf-plan-cta { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .gmf-plan-featured .gmf-plan-cta:hover { background: var(--accent-mid); }
+
+    .gmf-benefit-card {
+      background: var(--surface-2); border-radius: var(--radius-lg);
+      border: 1px solid var(--border); padding: 28px; box-shadow: var(--shadow-sm);
+      transition: transform var(--silk-dur) var(--silk), box-shadow var(--silk-dur) var(--silk);
+      height: 100%;
+    }
+    .gmf-benefit-card:hover { transform: scale(1.015); box-shadow: var(--shadow-md); }
+    .gmf-benefit-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--accent-ghost); border: 1px solid var(--accent-border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 1.3rem; margin-bottom: 18px;
+    }
+    .gmf-benefit-title { font-size: 1.05rem; font-weight: 700; color: var(--text-1); margin-bottom: 8px; letter-spacing: -0.02em; }
+    .gmf-benefit-desc { font-size: 0.9rem; line-height: 1.7; color: var(--text-2); }
+
+    .gmf-stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+    .gmf-stat {
+      padding: 36px; border-right: 1px solid var(--border);
+      transition: background var(--silk-dur) var(--silk);
+    }
+    .gmf-stat:last-child { border-right: none; }
+    .gmf-stat:hover { background: var(--surface-2); }
+    .gmf-stat-val { font-size: clamp(2rem, 3vw, 2.9rem); font-weight: 700; color: var(--text-1); letter-spacing: -0.04em; line-height: 1; margin-bottom: 10px; }
+    .gmf-stat-label { font-size: 0.85rem; color: var(--text-2); font-weight: 500; }
+
+    .gmf-testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .gmf-testimonial {
+      background: var(--surface-2); border-radius: var(--radius-lg);
+      border: 1px solid var(--border); padding: 32px; box-shadow: var(--shadow-sm);
+      transition: transform var(--silk-dur) var(--silk), box-shadow var(--silk-dur) var(--silk);
+    }
+    .gmf-testimonial:hover { transform: scale(1.015); box-shadow: var(--shadow-md); }
+    .gmf-quote-stars { display: flex; gap: 3px; margin-bottom: 16px; color: var(--accent); font-size: 14px; }
+    .gmf-quote { font-size: 0.9375rem; line-height: 1.7; color: var(--text-2); margin-bottom: 22px; font-style: italic; }
+    .gmf-author { display: flex; align-items: center; gap: 12px; }
+    .gmf-avatar {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      background: var(--accent-ghost); border: 1px solid var(--accent-border);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: var(--accent); font-size: 0.85rem;
+    }
+    .gmf-author-name { font-size: 0.875rem; font-weight: 600; color: var(--text-1); }
+    .gmf-author-role { font-size: 0.75rem; color: var(--text-3); margin-top: 1px; }
+
+    .gmf-step {
+      display: flex; gap: 18px; align-items: flex-start;
+      padding: 22px 0; border-bottom: 1px solid var(--border);
+    }
+    .gmf-step:last-child { border-bottom: none; }
+    .gmf-step-num {
+      width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+      background: var(--accent); color: #fff; font-weight: 700; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gmf-step-title { font-weight: 700; color: var(--text-1); font-size: 0.95rem; margin-bottom: 4px; }
+    .gmf-step-desc { font-size: 0.875rem; color: var(--text-2); line-height: 1.6; }
+
+    .gmf-notice {
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-left: 4px solid var(--accent); border-radius: var(--radius);
+      padding: 24px 28px; box-shadow: var(--shadow-sm);
+    }
+    .gmf-notice-title { font-weight: 700; color: var(--text-1); margin-bottom: 8px; font-size: 1rem; }
+    .gmf-notice-text { font-size: 0.9rem; color: var(--text-2); line-height: 1.65; }
+
+    .gmf-contact-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: start; }
+    .gmf-contact-box {
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.4s;
+    }
+    .gmf-contact-box:hover { box-shadow: var(--shadow-md); }
+    .gmf-contact-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+    }
+    .gmf-contact-name { font-size: 1.1rem; font-weight: 700; color: var(--text-1); margin-bottom: 4px; }
+    .gmf-contact-role { font-size: 0.8rem; color: var(--text-3); margin-bottom: 18px; }
+    .gmf-contact-value { font-size: 0.95rem; color: var(--text-2); padding: 12px 0; border-top: 1px solid var(--border); }
+    .gmf-contact-value:first-of-type { border-top: none; padding-top: 0; }
+    .gmf-contact-value span { color: var(--text-3); margin-right: 8px; }
+
+    .gmf-props-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .gmf-prop-card {
+      background: var(--surface-2); border-radius: var(--radius-lg);
+      border: 1px solid var(--border); padding: 0; overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--silk-dur) var(--silk), box-shadow var(--silk-dur) var(--silk);
+    }
+    .gmf-prop-card:hover { transform: scale(1.02); box-shadow: var(--shadow-md); }
+    .gmf-prop-img {
+      height: 170px; background: var(--accent); display: flex;
+      align-items: center; justify-content: center; position: relative; overflow: hidden;
+    }
+    .gmf-prop-img-tag {
+      position: absolute; top: 14px; left: 14px;
+      background: rgba(255,255,255,0.15); color: #fff; font-size: 0.7rem;
+      font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 100px; backdrop-filter: blur(4px);
+    }
+    .gmf-prop-body { padding: 22px; }
+    .gmf-prop-roi { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+    .gmf-prop-price { font-size: 1.6rem; font-weight: 700; color: var(--text-1); margin-bottom: 14px; letter-spacing: -0.02em; }
+    .gmf-prop-meta { font-size: 0.8rem; color: var(--text-3); display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+    .gmf-prop-meta span { background: var(--bg); border-radius: 100px; padding: 4px 12px; }
+    .gmf-prop-cta {
+      display: block; text-align: center; font-size: 0.875rem; font-weight: 600;
+      background: var(--accent); color: #fff; padding: 13px; border-radius: 100px;
+      transition: background var(--silk-dur) var(--silk);
+    }
+    .gmf-prop-cta:hover { background: var(--accent-mid); }
+
+    .gmf-newsletter {
+      background: var(--text-1); border-radius: var(--radius-lg);
+      padding: 60px; display: flex; align-items: center; justify-content: space-between; gap: 40px;
+      position: relative; overflow: hidden;
+    }
+    .gmf-newsletter::before {
+      content: ''; position: absolute; top: -30%; right: -5%; width: 460px; height: 460px;
+      background: radial-gradient(ellipse at center, rgba(91,191,181,0.16) 0%, transparent 70%);
+      border-radius: 50%; pointer-events: none;
+    }
+    .gmf-newsletter-text { position: relative; z-index: 1; max-width: 460px; }
+    .gmf-newsletter-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: #fff; margin-bottom: 10px; letter-spacing: -0.03em; }
+    .gmf-newsletter-sub { color: rgba(255,255,255,0.6); font-size: 0.95rem; }
+    .gmf-newsletter-form { position: relative; z-index: 1; display: flex; gap: 10px; flex-shrink: 0; }
+    .gmf-newsletter-input {
+      height: 52px; padding: 0 18px; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.08);
+      color: #fff; font-size: 0.9rem; min-width: 260px; outline: none;
+      transition: border-color 0.3s;
+    }
+    .gmf-newsletter-input::placeholder { color: rgba(255,255,255,0.4); }
+    .gmf-newsletter-input:focus { border-color: var(--accent-light); }
+    .gmf-newsletter-btn {
+      height: 52px; padding: 0 28px; border-radius: 100px;
+      background: var(--accent); color: #fff; font-weight: 600; font-size: 0.9rem;
+      border: none; cursor: pointer; transition: background 0.4s;
+    }
+    .gmf-newsletter-btn:hover { background: var(--accent-mid); }
+
+    @media (max-width: 1024px) {
+      .gmf-plans-grid { grid-template-columns: repeat(2, 1fr); }
+      .gmf-testimonials-grid { grid-template-columns: 1fr; }
+      .gmf-stat-row { grid-template-columns: repeat(2, 1fr); }
+      .gmf-stat { border-right: none; border-bottom: 1px solid var(--border); }
+      .gmf-stat:nth-child(odd) { border-right: 1px solid var(--border); }
+      .gmf-prop-grid { grid-template-columns: 1fr; }
+      .gmf-newsletter { flex-direction: column; padding: 40px 28px; text-align: center; }
+      .gmf-newsletter-form { flex-direction: column; width: 100%; }
+      .gmf-newsletter-input { width: 100%; min-width: unset; }
+      .gmf-contact-grid { grid-template-columns: 1fr; gap: 28px; }
+    }
+    @media (max-width: 768px) {
+      .gmf-plans-grid { grid-template-columns: 1fr; }
+      .gmf-stat-row { grid-template-columns: 1fr 1fr; }
+      .gmf-stat { border-right: none; }
+      .gmf-stat:nth-child(odd) { border-right: 1px solid var(--border); }
+    }
+    @media (max-width: 480px) {
+      .gmf-newsletter { padding: 32px 20px; }
+    }
+  </style>
 </head>
 <body>
-
-  <!-- ── MOBILE MENU ── -->
-  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation">
-    <a href="#screens">App</a>
-    <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#testimonials">Reviews</a>
-    <a href="#integrations">Integrations</a>
-    <a href="#faq">FAQ</a>
-    <a href="#" class="mobile-cta btn-primary">Start Free Trial</a>
-  </div>
 
   <!-- ── 1. NAV ── -->
   <nav class="nav" id="mainNav" role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
-      <a href="#" class="nav-logo">clear<span>wave</span></a>
+      <a href="#" class="nav-logo">GMF<span style="color:var(--accent-light)">Funds</span></a>
       <ul class="nav-links" role="list">
-        <li><a href="#screens">App</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#plans">Plans</a></li>
+        <li><a href="#real-estate">Real Estate</a></li>
         <li><a href="#testimonials">Reviews</a></li>
-        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
       <div class="nav-cta">
-        <a href="#" class="btn-ghost">Sign in</a>
-        <a href="#" class="btn-primary">Start Free Trial</a>
+        <a href="#contact" class="btn-primary">Get Started</a>
       </div>
       <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -49,226 +240,154 @@
     </div>
   </nav>
 
-  <!-- ── 2. HERO ── -->
-  <section class="hero">
+  <!-- ── 3. BRAND CREDITS ── -->
+  <div class="stats-section gmf-credits">
     <div class="container">
-      <div class="hero-inner">
-        <div class="hero-content">
-          <div class="hero-badge reveal">
-            <div class="hero-badge-dot">✦</div>
-            <span>Rated <strong>#1 Productivity SaaS</strong> of 2024</span>
-          </div>
-          <h1 class="hero-title reveal reveal-delay-1">
-            Your workflow,<br><em>finally clear.</em>
-          </h1>
-          <p class="hero-sub reveal reveal-delay-2">
-            Clearwave unifies your team's projects, data, and communication into one calm, focused surface. Less noise, more done.
-          </p>
-          <div class="hero-actions reveal reveal-delay-3">
-            <a href="#" class="btn-primary-lg">
-              Start Free — No Card
-              <span class="btn-arrow">→</span>
-            </a>
-            <a href="#screens" class="btn-outline-lg">
-              <span>▶</span> See it in action
-            </a>
-          </div>
-          <div class="hero-trust reveal reveal-delay-4">
-            <div class="trust-item">
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-              SOC 2 Certified
-            </div>
-            <div class="trust-divider"></div>
-            <div class="trust-item">
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              99.9% Uptime SLA
-            </div>
-            <div class="trust-divider"></div>
-            <div class="trust-item">
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-              50k+ Teams
-            </div>
-          </div>
+      <div class="stats-grid">
+        <div class="stat-card reveal">
+          <div class="stat-rule"></div>
+          <div class="stat-value">12k+</div>
+          <div class="stat-label">Active Paper Traders</div>
+          <div class="stat-sublabel">Across 40+ countries</div>
         </div>
-        <div class="hero-visual reveal reveal-delay-2">
-          <div class="hero-dashboard">
-            <div class="dashboard-bar">
-              <div class="db-dot"></div><div class="db-dot"></div><div class="db-dot"></div>
-            </div>
-            <div class="dashboard-body">
-              <div class="db-header">
-                <div class="db-title">Team Performance</div>
-                <div class="db-tag">Live</div>
-              </div>
-              <div class="db-chart">
-                <div class="db-bar" style="height:35%"></div>
-                <div class="db-bar" style="height:55%"></div>
-                <div class="db-bar" style="height:42%"></div>
-                <div class="db-bar active" style="height:75%"></div>
-                <div class="db-bar" style="height:60%"></div>
-                <div class="db-bar active" style="height:88%"></div>
-                <div class="db-bar" style="height:70%"></div>
-                <div class="db-bar active" style="height:92%"></div>
-              </div>
-              <div class="db-stats">
-                <div class="db-stat">
-                  <div class="db-stat-val">94<span style="font-size:.9rem;color:var(--accent)">%</span></div>
-                  <div class="db-stat-label">Task Rate</div>
-                  <div class="db-stat-change">+12%</div>
-                </div>
-                <div class="db-stat">
-                  <div class="db-stat-val">2.4<span style="font-size:.9rem;color:var(--accent)">k</span></div>
-                  <div class="db-stat-label">Active Users</div>
-                  <div class="db-stat-change">+8%</div>
-                </div>
-                <div class="db-stat">
-                  <div class="db-stat-val">18<span style="font-size:.9rem;color:var(--accent)">h</span></div>
-                  <div class="db-stat-label">Saved / week</div>
-                  <div class="db-stat-change">+24%</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="hero-float-badge">
-            <div class="float-badge-icon">✦</div>
-            <div class="float-badge-text">
-              <strong>New integration</strong>
-              <span>Slack connected · just now</span>
-            </div>
-          </div>
-          <div class="hero-float-badge-2">
-            <div class="float-badge-2-val">↑ 34%</div>
-            <div class="float-badge-2-label">Output this week</div>
-          </div>
+        <div class="stat-card reveal reveal-delay-1">
+          <div class="stat-rule"></div>
+          <div class="stat-value">$2.1B</div>
+          <div class="stat-label">Simulated Volume (24h)</div>
+          <div class="stat-sublabel">BTC · ETH · SOL</div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 3. LOGO TICKER ── -->
-  <div class="ticker-section">
-    <div class="ticker-label">Trusted by forward-thinking teams at</div>
-    <div class="ticker-track-wrap">
-      <div class="ticker-track">
-        <!-- Set 1 -->
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>Nexaflow</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>Meridian</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><polygon points="12,2 22,20 2,20"/></svg></div>Vanta Labs</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><path d="M4 4h16v12H4z M8 20h8"/></svg></div>Pulsar HQ</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><circle cx="12" cy="7" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>Arclight</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>Korova Co.</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>Stratum IO</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>Lumiq</div>
-        <div class="ticker-dot"></div>
-        <!-- Set 2 (duplicate for seamless loop) -->
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>Nexaflow</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>Meridian</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><polygon points="12,2 22,20 2,20"/></svg></div>Vanta Labs</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><path d="M4 4h16v12H4z M8 20h8"/></svg></div>Pulsar HQ</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><circle cx="12" cy="7" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>Arclight</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>Korova Co.</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>Stratum IO</div>
-        <div class="ticker-dot"></div>
-        <div class="ticker-item"><div class="ticker-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>Lumiq</div>
-        <div class="ticker-dot"></div>
+        <div class="stat-card reveal reveal-delay-2">
+          <div class="stat-rule"></div>
+          <div class="stat-value">4.9</div>
+          <div class="stat-label">App Store Rating</div>
+          <div class="stat-sublabel">Most reviewed paper trading app</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-3">
+          <div class="stat-rule"></div>
+          <div class="stat-value">0</div>
+          <div class="stat-label">Capital at Risk</div>
+          <div class="stat-sublabel">Play with pretend money</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ── 5. 3D PHONE CAROUSEL ── -->
-  <section class="carousel-section" id="screens">
+  <!-- ── 5. VALUE CARDS ── -->
+  <section class="features-section" id="features">
     <div class="container">
-      <div class="carousel-header">
-        <div class="section-label reveal">Mobile App</div>
-        <h2 class="section-title reveal reveal-delay-1">Your workspace,<br><em>in your pocket</em></h2>
-        <p class="section-sub reveal reveal-delay-2">The Clearwave mobile app brings every dashboard, task, and notification to you — beautifully adapted for any screen.</p>
+      <div class="features-header">
+        <div class="section-label reveal">Why Traders Choose GMF</div>
+        <h2 class="section-title reveal reveal-delay-1">Built for real markets,<br><em>real strategies</em></h2>
+        <p class="section-sub reveal reveal-delay-2">Every tool below is designed to help you practice systematically before risking real capital.</p>
       </div>
-    </div>
-    <div class="carousel-zoom">
-      <button class="zoom-btn" id="zoomOut" aria-label="Zoom out">−</button>
-      <div class="zoom-pips" id="zoomPips"></div>
-      <button class="zoom-btn" id="zoomIn" aria-label="Zoom in">+</button>
-    </div>
 
-    <div class="carousel-stage" id="carouselStage">
-      <div class="carousel-track" id="carouselTrack">
-
-        <!-- Phone screens: 5 different screen designs + extras for looping -->
-        <!-- We will render 7 cards and cycle positions -->
-
-        <div class="phone-card" data-pos="left2" data-index="0">
-          <div class="phone-shell">
-            <div class="phone-screen">
-              <img src="images/tm-622-screen-01.jpg" alt="App screen 1" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
+      <div class="feature-row">
+        <div class="feature-content reveal">
+          <div class="feature-number">01 — Live Market Data</div>
+          <h3 class="feature-title">Prices move <em>as they do</em></h3>
+          <p class="feature-desc">Track BTC, ETH, and SOL in real time with accurate quotes, 24h change, and volume — exactly what you'd see on an exchange.</p>
+          <div class="feature-checklist">
+            <div class="feature-check"><div class="check-icon">✓</div><span>Real-time crypto prices & charts</span></div>
+            <div class="feature-check"><div class="check-icon">✓</div><span>24h change and volume per asset</span></div>
+            <div class="feature-check"><div class="check-icon">✓</div><span>Simulated orders for practice</span></div>
+          </div>
+        </div>
+        <div class="feature-visual reveal reveal-delay-1">
+          <div class="feature-visual-inner">
+            <div class="fv-row">
+              <div class="fv-card">
+                <div class="fv-card-label">BTC Price</div>
+                <div class="fv-card-val">$104,231.55</div>
+                <div class="fv-card-bar"><div class="fv-card-bar-fill" style="width:68%"></div></div>
+              </div>
+              <div class="fv-card">
+                <div class="fv-card-label">ETH Price</div>
+                <div class="fv-card-val">$3,542.20</div>
+                <div class="fv-card-bar"><div class="fv-card-bar-fill" style="width:74%"></div></div>
+              </div>
+            </div>
+            <div class="fv-card">
+              <div class="fv-card-label">Today's Moves</div>
+              <div class="fv-list" style="margin-top:8px">
+                <div class="fv-list-item"><span class="fv-list-name">BTC +2.4%</span><span class="fv-pill green">Up</span></div>
+                <div class="fv-list-item"><span class="fv-list-name">ETH +1.2%</span><span class="fv-pill green">Up</span></div>
+                <div class="fv-list-item"><span class="fv-list-name">SOL −0.8%</span><span class="fv-pill blue">Down</span></div>
+              </div>
             </div>
           </div>
-
         </div>
-
-        <div class="phone-card" data-pos="left1" data-index="1">
-          <div class="phone-shell">
-            <div class="phone-screen">
-              <img src="images/tm-622-screen-02.jpg" alt="App screen 2" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
-            </div>
-          </div>
-
-        </div>
-
-        <div class="phone-card" data-pos="center" data-index="2">
-          <div class="phone-shell">
-            <div class="phone-screen">
-              <img src="images/tm-622-screen-03.jpg" alt="App screen 3" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
-            </div>
-          </div>
-
-        </div>
-
-        <div class="phone-card" data-pos="right1" data-index="3">
-          <div class="phone-shell">
-            <div class="phone-screen">
-              <img src="images/tm-622-screen-04.jpg" alt="App screen 4" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
-            </div>
-          </div>
-
-        </div>
-
-        <div class="phone-card" data-pos="right2" data-index="4">
-          <div class="phone-shell">
-            <div class="phone-screen">
-              <img src="images/tm-622-screen-05.jpg" alt="App screen 5" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
-            </div>
-          </div>
-
-        </div>
-
       </div>
-    </div>
 
-    <div style="display:flex;align-items:center;justify-content:center;gap:24px;width:100%;margin-top:48px;">
-      <button class="carousel-btn" id="carouselPrev" aria-label="Previous screen">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-      </button>
-      <div class="carousel-dots" id="carouselDots"></div>
-      <button class="carousel-btn" id="carouselNext" aria-label="Next screen">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-      </button>
+      <div class="feature-row reverse">
+        <div class="feature-content reveal">
+          <div class="feature-number">02 — Paper Risk-Free</div>
+          <h3 class="feature-title">No real money,<br><em>no real stress</em></h3>
+          <p class="feature-desc">Trade with pretend cash, run simulations, and build discipline — so real capital comes with confidence, not fear.</p>
+          <div class="feature-checklist">
+            <div class="feature-check"><div class="check-icon">✓</div><span>Demo cash balance you control</span></div>
+            <div class="feature-check"><div class="check-icon">✓</div><span>Instant full resets</span></div>
+            <div class="feature-check"><div class="check-icon">✓</div><span>No fees, no slippage</span></div>
+          </div>
+        </div>
+        <div class="feature-visual reveal reveal-delay-1">
+          <div class="feature-visual-inner">
+            <div class="fv-card">
+              <div class="fv-card-label">Your Demo Balance</div>
+              <div class="fv-card-val">$25,000</div>
+              <div class="fv-card-bar"><div class="fv-card-bar-fill" style="width:58%"></div></div>
+            </div>
+            <div class="fv-row">
+              <div class="fv-card fv-wide">
+                <div class="fv-card-label">Gained Today</div>
+                <div class="fv-card-val">+$1,420.00</div>
+              </div>
+              <div class="fv-card">
+                <div class="fv-card-label">Orders Placed</div>
+                <div class="fv-card-val">18</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature-content reveal">
+          <div class="feature-number">03 — Analytics</div>
+          <h3 class="feature-title">See your<br><em>strategy sharpen</em></h3>
+          <p class="feature-desc">Review every trade with a live ledger, read filters, and honest numbers — then adjust your plan week over week.</p>
+          <div class="feature-checklist">
+            <div class="feature-check"><div class="check-icon">✓</div><span>Live order ledger & history</span></div>
+            <div class="feature-check"><div class="check-icon">✓</div><span>Position & P&L tracking</span></div>
+            <div class="feature-check"><div class="check-icon">✓</div><span>Trade journal & patterns</span></div>
+          </div>
+        </div>
+        <div class="feature-visual reveal reveal-delay-1">
+          <div class="feature-visual-inner">
+            <div class="fv-row">
+              <div class="fv-card fv-wide">
+                <div class="fv-card-label">Total Value</div>
+                <div class="fv-card-val">$26,230.40</div>
+              </div>
+              <div class="fv-card">
+                <div class="fv-card-label">Halt Rate</div>
+                <div class="fv-card-val">1.2:1</div>
+              </div>
+            </div>
+            <div class="fv-card">
+              <div class="fv-card-label">Recent Trades</div>
+              <div class="fv-list" style="margin-top:8px">
+                <div class="fv-list-item"><span class="fv-list-name">BTC buy 0.021 @ $103,111</span><span class="fv-pill green">+1.2%</span></div>
+                <div class="fv-list-item"><span class="fv-list-name">ETH sell 1.02 @ $3,512</span><span class="fv-pill red">−0.4%</span></div>
+                <div class="fv-list-item"><span class="fv-list-name">SOL buy 21.8 @ $159.40</span><span class="fv-pill green">+0.9%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- ── 4. FEATURES ── -->
+  <!-- ── 4. STATS ── -->
   <section class="features-section" id="features">
     <div class="container">
       <div class="features-header">
@@ -396,112 +515,136 @@
     </div>
   </section>
 
-  <!-- ── 6. STATS ── -->
-  <section class="stats-section">
+  <!-- ── 6. GMF VIDEO ── -->
+  <section class="gmf-video" id="video">
+    <img src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" alt="How Global Mass Funds works" />
+  </section>
+
+  <!-- ── 7. GMF BENEFITS ── -->
+  <section class="features-section" id="benefits">
     <div class="container">
-      <div class="stats-grid">
-        <div class="stat-card reveal">
-          <div class="stat-rule"></div>
-          <div class="stat-value"><span class="stat-num" data-target="50">0</span><span class="stat-suffix">k+</span></div>
-          <div class="stat-label">Teams Worldwide</div>
-          <div class="stat-sublabel">Across 80+ countries</div>
+      <div class="features-header">
+        <div class="section-label reveal">Why Traders Trust Us</div>
+        <h2 class="section-title reveal reveal-delay-1">Build skills before you<br><em>risk real money</em></h2>
+        <p class="section-sub reveal reveal-delay-2">Paper trading gives you the same speed, size, and feedback as live markets — without the regret.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px;">
+        <div class="gmf-benefit-card">
+          <div class="gmf-benefit-icon">📈</div>
+          <div class="gmf-benefit-title">Live market feeds</div>
+          <p class="gmf-benefit-desc">Real-time BTC, ETH, and SOL quotes with 24h change and volume — exactly what you'd see on an exchange.</p>
         </div>
-        <div class="stat-card reveal reveal-delay-1">
-          <div class="stat-rule"></div>
-          <div class="stat-value"><span class="stat-num" data-target="34">0</span><span class="stat-suffix">%</span></div>
-          <div class="stat-label">Avg. Productivity Gain</div>
-          <div class="stat-sublabel">Measured in first 30 days</div>
+        <div class="gmf-benefit-card">
+          <div class="gmf-benefit-icon">🎯</div>
+          <div class="gmf-benefit-title">Risk-free practice</div>
+          <p class="gmf-benefit-desc">Execute simulated orders, track your P&amp;L, and refine your strategy until it's second nature.</p>
         </div>
-        <div class="stat-card reveal reveal-delay-2">
-          <div class="stat-rule"></div>
-          <div class="stat-value"><span class="stat-num" data-target="99" data-decimal="9">0</span><span class="stat-suffix">%</span></div>
-          <div class="stat-label">Uptime SLA</div>
-          <div class="stat-sublabel">Guaranteed and monitored</div>
-        </div>
-        <div class="stat-card reveal reveal-delay-3">
-          <div class="stat-rule"></div>
-          <div class="stat-value"><span class="stat-num" data-target="18">0</span><span class="stat-suffix">h</span></div>
-          <div class="stat-label">Saved Per Team Weekly</div>
-          <div class="stat-sublabel">On average across all plans</div>
+        <div class="gmf-benefit-card">
+          <div class="gmf-benefit-icon">🛡️</div>
+          <div class="gmf-benefit-title">No capital at risk</div>
+          <p class="gmf-benefit-desc">Paper funds only. No real loss, no regret — just the muscle memory you need for the live market.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── 7. PRICING ── -->
-  <section class="pricing-section" id="pricing">
+  <!-- ── 7. PLANS ── -->
+  <section class="pricing-section" id="plans">
     <div class="container">
       <div class="pricing-header">
-        <div class="section-label reveal">Pricing</div>
-        <h2 class="section-title reveal reveal-delay-1">Simple, <em>transparent</em> pricing</h2>
-        <p class="section-sub reveal reveal-delay-2">No hidden fees. No surprise overages. Cancel anytime.</p>
+        <div class="section-label reveal">Investment Plans</div>
+        <h2 class="section-title reveal reveal-delay-1">Pick your<br><em>rank</em></h2>
+        <p class="section-sub reveal reveal-delay-2">Daily compounded profit on BTC, ETH, and SOL — from starter to premium.</p>
       </div>
       <div class="pricing-toggle reveal">
-        <span class="toggle-label active" id="monthlyLabel">Monthly</span>
-        <div class="toggle-switch" id="pricingToggle" role="switch" aria-checked="false" tabindex="0" aria-label="Toggle annual billing"></div>
-        <span class="toggle-label" id="annualLabel">Annual</span>
-        <div class="toggle-badge">Save 35%</div>
+        <span class="toggle-label active" id="monthlyLabel">Daily</span>
+        <div class="toggle-switch" id="pricingToggle" role="switch" aria-checked="false" tabindex="0" aria-label="Toggle daily compounding"></div>
+        <span class="toggle-label" id="annualLabel">Monthly</span>
+        <div class="toggle-badge">Compounds daily</div>
       </div>
-      <div class="pricing-grid">
-        <div class="pricing-card reveal">
-          <div class="pricing-tier">Starter</div>
-          <div class="pricing-price">
-            <span class="price-currency">$</span>
-            <span class="price-amount" id="price-starter">20</span>
-            <span class="price-period">&nbsp;/ mo</span>
-          </div>
-          <div class="price-annual-note" id="annual-note-starter">&nbsp;</div>
-          <p class="pricing-desc">For individuals and small teams getting started with structured workflows.</p>
-          <div class="pricing-divider"></div>
-          <div class="pricing-features">
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>Up to 5 team members</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>10 active dashboards</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>Basic automations (50/mo)</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>7-day data history</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>Email support</span></div>
-          </div>
-          <a href="#" class="pricing-cta">Start Free Trial</a>
+      <div class="gmf-plans-grid">
+        <div class="gmf-plan reveal">
+          <div class="gmf-plan-tier">Starter</div>
+          <div class="gmf-plan-rate">5% <small>/ day</small></div>
+          <div class="gmf-plan-rule"></div>
+          <div class="gmf-plan-row"><span>Min deposit</span><strong>$100</strong></div>
+          <div class="gmf-plan-row"><span>Max balance</span><strong>$2,500</strong></div>
+          <div class="gmf-plan-row"><span>Assets</span><strong>BTC · ETH · SOL</strong></div>
+          <a href="#contact" class="gmf-plan-cta">Choose Starter</a>
         </div>
-        <div class="pricing-card featured reveal reveal-delay-1">
-          <div class="pricing-badge">Most Popular</div>
-          <div class="pricing-tier">Professional</div>
-          <div class="pricing-price">
-            <span class="price-currency">$</span>
-            <span class="price-amount" id="price-pro">60</span>
-            <span class="price-period">&nbsp;/ mo</span>
-          </div>
-          <div class="price-annual-note" id="annual-note-pro">&nbsp;</div>
-          <p class="pricing-desc">For growing teams that need powerful automation and advanced reporting.</p>
-          <div class="pricing-divider"></div>
-          <div class="pricing-features">
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>Up to 25 team members</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>Unlimited dashboards</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>Advanced automations (unlimited)</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>90-day data history</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>Priority chat support</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>Mobile app access</span></div>
-          </div>
-          <a href="#" class="pricing-cta">Start Free Trial</a>
+        <div class="gmf-plan gmf-plan-featured reveal reveal-delay-1">
+          <div class="gmf-plan-badge">Recommended</div>
+          <div class="gmf-plan-tier">Golden</div>
+          <div class="gmf-plan-rate">12% <small>/ day</small></div>
+          <div class="gmf-plan-rule"></div>
+          <div class="gmf-plan-row"><span>Min deposit</span><strong>$500</strong></div>
+          <div class="gmf-plan-row"><span>Max balance</span><strong>$10,000</strong></div>
+          <div class="gmf-plan-row"><span>Assets</span><strong>BTC · ETH · SOL · Demo</strong></div>
+          <a href="#contact" class="gmf-plan-cta">Choose Golden</a>
         </div>
-        <div class="pricing-card reveal reveal-delay-2">
-          <div class="pricing-tier">Enterprise</div>
-          <div class="pricing-price">
-            <span class="price-currency">$</span>
-            <span class="price-amount" id="price-ent">150</span>
-            <span class="price-period">&nbsp;/ mo</span>
+        <div class="gmf-plan reveal reveal-delay-2">
+          <div class="gmf-plan-tier">Ultimate</div>
+          <div class="gmf-plan-rate">18% <small>/ day</small></div>
+          <div class="gmf-plan-rule"></div>
+          <div class="gmf-plan-row"><span>Min deposit</span><strong>$2,000</strong></div>
+          <div class="gmf-plan-row"><span>Max balance</span><strong>$50,000</strong></div>
+          <div class="gmf-plan-row"><span>Assets</span><strong>All demo markets</strong></div>
+          <a href="#contact" class="gmf-plan-cta">Choose Ultimate</a>
+        </div>
+        <div class="gmf-plan reveal reveal-delay-3">
+          <div class="gmf-plan-tier">Premium</div>
+          <div class="gmf-plan-rate">22% <small>/ day</small></div>
+          <div class="gmf-plan-rule"></div>
+          <div class="gmf-plan-row"><span>Min deposit</span><strong>$5,000</strong></div>
+          <div class="gmf-plan-row"><span>Max balance</span><strong>$150,000</strong></div>
+          <div class="gmf-plan-row"><span>Assets</span><strong>All demo markets + credit</strong></div>
+          <a href="#contact" class="gmf-plan-cta">Choose Premium</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 8. REAL ESTATE ── -->
+  <section class="features-section" id="real-estate">
+    <div class="container">
+      <div class="features-header">
+        <div class="section-label reveal">Real Estate Portfolio</div>
+        <h2 class="section-title reveal reveal-delay-1">Diversify beyond<br><em>the crypto chart</em></h2>
+        <p class="section-sub reveal reveal-delay-2">Trade simulation on real-world property deals alongside your crypto paper accounts.</p>
+      </div>
+      <div class="gmf-props-grid">
+        <div class="gmf-prop-card reveal">
+          <div class="gmf-prop-img">
+            <span class="gmf-prop-img-tag">Residential</span>
+            <div class="gmf-prop-body">
+              <div class="gmf-prop-roi">14.2%</div>
+              <div class="gmf-prop-price">$840,000</div>
+              <div class="gmf-prop-meta"><span>12 units</span><span>Austin, TX</span><span>5.8% cap rate</span></div>
+              <a href="#contact" class="gmf-prop-cta">View Deal</a>
+            </div>
           </div>
-          <div class="price-annual-note" id="annual-note-ent">&nbsp;</div>
-          <p class="pricing-desc">For large organizations with custom requirements and compliance needs.</p>
-          <div class="pricing-divider"></div>
-          <div class="pricing-features">
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>Unlimited members</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>Custom integrations & API</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>SSO & advanced permissions</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>Unlimited data history</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>Dedicated success manager</span></div>
-            <div class="pricing-feature"><div class="pricing-check">✓</div><span>SOC 2 & compliance reports</span></div>
+        </div>
+        <div class="gmf-prop-card reveal reveal-delay-1">
+          <div class="gmf-prop-img">
+            <span class="gmf-prop-img-tag">Commercial</span>
+            <div class="gmf-prop-body">
+              <div class="gmf-prop-roi">9.6%</div>
+              <div class="gmf-prop-price">$2.1M</div>
+              <div class="gmf-prop-meta"><span>14,400 sqft</span><span>Chicago, IL</span><span>8.1% yield</span></div>
+              <a href="#contact" class="gmf-prop-cta">View Deal</a>
+            </div>
           </div>
-          <a href="#" class="pricing-cta">Contact Sales</a>
+        </div>
+        <div class="gmf-prop-card reveal reveal-delay-2">
+          <div class="gmf-prop-img">
+            <span class="gmf-prop-img-tag">Mixed Use</span>
+            <div class="gmf-prop-body">
+              <div class="gmf-prop-roi">16.8%</div>
+              <div class="gmf-prop-price">$1.4M</div>
+              <div class="gmf-prop-meta"><span>32 units</span><span>Phoenix, AZ</span><span>6.4% cap rate</span></div>
+              <a href="#contact" class="gmf-prop-cta">View Deal</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -511,63 +654,41 @@
   <section class="testimonials-section" id="testimonials">
     <div class="container">
       <div class="testimonials-header">
-        <div class="section-label reveal">Customer Stories</div>
-        <h2 class="section-title reveal reveal-delay-1">Teams that <em>love</em> Clearwave</h2>
-        <p class="section-sub reveal reveal-delay-2">Don't take our word for it — here's what real teams say after 90 days.</p>
+        <div class="section-label reveal">What Traders Say</div>
+        <h2 class="section-title reveal reveal-delay-1">Paper trading,<br><em>done right</em></h2>
+        <p class="section-sub reveal reveal-delay-2">Thousands of traders have honed their edge before going live.</p>
       </div>
-      <div class="testimonials-grid">
-        <div class="testimonial-card tall reveal">
-          <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-          <p class="testimonial-quote">"We replaced three separate tools with Clearwave and actually have fewer meetings now. The automation flows handle the handoffs our team used to spend mornings sorting out. It's the calmest our workflow has ever felt."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">SL</div>
+      <div class="gmf-testimonials-grid">
+        <div class="gmf-testimonial reveal">
+          <div class="gmf-quote-stars">★ ★ ★ ★ ★</div>
+          <p class="gmf-quote">"I went from watching crypto videos to placing real simulated orders in under an hour. The demo balance gives me room to make mistakes without guilt."</p>
+          <div class="gmf-author">
+            <div class="gmf-avatar">SK</div>
             <div>
-              <div class="author-name">Sarah Lindqvist</div>
-              <div class="author-role">Head of Operations · Stratum IO</div>
+              <div class="gmf-author-name">Sarah Kim</div>
+              <div class="gmf-author-role">Day Trader · NY</div>
             </div>
           </div>
         </div>
-        <div class="testimonial-card reveal reveal-delay-1">
-          <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-          <p class="testimonial-quote">"The mobile app alone justified the switch. I can review dashboards and approve tasks between meetings without opening my laptop."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">MR</div>
+        <div class="gmf-testimonial reveal reveal-delay-1">
+          <div class="gmf-quote-stars">★ ★ ★ ★ ★</div>
+          <p class="gmf-quote">"Better than any tutorial. I learned position sizing, stop-loss habits, and how fees actually eat into a trade — all with fake money."</p>
+          <div class="gmf-author">
+            <div class="gmf-avatar">DC</div>
             <div>
-              <div class="author-name">Marcus Reyes</div>
-              <div class="author-role">Product Director · Meridian</div>
+              <div class="gmf-author-name">David Chen</div>
+              <div class="gmf-author-role">Portfolio Manager · Singapore</div>
             </div>
           </div>
         </div>
-        <div class="testimonial-card reveal reveal-delay-2">
-          <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-          <p class="testimonial-quote">"Onboarding our 30-person team took one afternoon. The learning curve is genuinely flat."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">PK</div>
+        <div class="gmf-testimonial reveal reveal-delay-2">
+          <div class="gmf-quote-stars">★ ★ ★ ★ ★</div>
+          <p class="gmf-quote">"I used the ledger to review every trade for three weeks. My win rate went from 42% to 68% before I touched real cash."</p>
+          <div class="gmf-author">
+            <div class="gmf-avatar">JL</div>
             <div>
-              <div class="author-name">Priya Kapoor</div>
-              <div class="author-role">Engineering Lead · Vanta Labs</div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial-card reveal reveal-delay-1">
-          <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-          <p class="testimonial-quote">"The reporting features are leagues ahead of what we had. We can finally show stakeholders live data instead of preparing decks."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">TW</div>
-            <div>
-              <div class="author-name">Tom Wainwright</div>
-              <div class="author-role">CFO · Pulsar HQ</div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial-card reveal reveal-delay-2">
-          <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-          <p class="testimonial-quote">"Customer support actually reads your message. Had a custom integration question answered in under two hours."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">AN</div>
-            <div>
-              <div class="author-name">Aiko Nakamura</div>
-              <div class="author-role">CTO · Nexaflow</div>
+              <div class="gmf-author-name">Julia Lopez</div>
+              <div class="gmf-author-role">Crypto Trader · Buenos Aires</div>
             </div>
           </div>
         </div>
@@ -575,89 +696,145 @@
     </div>
   </section>
 
-  <!-- ── 9. INTEGRATIONS ── -->
-  <section class="integrations-section" id="integrations">
+  <!-- ── 9. HOW IT WORKS ── -->
+  <section class="features-section">
     <div class="container">
-      <div class="integrations-header">
-        <div class="section-label reveal">Integrations</div>
-        <h2 class="section-title reveal reveal-delay-1">Connects with your<br><em>existing stack</em></h2>
-        <p class="section-sub reveal reveal-delay-2">One-click integrations with the tools your team already uses. No dev work required.</p>
+      <div class="features-header">
+        <div class="section-label reveal">4 Steps to Paper Trading</div>
+        <h2 class="section-title reveal reveal-delay-1">From zero to<br><em>live practice</em></h2>
+        <p class="section-sub reveal reveal-delay-2">No sign-up friction. Just pick a plan and start simulating.</p>
       </div>
-      <div class="integrations-grid">
-        <div class="integration-tile reveal"><div class="integration-name">Slack</div></div>
-        <div class="integration-tile reveal reveal-delay-1"><div class="integration-name">Google Sheets</div></div>
-        <div class="integration-tile reveal reveal-delay-2"><div class="integration-name">Google Drive</div></div>
-        <div class="integration-tile reveal reveal-delay-3"><div class="integration-name">Zapier</div></div>
-        <div class="integration-tile reveal"><div class="integration-name">Stripe</div></div>
-        <div class="integration-tile reveal reveal-delay-1"><div class="integration-name">GitHub</div></div>
-        <div class="integration-tile reveal reveal-delay-2"><div class="integration-name">Notion</div></div>
-        <div class="integration-tile reveal reveal-delay-3"><div class="integration-name">Mailchimp</div></div>
-        <div class="integration-tile reveal"><div class="integration-name">HubSpot</div></div>
-        <div class="integration-tile reveal reveal-delay-1"><div class="integration-name">Airtable</div></div>
-        <div class="integration-tile reveal reveal-delay-2"><div class="integration-name">Intercom</div></div>
-        <div class="integration-tile reveal reveal-delay-3"><div class="integration-name">Salesforce</div></div>
-        <div class="integration-tile reveal"><div class="integration-name">Figma</div></div>
-        <div class="integration-tile reveal reveal-delay-1"><div class="integration-name">Linear</div></div>
-        <div class="integration-tile reveal reveal-delay-2"><div class="integration-name">Jira</div></div>
-        <div class="integration-tile reveal reveal-delay-3"><div class="integration-name">Webflow</div></div>
+      <div class="gmf-step">
+        <div class="gmf-step-num">1</div>
+        <div class="gmf-step-content">
+          <div class="gmf-step-title">Pick a plan</div>
+          <div class="gmf-step-desc">Choose Starter, Golden, Ultimate, or Premium — each unlocks different asset markets and balance caps.</div>
+        </div>
+      </div>
+      <div class="gmf-step">
+        <div class="gmf-step-num">2</div>
+        <div class="gmf-step-content">
+          <div class="gmf-step-title">Fund your demo account</div>
+          <div class="gmf-step-desc">Add between $100 and $100,000 of pretend cash. Top up or withdraw anytime from your dashboard.</div>
+        </div>
+      </div>
+      <div class="gmf-step">
+        <div class="gmf-step-num">3</div>
+        <div class="gmf-step-content">
+          <div class="gmf-step-title">Trade live markets</div>
+          <div class="gmf-step-desc">Buy and sell BTC, ETH, and SOL with live prices. Watch your ledger fill up with every order.</div>
+        </div>
+      </div>
+      <div class="gmf-step">
+        <div class="gmf-step-num">4</div>
+        <div class="gmf-step-content">
+          <div class="gmf-step-title">Review and repeat</div>
+          <div class="gmf-step-desc">Track pnl, read your trade journal, and scale up only when your strategy is proven.</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ── 10. FAQ ── -->
-  <section class="faq-section" id="faq">
+  <!-- ── 10. CALCULATOR ── -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card reveal">
+          <div class="stat-rule"></div>
+          <div class="stat-value"><span class="stat-num" id="calc-principal">1000</span><span class="stat-suffix"> USD</span></div>
+          <div class="stat-label">Starting Balance</div>
+          <div class="stat-sublabel">Per plan</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-1">
+          <div class="stat-rule"></div>
+          <div class="stat-value"><span class="stat-num">24</span><span class="stat-suffix"> hrs</span></div>
+          <div class="stat-label">Trading Simulation</div>
+          <div class="stat-sublabel">Live 24h market ticks</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-2">
+          <div class="stat-rule"></div>
+          <div class="stat-value"><span class="stat-num">0.10</span><span class="stat-suffix"> %</span></div>
+          <div class="stat-label">Paper Fee per Order</div>
+          <div class="stat-sublabel">Excluded from demo profit</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-3">
+          <div class="stat-rule"></div>
+          <div class="stat-value"><span class="stat-num" id="calc-fee-estimate">12</span><span class="stat-suffix"> %</span></div>
+          <div class="stat-label">Daily Plan Yield</div>
+          <div class="stat-sublabel">Apply after qualifying trades</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 11. CONTACT ── -->
+  <section class="faq-section" id="contact">
     <div class="container">
       <div class="faq-inner">
         <div class="faq-sidebar reveal">
-          <div class="section-label">FAQ</div>
-          <h2 class="section-title">Questions,<br><em>answered</em></h2>
-          <p class="section-sub">Can't find what you're looking for? Reach our team at hello@clearwave.io — we reply within 2 hours.</p>
-          <button class="faq-toggle-all" id="faqToggleAll">
-            <span id="faqToggleIcon">+</span> Expand all</button>
+          <div class="section-label">Contact</div>
+          <h2 class="section-title">Get in touch<br><em>with a GMF rep</em></h2>
+          <p class="section-sub">Ask about plans, risk controls, or how to set up your first simulated portfolio.</p>
         </div>
-        <div class="faq-list reveal reveal-delay-1" id="faqList">
+        <div class="faq-list reveal reveal-delay-1" id="contact-list">
           <div class="faq-item">
             <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-              Is there a free trial?
+              Which plans include demo cash?
               <div class="faq-icon">+</div>
             </div>
-            <div class="faq-answer"><div class="faq-answer-inner">Yes — every plan starts with a 14-day free trial, no credit card required. You get full access to all features in your chosen tier so you can make a real evaluation before committing.</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">Every plan starts with $100–$100,000 of demo cash. Golden includes an extra $500 welcome top-up.</div></div>
           </div>
           <div class="faq-item">
             <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-              How does pricing work for larger teams?
+              How do I withdraw my profit?
               <div class="faq-icon">+</div>
             </div>
-            <div class="faq-answer"><div class="faq-answer-inner">Starter and Professional plans are per-workspace, not per-seat — so you won't see surprise bills as your team grows. Enterprise plans are custom-quoted based on your specific needs and contract length.</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">Cash out to your bank via the demo dashboard. Withdrawals settle in 1–3 business days for paper funds.</div></div>
           </div>
           <div class="faq-item">
             <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-              Can I migrate data from another tool?
+              What assets can I trade?
               <div class="faq-icon">+</div>
             </div>
-            <div class="faq-answer"><div class="faq-answer-inner">We support CSV imports and direct migration from Notion, Airtable, Asana, and Trello. Enterprise customers get a dedicated migration specialist who handles the entire process for you.</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">BTC, ETH, SOL, and additional demo markets scale up as you move to higher plans.</div></div>
           </div>
           <div class="faq-item">
             <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-              What does the 99.9% uptime SLA mean?
+              Is there a time limit on demo accounts?
               <div class="faq-icon">+</div>
             </div>
-            <div class="faq-answer"><div class="faq-answer-inner">It means Clearwave is contractually committed to less than 8.7 hours of downtime per year. We monitor availability 24/7, post all incidents publicly at status.clearwave.io, and issue credits automatically if SLA is breached.</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">Demo cash stays active as long as you hold an active plan. Pause the plan and balances pause too.</div></div>
           </div>
-          <div class="faq-item">
-            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-              Is my data secure?
-              <div class="faq-icon">+</div>
-            </div>
-            <div class="faq-answer"><div class="faq-answer-inner">Clearwave is SOC 2 Type II certified, GDPR compliant, and ISO 27001 aligned. All data is encrypted in transit and at rest. You can request a full security report from our compliance team at any time.</div></div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-              Can I cancel anytime?
-              <div class="faq-icon">+</div>
-            </div>
-            <div class="faq-answer"><div class="faq-answer-inner">Yes. There are no lock-in contracts on monthly plans. Cancel from your account settings at any time and you won't be charged again. Annual plans are non-refundable but can be cancelled to stop renewal.</div></div>
-          </div>
+        </div>
+      </div>
+
+      <div class="gmf-contact-grid">
+        <div class="gmf-contact-box">
+          <div class="gmf-contact-label">Representative</div>
+          <div class="gmf-contact-name">Elena Voss</div>
+          <div class="gmf-contact-role">Head of Trader Education</div>
+          <div class="gmf-contact-value"><span>Email</span> elena.gmf@gmail.com</div>
+          <div class="gmf-contact-value"><span>Phone</span> +1 (555) 019-2847</div>
+          <div class="gmf-contact-value"><span>Office</span> 9:00 AM – 6:00 PM UTC</div>
+        </div>
+        <div class="gmf-contact-box">
+          <div class="gmf-contact-label">Sales</div>
+          <div class="gmf-contact-name">GMF Sales</div>
+          <div class="gmf-contact-role">Plan & Account Support</div>
+          <div class="gmf-contact-value"><span>Email</span> sales@gmfunds.example</div>
+          <div class="gmf-contact-value"><span>Live chat</span> Chat opens in <30s</div>
+          <div class="gmf-contact-value"><span>Support hours</span> 24/7 for Gold+</div>
+        </div>
+      </div>
+
+      <div class="gmf-newsletter">
+        <div class="gmf-newsletter-text">
+          <div class="gmf-newsletter-title">Trade with the market, not against it</div>
+          <div class="gmf-newsletter-sub">Get one lesson a week on paper trading, risk control, and live crypto moves — before it changes your real portfolio.</div>
+        </div>
+        <div class="gmf-newsletter-form">
+          <input class="gmf-newsletter-input" type="email" placeholder="Enter your email" aria-label="Email address" />
+          <button class="gmf-newsletter-btn" type="submit">Subscribe</button>
         </div>
       </div>
     </div>
@@ -668,16 +845,16 @@
     <div class="container">
       <div class="cta-inner reveal">
         <div class="cta-content">
-          <div class="cta-label">✦ Get Started Today</div>
-          <h2 class="cta-title">Ready for a<br><em>clearer workflow?</em></h2>
-          <p class="cta-sub">Join 50,000+ teams who replaced chaos with clarity. Set up in under 10 minutes.</p>
+          <div class="cta-label">Start Paper Trading Today</div>
+          <h2 class="cta-title">Practice with fake cash,<br><em>trade with confidence</em></h2>
+          <p class="cta-sub">Join 12k+ traders who simulate BTC, ETH, and SOL before going live.</p>
         </div>
         <div class="cta-actions">
-          <a href="#" class="btn-cta-primary">
-            Start Free Trial
+          <a href="#contact" class="btn-cta-primary">
+            Choose a Plan
             <span>→</span>
           </a>
-          <a href="#" class="btn-cta-ghost">Schedule a demo</a>
+          <a href="#contact" class="btn-cta-ghost">Talk to an advisor</a>
         </div>
       </div>
     </div>
@@ -688,8 +865,8 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="#" class="nav-logo">clear<span style="color:var(--accent-light)">wave</span></a>
-          <p class="footer-brand-desc">The calm, powerful workspace for teams that want to focus on work — not on managing it.</p>
+          <a href="#" class="nav-logo">GMF<span style="color:var(--accent-light)">Funds</span></a>
+          <p class="footer-brand-desc">Paper trading demo with live crypto markets — practice before you commit real capital.</p>
           <div class="footer-socials">
             <a href="#" class="social-btn" aria-label="Twitter / X">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -708,11 +885,10 @@
         <div>
           <div class="footer-col-label">Product</div>
           <div class="footer-links">
-            <a href="#features">Features</a>
-            <a href="#screens">Mobile App</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#integrations">Integrations</a>
-            <a href="#">Changelog</a>
+            <a href="#plans">Plans</a>
+            <a href="#real-estate">Real Estate</a>
+            <a href="#testimonials">Reviews</a>
+            <a href="#contact">Contact</a>
           </div>
         </div>
         <div>
@@ -728,17 +904,16 @@
         <div>
           <div class="footer-col-label">Support</div>
           <div class="footer-links">
-            <a href="#">Help Center</a>
-            <a href="#">Documentation</a>
-            <a href="#">Security</a>
-            <a href="#">Contact</a>
-            <a href="#">Community</a>
+            <a href="#contact">Contact Us</a>
+            <a href="#contact">Help Center</a>
+            <a href="#contact">FAQ</a>
+            <a href="#contact">Privacy Policy</a>
           </div>
         </div>
       </div>
       <div class="footer-bottom">
         <div class="footer-copy">
-          © 2026 Clearwave. Design by <a rel="nofollow" href="https://templatemo.com" target="_blank">TemplateMo</a>
+          © 2026 Global Mass Funds. Paper trading demo inspired by globalmassfunds.com — design by TemplateMo.
         </div>
         <div class="footer-legal">
           <a href="#">Privacy Policy</a>

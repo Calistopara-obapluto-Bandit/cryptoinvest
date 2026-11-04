@@ -7,6 +7,42 @@ const port = Number(process.env.PORT) || 3000;
 const dataDirectory = path.join(__dirname, 'data');
 const accountFile = path.join(dataDirectory, 'paper-account.json');
 const allowedAssets = ['BTC', 'ETH', 'SOL'];
+
+// Server-side render for the GMF page template (Clearwave CSS/JS is untouched).
+// The <%= ... %> tags in index.html are replaced with content at request time.
+function renderPage(rawHtml, locals = {}) {
+  // Scan chars manually so identifiers inside quoted strings are never touched.
+  const known = new Set(Object.keys(locals));
+  return rawHtml.replace(/<%=\s*([\s\S]+?)\s*%>/g, (match, expr) => {
+    const out = [];
+    let i = 0;
+    let inSingle = false;
+    while (i < expr.length) {
+      const ch = expr[i];
+      if (ch === "'") {
+        inSingle = !inSingle;
+        out.push(ch);
+        i++;
+        continue;
+      }
+      if (!inSingle && expr.slice(i).match(/^[a-zA-Z_$][a-zA-Z0-9_$]*/)) {
+        const m = expr.slice(i).match(/^[a-zA-Z_$][a-zA-Z0-9_$]*/)[0];
+        out.push(known.has(m) ? 'locals.' + m : m);
+        i += m.length;
+        continue;
+      }
+      out.push(ch);
+      i++;
+    }
+    const value = new Function('locals', 'return (' + out.join('') + ');')(locals || {});
+    return value === undefined || value === null ? '' : String(value);
+  });
+}
+
+(async () => {
+  const pageTemplate = await fs.readFile(path.join(__dirname, 'index.html'), 'utf8');
+  globalThis.__pageTemplate = pageTemplate;
+})();
 const marketIds = { BTC: 'bitcoin', ETH: 'ethereum', SOL: 'solana' };
 const fallbackMarkets = [
   { symbol: 'BTC', name: 'Bitcoin', price: 68420.55, change24h: 2.48, volume: '28.4B', color: '#f7931a' },
@@ -88,9 +124,14 @@ function getAsset(symbol, markets) {
   return markets.assets.find((asset) => asset.symbol === symbol);
 }
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get(['/', '/plans', '/contact', '/real-estate'], (req, res) => {
+  const pageTemplate = globalThis.__pageTemplate;
+  res.setHeader('Content-Type', 'text/html');
+  res.send(renderPage(pageTemplate, { title: 'Global Mass Funds — Paper Trading Demo' }));
+});
 app.get('/templatemo-622-clearwave.css', (req, res) => res.sendFile(path.join(__dirname, 'templatemo-622-clearwave.css')));
 app.get('/templatemo-622-clearwave.js', (req, res) => res.sendFile(path.join(__dirname, 'templatemo-622-clearwave.js')));
+app.get('/index.html', (req, res) => res.redirect('/'));
 app.use('/images', express.static(path.join(__dirname, 'images'), { fallthrough: false }));
 
 app.get('/api/overview', async (req, res, next) => {
@@ -203,5 +244,6 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`Clearwave paper investing service listening on http://localhost:${port}`);
+  console.log(`Global Mass Funds paper investing service listening on http://localhost:${port}`);
 });
+

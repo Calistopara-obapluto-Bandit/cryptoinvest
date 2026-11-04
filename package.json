@@ -5,8 +5,7 @@
   "description": "Global Mass Funds — multi-page website built with Express + EJS.",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js",
-    "postinstall": "npm install"
+    "dev": "node server.js"
   },
   "dependencies": {
     "ejs": "^3.1.10",

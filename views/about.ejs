@@ -20,25 +20,19 @@
     .gmf-video-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .gmf-video-play svg { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.18); border: 2px solid rgba(255,255,255,0.35); color: #fff; transition: background 0.4s var(--silk), border-color 0.4s var(--silk); }
     .gmf-video-play:hover svg { background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.6); }
+  <style>
+    @media (max-width: 820px) {
+      .nav .nav-links { display: none; }
+      .nav .nav-hamburger { display: flex; }
+      .nav .nav-cta { display: none; }
+      .nav .nav-cta-mobile { display: flex; }
+      .nav .nav-hamburger + .nav-cta-mobile { display: none; }
+    }
   </style>
 </head>
 <body>
 
-  <nav class="nav" role="navigation" aria-label="Main navigation">
-    <div class="nav-inner">
-      <a href="/" class="nav-logo">GMF<span class="accent-light">Funds</span></a>
-      <ul class="nav-links" role="list">
-        <li><a href="/services">Services</a></li>
-        <li><a href="/real-estate">Real Estate</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-      <div class="nav-cta"><a href="/contact" class="btn-primary">Get Started</a></div>
-      <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
+  <%- include('partials/nav'); %>
 
   <section class="cta-section">
     <div class="container">

@@ -52,23 +52,37 @@
       .services-panel { position: static; box-shadow: none; border: 1px solid var(--border); }
       .nav { position: relative; }
     }
+
+    /* ── Responsive nav ── */
+    @media (max-width: 820px) {
+      .nav .nav-links { display: none; }
+      .nav .nav-hamburger { display: flex; }
+      .nav .nav-cta { display: none; }
+      .nav .nav-cta-mobile { display: flex; }
+      .nav .nav-hamburger + .nav-cta-mobile { display: none; }
+      .services-panel { position: static; box-shadow: none; border: 1px solid var(--border); }
+      .nav { position: relative; }
+    }
   </style>
 </head>
 <body>
+  <%- include('partials/nav'); %>
 
-  <nav class="nav" role="navigation" aria-label="Main navigation">
-    <div class="nav-inner">
-      <a href="/" class="nav-logo">GMF<span class="accent-light">Funds</span></a>
-      <ul class="nav-links" role="list">
-        <li><a href="/services">Services</a></li>
-        <li><a href="/real-estate">Real Estate</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-      <div class="nav-cta"><a href="/contact" class="btn-primary">Get Started</a></div>
-      <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+
+    <div class="nav-inner" style="display:flex;align-items:center;gap:12px;">
+      <div style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text-1);font-weight:600;font-size:0.85rem;padding:6px 16px;border-radius:100px;background:var(--accent-ghost);">
+        <span style="font-size:1.2rem;">📦</span> Services
+      </div>
+      <div class="services-panel" role="menu">
+        <a href="/services/commodities-gold" role="menuitem"><span class="panel-icon">🪨</span><span class="panel-title">Commodities &amp; Gold</span></a>
+        <a href="/services/cryptocurrency" role="menuitem"><span class="panel-icon">₿</span><span class="panel-title">Cryptocurrency</span></a>
+        <a href="/services/real-estate" role="menuitem"><span class="panel-icon">🏠</span><span class="panel-title">Real Estate</span></a>
+        <a href="/services/stock-etfs" role="menuitem"><span class="panel-icon">📊</span><span class="panel-title">Stock &amp; ETFs</span></a>
+        <a href="/services/loan" role="menuitem"><span class="panel-icon">💳</span><span class="panel-title">Loan</span></a>
+        <a href="/services/card" role="menuitem"><span class="panel-icon">💳</span><span class="panel-title">Card</span></a>
+        <a href="/services/membership" role="menuitem"><span class="panel-icon">🎟️</span><span class="panel-title">Membership ID</span></a>
+        <a href="/services/staking" role="menuitem"><span class="panel-icon">🌾</span><span class="panel-title">Staking</span></a>
+      </div>
     </div>
   </nav>
 

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Global Mass Funds — Real estate portfolio simulation alongside crypto paper trading." />
+  <title>Real Estate Portfolio — Global Mass Funds</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/templatemo-622-clearwave.css" />
+  <style>
+    .gmf-video { width: 100%; aspect-ratio: 16/9; border-radius: var(--radius); background: var(--accent); overflow: hidden; box-shadow: var(--shadow-lg); display: flex; align-items: center; justify-content: center; }
+    .gmf-video img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gmf-video .gmf-video-bg { position: absolute; inset: 0; background: var(--accent); opacity: 0.06; }
+    .gmf-video .gmf-video-glow { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 14px, rgba(26,122,110,0.05) 14px, rgba(26,122,110,0.05) 15px); pointer-events: none; }
+    .gmf-video .gmf-video-glow2 { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(26,122,110,0.04) 10px, rgba(26,122,110,0.04) 11px); pointer-events: none; }
+    .gmf-video-inner { position: relative; display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; }
+    .gmf-video-tag { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.12); color: #fff; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); }
+    .gmf-video-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .gmf-video-play svg { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.18); border: 2px solid rgba(255,255,255,0.35); color: #fff; transition: background 0.4s var(--silk), border-color 0.4s var(--silk); }
+    .gmf-video-play:hover svg { background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.6); }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">GMF<span class="accent-light">Funds</span></a>
+      <ul class="nav-links" role="list">
+        <li><a href="/services">Services</a></li>
+        <li><a href="/real-estate">Real Estate</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta"><a href="/contact" class="btn-primary">Get Started</a></div>
+      <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <section class="features-section" id="real-estate">
+    <div class="container">
+      <div class="features-header">
+        <div class="section-label">Real Estate Portfolio</div>
+        <h2 class="section-title">Diversify beyond <em>the crypto chart</em></h2>
+        <p class="section-sub">Trade simulation on real-world property deals alongside your crypto paper accounts.</p>
+      </div>
+      <div class="real-estate-grid">
+        <div class="prop-card">
+          <div class="prop-img"><span class="prop-tag">Residential</span><div class="prop-body"><div class="prop-roi">14.2%</div><div class="prop-price">$840,000</div><div class="prop-meta"><span>12 units</span><span>Austin, TX</span><span>5.8% cap rate</span></div><a href="/contact" class="prop-cta">View Deal</a></div></div>
+        </div>
+        <div class="prop-card">
+          <div class="prop-img"><span class="prop-tag">Commercial</span><div class="prop-body"><div class="prop-roi">9.6%</div><div class="prop-price">$2.1M</div><div class="prop-meta"><span>14,400 sqft</span><span>Chicago, IL</span><span>8.1% yield</span></div><a href="/contact" class="prop-cta">View Deal</a></div></div>
+        </div>
+        <div class="prop-card">
+          <div class="prop-img"><span class="prop-tag">Mixed Use</span><div class="prop-body"><div class="prop-roi">16.8%</div><div class="prop-price">$1.4M</div><div class="prop-meta"><span>32 units</span><span>Phoenix, AZ</span><span>6.4% cap rate</span></div><a href="/contact" class="prop-cta">View Deal</a></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features-section">
+    <div class="container">
+      <div class="features-header">
+        <div class="section-label">Real Estate Process</div>
+        <h2 class="section-title">Buy, <em>hold</em>, and <em>harvest</em></h2>
+        <p class="section-sub">Simulated property rounds mirror our crypto trading engine — so your leverage and risk control translate 1:1.</p>
+      </div>
+      <div class="step-list">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-title">Search the portfolio</div>
+          <div class="step-desc">Browse pre-vetted residential, commercial, and mixed-use deals across US markets.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-title">Run the simulation</div>
+          <div class="step-desc">Stress-test your strategy with live rental yields, cap rates, and appreciation models.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-title">Execute the trade</div>
+          <div class="step-desc">Fund a simulated purchase with your demo cash and track it as a real position.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-title">Collect and sell</div>
+          <div class="step-desc">Cash flow quarterly. Sell when your hold target is hit and transfer profit to your demo balance.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-inner">
+        <div class="cta-content">
+          <div class="cta-label">Explore the Portfolio</div>
+          <h2 class="cta-title">Properties built for <em>balance</em></h2>
+          <p class="cta-sub">From $840k residential to $2.1M commercial — simulated rounds run alongside your crypto paper account.</p>
+        </div>
+        <div class="cta-actions">
+          <a href="/contact" class="btn-cta-primary">View Deals<span>→</span></a>
+          <a href="/contact" class="btn-cta-ghost">Talk to a rep</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><a href="/" class="nav-logo">GMF<span class="accent-light">Funds</span></a></div>
+        <div><div class="footer-col-label">Product</div><div class="footer-links"><a href="/services">Services</a><a href="/real-estate">Real Estate</a><a href="/testimonials">Reviews</a><a href="/contact">Contact</a></div></div>
+        <div><div class="footer-col-label">Company</div><div class="footer-links"><a href="/about">About</a><a href="/">Blog</a><a href="/">Careers</a><a href="/">Press Kit</a><a href="/">Status</a></div></div>
+        <div><div class="footer-col-label">Support</div><div class="footer-links"><a href="/contact">Help Center</a><a href="/contact">Documentation</a><a href="/contact">Security</a><a href="/contact">Contact</a><a href="/contact">Community</a></div></div>
+      </div>
+      <div class="footer-bottom"><div class="footer-copy">© 2025 Global Mass Funds. Paper trading demo inspired by globalmassfunds.com — design by TemplateMo.</div><div class="footer-legal"><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Service</a><a href="/terms">Cookie Policy</a></div></div>
+    </div>
+  </footer>
+</body>
+</html>

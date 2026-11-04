@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('node:fs');
 const fsPromises = require('node:fs/promises');
 const path = require('node:path');
+const ejs = require('ejs');
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
@@ -25,6 +26,9 @@ const initialAccount = () => ({
 let marketCache = { updatedAt: 0, assets: fallbackMarkets, source: 'demo' };
 
 app.disable('x-powered-by');
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, '.')));
 app.use(express.json({ limit: '10kb' }));
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -102,6 +106,20 @@ app.get('/api/overview', async (req, res, next) => {
     });
   } catch (error) { next(error); }
 });
+
+// ---- PAGE ROUTES (EJS) ----
+app.get('/', (req, res) => { res.render('index'); });
+app.get('/services', (req, res) => { res.render('services', { title: 'Services — Global Mass Funds', description: 'Explore Global Mass Funds services — commodities & gold, cryptocurrency, real estate, stock & ETFs, loan, card, membership ID, and staking.' }); });
+app.get('/services/commodities-gold', (req, res) => { res.render('services/commodities-gold', { title: 'Commodities & Gold — Global Mass Funds', description: 'Simulate spot gold, silver, and energy markets with local mass funds. ' }); });
+app.get('/services/cryptocurrency', (req, res) => { res.render('services/cryptocurrency', { title: 'Cryptocurrency — Global Mass Funds', description: 'Trade BTC, ETH, SOL, and more with paper funds. ' }); });
+app.get('/services/real-estate', (req, res) => { res.render('services/real-estate', { title: 'Real Estate — Global Mass Funds', description: 'Simulate residential, commercial, and mixed-use property deals with demo cash. ' }); });
+app.get('/services/stock-etfs', (req, res) => { res.render('services/stock-etfs', { title: 'Stock & ETFs — Global Mass Funds', description: 'Trade individual stocks, broad market ETFs, and index funds with the same leveled demo portfolio used across every asset class.' }); });
+app.get('/services/loan', (req, res) => { res.render('services/loan', { title: 'Loan — Global Mass Funds', description: 'Practice borrowing, amortization, and debt service with paper cash.' }); });
+app.get('/services/card', (req, res) => { res.render('services/card', { title: 'Card — Global Mass Funds', description: 'Simulate a premium credit card with interest-free grace periods, APR, rewards, and balance management using demo funds.' }); });
+app.get('/services/membership', (req, res) => { res.render('services/membership', { title: 'Membership ID — Global Mass Funds', description: 'Your unified access key. One Membership ID covers every market.' }); });
+app.get('/services/staking', (req, res) => { res.render('services/staking', { title: 'Staking — Global Mass Funds', description: 'Earn demo yields on BTC, ETH, SOL, and more.' }); });
+app.get('/contact', (req, res) => { res.render('contact'); });
+app.get('/about', (req, res) => { res.render('about'); });
 
 app.post('/api/orders', async (req, res, next) => {
   try {

@@ -619,9 +619,7 @@ Free for personal and commercial use
     .phone-card[data-pos="hidden-right"] { z-index: 4; }
 
     /* Reflection floor line */
-      position: absolute; bottom: 60px; left: 0; right: 0;
-      height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent);
-    }
+    .carousal-reflection { position: absolute; bottom: 60px; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
 
     /* Controls */
     .carousel-controls {

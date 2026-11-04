@@ -7,42 +7,6 @@ const port = Number(process.env.PORT) || 3000;
 const dataDirectory = path.join(__dirname, 'data');
 const accountFile = path.join(dataDirectory, 'paper-account.json');
 const allowedAssets = ['BTC', 'ETH', 'SOL'];
-
-// Server-side render for the GMF page template (Clearwave CSS/JS is untouched).
-// The <%= ... %> tags in index.html are replaced with content at request time.
-function renderPage(rawHtml, locals = {}) {
-  // Scan chars manually so identifiers inside quoted strings are never touched.
-  const known = new Set(Object.keys(locals));
-  return rawHtml.replace(/<%=\s*([\s\S]+?)\s*%>/g, (match, expr) => {
-    const out = [];
-    let i = 0;
-    let inSingle = false;
-    while (i < expr.length) {
-      const ch = expr[i];
-      if (ch === "'") {
-        inSingle = !inSingle;
-        out.push(ch);
-        i++;
-        continue;
-      }
-      if (!inSingle && expr.slice(i).match(/^[a-zA-Z_$][a-zA-Z0-9_$]*/)) {
-        const m = expr.slice(i).match(/^[a-zA-Z_$][a-zA-Z0-9_$]*/)[0];
-        out.push(known.has(m) ? 'locals.' + m : m);
-        i += m.length;
-        continue;
-      }
-      out.push(ch);
-      i++;
-    }
-    const value = new Function('locals', 'return (' + out.join('') + ');')(locals || {});
-    return value === undefined || value === null ? '' : String(value);
-  });
-}
-
-(async () => {
-  const pageTemplate = await fs.readFile(path.join(__dirname, 'index.html'), 'utf8');
-  globalThis.__pageTemplate = pageTemplate;
-})();
 const marketIds = { BTC: 'bitcoin', ETH: 'ethereum', SOL: 'solana' };
 const fallbackMarkets = [
   { symbol: 'BTC', name: 'Bitcoin', price: 68420.55, change24h: 2.48, volume: '28.4B', color: '#f7931a' },
@@ -88,56 +52,42 @@ async function writeAccount(account) {
 }
 
 async function getMarkets() {
-  if (Date.now() - marketCache.updatedAt < 30_000) return marketCache;
-
+  if (Date.now() - marketCache.updatedAt < 30000) return marketCache;
   try {
     const url = new URL('https://api.coingecko.com/api/v3/simple/price');
     url.searchParams.set('ids', Object.values(marketIds).join(','));
     url.searchParams.set('vs_currencies', 'usd');
     url.searchParams.set('include_24hr_change', 'true');
     const response = await fetch(url, { signal: AbortSignal.timeout(6000) });
-    if (!response.ok) throw new Error(`Market provider returned ${response.status}`);
+    if (!response.ok) throw new Error('Market provider returned ' + response.status);
     const data = await response.json();
-    const assets = fallbackMarkets.map((asset) => {
+    const assets = fallbackMarkets.map(asset => {
       const quote = data[marketIds[asset.symbol]];
       if (!quote || !Number.isFinite(quote.usd)) throw new Error('Market provider response was incomplete');
-      return {
-        ...asset,
-        price: quote.usd,
-        change24h: Number.isFinite(quote.usd_24h_change) ? quote.usd_24h_change : 0
-      };
+      return { ...asset, price: quote.usd, change24h: Number.isFinite(quote.usd_24h_change) ? quote.usd_24h_change : 0 };
     });
     marketCache = { updatedAt: Date.now(), assets, source: 'live' };
   } catch {
     marketCache = { ...marketCache, updatedAt: Date.now(), source: 'demo' };
   }
-
   return marketCache;
 }
 
-function round(value, places = 8) {
+function round(value, places) {
+  places = places || 8;
   const factor = 10 ** places;
   return Math.round((value + Number.EPSILON) * factor) / factor;
 }
 
 function getAsset(symbol, markets) {
-  return markets.assets.find((asset) => asset.symbol === symbol);
+  return markets.assets.find(asset => asset.symbol === symbol);
 }
 
-app.get(['/', '/plans', '/contact', '/real-estate'], (req, res) => {
-  const pageTemplate = globalThis.__pageTemplate;
-  res.setHeader('Content-Type', 'text/html');
-  res.send(renderPage(pageTemplate, { title: 'Global Mass Funds — Paper Trading Demo' }));
-});
-app.get('/templatemo-622-clearwave.css', (req, res) => res.sendFile(path.join(__dirname, 'templatemo-622-clearwave.css')));
-app.get('/templatemo-622-clearwave.js', (req, res) => res.sendFile(path.join(__dirname, 'templatemo-622-clearwave.js')));
-app.get('/index.html', (req, res) => res.redirect('/'));
-app.use('/images', express.static(path.join(__dirname, 'images'), { fallthrough: false }));
-
+// --- Paper-trading webservice API (unchanged from original) ---
 app.get('/api/overview', async (req, res, next) => {
   try {
     const [account, markets] = await Promise.all([readAccount(), getMarkets()]);
-    const positions = markets.assets.map((asset) => ({
+    const positions = markets.assets.map(asset => ({
       ...asset,
       quantity: account.holdings[asset.symbol] || 0,
       value: round((account.holdings[asset.symbol] || 0) * asset.price, 2)
@@ -149,59 +99,46 @@ app.get('/api/overview', async (req, res, next) => {
       marketSource: markets.source,
       marketUpdatedAt: markets.updatedAt
     });
-  } catch (error) {
-    next(error);
-  }
+  } catch (error) { next(error); }
 });
 
 app.post('/api/orders', async (req, res, next) => {
   try {
     const { side, symbol, amountUsd } = req.body || {};
     const amount = Number(amountUsd);
-    if (!['buy', 'sell'].includes(side) || !allowedAssets.includes(symbol) || !Number.isFinite(amount) || amount < 5 || amount > 1_000_000) {
+    if (!['buy', 'sell'].includes(side) || !allowedAssets.includes(symbol) || !Number.isFinite(amount) || amount < 5 || amount > 1000000) {
       return res.status(400).json({ error: 'Choose a supported asset and enter an amount between $5 and $1,000,000.' });
     }
-
     const markets = await getMarkets();
     const asset = getAsset(symbol, markets);
     const fee = round(amount * 0.001, 2);
     const quantity = round(amount / asset.price);
     const account = await readAccount();
-
     if (side === 'buy') {
       if (amount + fee > account.cashUsd) return res.status(400).json({ error: 'Not enough demo cash for this order, including the 0.10% paper fee.' });
       account.cashUsd = round(account.cashUsd - amount - fee, 2);
       account.holdings[symbol] = round((account.holdings[symbol] || 0) + quantity);
     } else {
-      if (quantity > (account.holdings[symbol] || 0)) return res.status(400).json({ error: `Not enough ${symbol} in this demo portfolio to sell that amount.` });
+      if (quantity > (account.holdings[symbol] || 0)) return res.status(400).json({ error: 'Not enough ' + symbol + ' in this demo portfolio to sell that amount.' });
       account.cashUsd = round(account.cashUsd + amount - fee, 2);
       account.holdings[symbol] = round(account.holdings[symbol] - quantity);
     }
-
     const order = {
-      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-      side,
-      symbol,
-      quantity,
-      price: asset.price,
-      amountUsd: amount,
-      feeUsd: fee,
-      createdAt: new Date().toISOString()
+      id: Date.now() + '-' + Math.random().toString(36).slice(2, 8),
+      side, symbol, quantity, price: asset.price, amountUsd: amount, feeUsd: fee, createdAt: new Date().toISOString()
     };
     account.ledger.unshift(order);
     account.ledger = account.ledger.slice(0, 100);
     await writeAccount(account);
     res.status(201).json({ order });
-  } catch (error) {
-    next(error);
-  }
+  } catch (error) { next(error); }
 });
 
 app.post('/api/cash', async (req, res, next) => {
   try {
     const { action, amountUsd } = req.body || {};
     const amount = Number(amountUsd);
-    if (!['add', 'withdraw'].includes(action) || !Number.isFinite(amount) || amount < 10 || amount > 100_000) {
+    if (!['add', 'withdraw'].includes(action) || !Number.isFinite(amount) || amount < 10 || amount > 100000) {
       return res.status(400).json({ error: 'Enter a demo amount between $10 and $100,000.' });
     }
     const account = await readAccount();
@@ -210,18 +147,13 @@ app.post('/api/cash', async (req, res, next) => {
     }
     account.cashUsd = round(account.cashUsd + (action === 'add' ? amount : -amount), 2);
     account.ledger.unshift({
-      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-      side: action === 'add' ? 'cash added' : 'cash withdrawn',
-      symbol: 'USD',
-      amountUsd: amount,
-      createdAt: new Date().toISOString()
+      id: Date.now() + '-' + Math.random().toString(36).slice(2, 8),
+      side: action === 'add' ? 'cash added' : 'cash withdrawn', symbol: 'USD', amountUsd: amount, createdAt: new Date().toISOString()
     });
     account.ledger = account.ledger.slice(0, 100);
     await writeAccount(account);
     res.status(201).json({ cashUsd: account.cashUsd });
-  } catch (error) {
-    next(error);
-  }
+  } catch (error) { next(error); }
 });
 
 app.post('/api/reset', async (req, res, next) => {
@@ -229,13 +161,28 @@ app.post('/api/reset', async (req, res, next) => {
     const account = initialAccount();
     await writeAccount(account);
     res.json({ reset: true });
-  } catch (error) {
-    next(error);
-  }
+  } catch (error) { next(error); }
 });
 
 app.get('/api/health', (req, res) => res.json({ ok: true, mode: 'paper-trading' }));
 
+// --- Static serving for the React SPA ---
+const distPath = path.join(__dirname, 'dist');
+
+// Serve the built React SPA assets (JS/CSS) under /assets.
+app.use('/assets', express.static(path.join(distPath, 'assets')));
+
+// SPA fallback: serve the built index.html for non-API routes only.
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api/')) return next();
+  if (req.path === '/' || req.path === '') {
+    res.sendFile(path.join(distPath, 'index.html'));
+  } else {
+    next();
+  }
+});
+
+// 404 / error handling last.
 app.use('/api', (req, res) => res.status(404).json({ error: 'API route not found.' }));
 app.use((error, req, res, next) => {
   if (res.headersSent) return next(error);
@@ -244,6 +191,5 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`Global Mass Funds paper investing service listening on http://localhost:${port}`);
+  console.log('Global Mass Funds paper investing service listening on http://localhost:' + port);
 });
-

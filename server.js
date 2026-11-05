@@ -123,21 +123,21 @@ app.get('/api/overview', async (req, res, next) => {
 // One definition per page. Every view renders through the shared head/nav/footer
 // partials so navigation and layout never drift between pages.
 const servicePages = {
-  '/services/commodities-gold': { view: 'services/commodities-gold', title: 'Commodities & Gold — Global Mass Funds', description: 'Simulate spot gold, silver, and energy markets with the same paper simulator used for crypto.' },
-  '/services/cryptocurrency': { view: 'services/cryptocurrency', title: 'Cryptocurrency — Global Mass Funds', description: 'Trade BTC, ETH, SOL, and more with paper funds.' },
-  '/services/real-estate': { view: 'services/real-estate', title: 'Real Estate — Global Mass Funds', description: 'Simulate residential, commercial, and mixed-use property deals with demo cash.' },
-  '/services/stock-etfs': { view: 'services/stock-etfs', title: 'Stock & ETFs — Global Mass Funds', description: 'Trade individual stocks, broad market ETFs, and index funds with the same leveled demo portfolio.' },
-  '/services/loan': { view: 'services/loan', title: 'Loan — Global Mass Funds', description: 'Practice borrowing, amortization, and debt service with paper cash.' },
-  '/services/card': { view: 'services/card', title: 'Card — Global Mass Funds', description: 'Simulate a premium credit card with grace periods, APR, rewards, and balance management.' },
-  '/services/membership': { view: 'services/membership', title: 'Membership ID — Global Mass Funds', description: 'Your unified access key. One Membership ID covers every market.' },
-  '/services/staking': { view: 'services/staking', title: 'Staking — Global Mass Funds', description: 'Earn demo yields on BTC, ETH, SOL, and more.' }
+  '/services/commodities-gold': { view: 'services/commodities-gold', title: 'Commodities & Gold — Clearwave Crypto', description: 'Simulate spot gold, silver, and energy markets with the same paper simulator used for crypto.' },
+  '/services/cryptocurrency': { view: 'services/cryptocurrency', title: 'Cryptocurrency — Clearwave Crypto', description: 'Trade BTC, ETH, SOL, and more with paper funds.' },
+  '/services/real-estate': { view: 'services/real-estate', title: 'Real Estate — Clearwave Crypto', description: 'Simulate residential, commercial, and mixed-use property deals with demo cash.' },
+  '/services/stock-etfs': { view: 'services/stock-etfs', title: 'Stock & ETFs — Clearwave Crypto', description: 'Trade individual stocks, broad market ETFs, and index funds with the same leveled demo portfolio.' },
+  '/services/loan': { view: 'services/loan', title: 'Loan — Clearwave Crypto', description: 'Practice borrowing, amortization, and debt service with paper cash.' },
+  '/services/card': { view: 'services/card', title: 'Card — Clearwave Crypto', description: 'Simulate a premium credit card with grace periods, APR, rewards, and balance management.' },
+  '/services/membership': { view: 'services/membership', title: 'Membership ID — Clearwave Crypto', description: 'Your unified access key. One Membership ID covers every market.' },
+  '/services/staking': { view: 'services/staking', title: 'Staking — Clearwave Crypto', description: 'Earn demo yields on BTC, ETH, SOL, and more.' }
 };
 
 app.get('/', (req, res) => { res.render('index'); });
 app.get('/services', (req, res) => {
   res.render('services', {
-    title: 'Services — Global Mass Funds',
-    description: 'Explore Global Mass Funds services — commodities & gold, cryptocurrency, real estate, stock & ETFs, loan, card, membership ID, and staking.'
+    title: 'Services — Clearwave Crypto',
+    description: 'Explore Clearwave Crypto services — commodities & gold, cryptocurrency, real estate, stock & ETFs, loan, card, membership ID, and staking.'
   });
 });
 Object.keys(servicePages).forEach((route) => {
@@ -155,29 +155,29 @@ app.get('/contact', (req, res) => res.render('contact'));
 
 app.get('/testimonials', (req, res) => {
   res.render('testimonials', {
-    title: 'Reviews — Global Mass Funds',
-    description: 'What traders say about using Global Mass Funds paper trading to build discipline before going live.'
+    title: 'Reviews — Clearwave Crypto',
+    description: 'What traders say about using Clearwave Crypto paper trading to build discipline before going live.'
   });
 });
 
 const legalPages = {
   '/privacy': {
-    title: 'Privacy Policy — Global Mass Funds',
-    description: 'How Global Mass Funds handles information on the paper trading demo.',
+    title: 'Privacy Policy — Clearwave Crypto',
+    description: 'How Clearwave Crypto handles information on the paper trading demo.',
     heading: 'Privacy Policy',
     sections: [
       { h: 'What this demo collects', p: 'The paper trading demo stores a single simulated account record on the server: a demo cash balance, demo holdings, and a trade ledger. No real money, payment details, or brokerage credentials are collected.' },
       { h: 'Market data', p: 'Live price quotes are requested from a public market data provider. Those requests contain asset identifiers only — never your account details.' },
       { h: 'Cookies and analytics', p: 'The demo does not set advertising cookies and does not run third-party tracking scripts. Session state lives on the server, not in your browser.' },
-      { h: 'Contact', p: 'Questions about this policy can go to sales@gmfunds.example and will be answered by the GMF Sales desk.' }
+      { h: 'Contact', p: 'Questions about this policy can go to sales@clearwavecrypto.example and will be answered by the Clearwave Sales desk.' }
     ]
   },
   '/terms': {
-    title: 'Terms of Service — Global Mass Funds',
-    description: 'Terms for using the Global Mass Funds paper trading demo.',
+    title: 'Terms of Service — Clearwave Crypto',
+    description: 'Terms for using the Clearwave Crypto paper trading demo.',
     heading: 'Terms of Service',
     sections: [
-      { h: 'Simulation only', p: 'Global Mass Funds is a paper trading demonstration. All balances, orders, positions, and returns shown are simulated. Nothing on this site is an offer to buy or sell a financial instrument.' },
+      { h: 'Simulation only', p: 'Clearwave Crypto is a paper trading demonstration. All balances, orders, positions, and returns shown are simulated. Nothing on this site is an offer to buy or sell a financial instrument.' },
       { h: 'No financial advice', p: 'Plan tiers, yields, and property figures describe the simulator only. They are not investment advice and must not be relied on as a forecast of real returns.' },
       { h: 'Acceptable use', p: 'Do not use the demo to attempt to disrupt the service, probe systems you are not authorised to access, or present simulated results as real trading performance.' },
       { h: 'Changes', p: 'The demo, its plans, and these terms may change as the simulator evolves. Continued use after a change means you accept the updated terms.' }
@@ -269,5 +269,5 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log('Global Mass Funds paper investing service listening on http://localhost:' + port);
+  console.log('Clearwave Crypto paper trading service listening on http://localhost:' + port);
 });

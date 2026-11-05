@@ -1,5 +1,5 @@
 /* ============================================================
-   Global Mass Funds — shared site behaviour
+   Clearwave Crypto — shared site behaviour
    Navigation, Services dropdown, mobile menu, FAQ accordion,
    and lightweight form feedback. Vanilla JS, no dependencies.
    ============================================================ */
@@ -155,7 +155,7 @@
     });
 
     /* ---------- 5. Forms: inline confirmation instead of a dead submit ---------- */
-    Array.prototype.forEach.call(document.querySelectorAll('form[data-gmf-form]'), function (form) {
+    Array.prototype.forEach.call(document.querySelectorAll('form[data-cw-form]'), function (form) {
       form.addEventListener('submit', function (event) {
         event.preventDefault();
         var field = form.querySelector('input[type="email"], input[type="text"]');
@@ -166,7 +166,7 @@
           return;
         }
         if (status) {
-          status.textContent = 'Thanks — your request is queued for a GMF rep.';
+          status.textContent = 'Thanks — your request is queued for a Clearwave rep.';
           status.classList.add('is-ok');
         }
         form.reset();

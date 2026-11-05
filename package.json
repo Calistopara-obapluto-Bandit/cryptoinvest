@@ -1,8 +1,8 @@
 {
-  "name": "global-mass-funds",
+  "name": "clearwave-crypto",
   "version": "1.0.0",
   "private": true,
-  "description": "Global Mass Funds — multi-page website built with Express + EJS.",
+  "description": "Clearwave Crypto — multi-page website built with Express + EJS.",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js"

@@ -59,7 +59,7 @@ async function check(route) {
     footer: (html.match(/class="footer"/g) || []).length,
     dropdown: (html.match(/id="services-panel"/g) || []).length,
     mobileMenu: (html.match(/id="mobile-menu"/g) || []).length,
-    scripts: (html.match(/\/gmf\.js/g) || []).length
+    scripts: (html.match(/\/clearwave\.js/g) || []).length
   };
 }
 

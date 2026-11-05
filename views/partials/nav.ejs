@@ -1,37 +1,69 @@
-<nav class="nav" role="navigation" aria-label="Main navigation">
-  <div class="nav-inner">
-    <a href="/" class="nav-logo">GMF<span class="accent-light">Funds</span></a>
+<%
+  var page = (typeof active !== 'undefined' && active) ? active : '';
+  var isServices = page === 'services' || page.indexOf('services/') === 0;
+  var categories = [
+    { slug: 'commodities-gold', icon: '🪨', title: 'Commodities & Gold', desc: 'Spot metals, energy and safe havens' },
+    { slug: 'cryptocurrency',    icon: '₿',  title: 'Cryptocurrency',     desc: 'BTC, ETH, SOL and alt markets' },
+    { slug: 'real-estate',       icon: '🏠', title: 'Real Estate',        desc: 'Residential, commercial, mixed-use' },
+    { slug: 'stock-etfs',        icon: '📊', title: 'Stock & ETFs',       desc: 'Single names, index and sector funds' },
+    { slug: 'loan',              icon: '🧾', title: 'Loan',               desc: 'Borrowing, APR and amortization' },
+    { slug: 'card',              icon: '💳', title: 'Card',               desc: 'Credit lines, rewards and grace periods' },
+    { slug: 'membership',        icon: '🎟️', title: 'Membership ID',      desc: 'One access key across every market' },
+    { slug: 'staking',           icon: '🌾', title: 'Staking',            desc: 'Yields, lock-ups and restaking' }
+  ];
+%>
+  <header class="nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">GMF<span class="accent-light">Funds</span></a>
 
-    <ul class="nav-links" role="list">
-      <li><a href="/services">Services</a></li>
-      <li><a href="/services/real-estate">Real Estate</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/contact">Contact</a></li>
-    </ul>
+      <ul class="nav-links" role="list">
+        <li class="nav-item">
+          <button type="button" class="nav-link<%= isServices ? ' is-active' : '' %>" aria-expanded="false" aria-controls="services-panel" aria-haspopup="true">
+            Services
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="dropdown-panel" id="services-panel">
+            <% categories.forEach(function (cat) { %>
+              <a class="dropdown-item<%= page === 'services/' + cat.slug ? ' is-active' : '' %>" href="/services/<%= cat.slug %>">
+                <span class="di-icon" aria-hidden="true"><%= cat.icon %></span>
+                <span>
+                  <span class="di-title"><%= cat.title %></span>
+                  <span class="di-desc"><%= cat.desc %></span>
+                </span>
+              </a>
+            <% }); %>
+            <a class="dropdown-foot" href="/services">View all services <span aria-hidden="true">→</span></a>
+          </div>
+        </li>
+        <li><a class="nav-link<%= page === 'real-estate' ? ' is-active' : '' %>" href="/services/real-estate">Real Estate</a></li>
+        <li><a class="nav-link<%= page === 'about' ? ' is-active' : '' %>" href="/about">About</a></li>
+        <li><a class="nav-link<%= page === 'contact' ? ' is-active' : '' %>" href="/contact">Contact</a></li>
+      </ul>
 
-    <div class="nav-cta"><a href="/contact" class="btn-primary">Get Started</a></div>
+      <div class="nav-cta">
+        <a href="/contact" class="btn-primary">Get Started</a>
+      </div>
 
-    <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-
-<!-- Services dropdown (desktop) -->
-<nav class="services-dropdown" role="navigation" aria-label="Service categories">
-  <div class="nav-inner" style="display:flex;align-items:center;gap:12px;">
-    <div style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text-1);font-weight:600;font-size:0.85rem;padding:6px 16px;border-radius:100px;background:var(--accent-ghost);">
-      <span style="font-size:1.2rem;">📦</span> Services
+      <button class="nav-hamburger" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-    <div class="services-panel" role="menu">
-      <a href="/services/commodities-gold" role="menuitem"><span class="panel-icon">🪨</span><span class="panel-title">Commodities &amp; Gold</span></a>
-      <a href="/services/cryptocurrency" role="menuitem"><span class="panel-icon">₿</span><span class="panel-title">Cryptocurrency</span></a>
-      <a href="/services/real-estate" role="menuitem"><span class="panel-icon">🏠</span><span class="panel-title">Real Estate</span></a>
-      <a href="/services/stock-etfs" role="menuitem"><span class="panel-icon">📊</span><span class="panel-title">Stock &amp; ETFs</span></a>
-      <a href="/services/loan" role="menuitem"><span class="panel-icon">💳</span><span class="panel-title">Loan</span></a>
-      <a href="/services/card" role="menuitem"><span class="panel-icon">💳</span><span class="panel-title">Card</span></a>
-      <a href="/services/membership" role="menuitem"><span class="panel-icon">🎟️</span><span class="panel-title">Membership ID</span></a>
-      <a href="/services/staking" role="menuitem"><span class="panel-icon">🌾</span><span class="panel-title">Staking</span></a>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="mm-label">Service categories</div>
+    <div class="mm-grid">
+      <% categories.forEach(function (cat) { %>
+        <a href="/services/<%= cat.slug %>"><span aria-hidden="true"><%= cat.icon %></span><%= cat.title %></a>
+      <% }); %>
     </div>
+
+    <div class="mm-label">Company</div>
+    <div class="mm-links">
+      <a href="/services">All services</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </div>
+
+    <a href="/contact" class="mm-cta">Get Started</a>
   </div>
-</nav>

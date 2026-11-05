@@ -29,53 +29,11 @@ app.disable('x-powered-by');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Page routes (EJS rendering) must run before static middleware so the EJS
-// pages are served instead of the legacy index.html (React SPA).
-app.use((req, res, next) => {
-  if (req.path === '/' || req.path === '') {
-    return res.render('index');
-  }
-  if (req.path === '/services') {
-    return res.render('services', { title: 'Services — Global Mass Funds', description: 'Explore Global Mass Funds services — commodities & gold, cryptocurrency, real estate, stock & ETFs, loan, card, membership ID, and staking.' });
-  }
-  if (req.path === '/services/commodities-gold') {
-    return res.render('services/commodities-gold', { title: 'Commodities & Gold — Global Mass Funds', description: 'Simulate spot gold, silver, and energy markets with local mass funds. ' });
-  }
-  if (req.path === '/services/cryptocurrency') {
-    return res.render('services/cryptocurrency', { title: 'Cryptocurrency — Global Mass Funds', description: 'Trade BTC, ETH, SOL, and more with paper funds. ' });
-  }
-  if (req.path === '/services/real-estate') {
-    return res.render('services/real-estate', { title: 'Real Estate — Global Mass Funds', description: 'Simulate residential, commercial, and mixed-use property deals with demo cash. ' });
-  }
-  if (req.path === '/services/stock-etfs') {
-    return res.render('services/stock-etfs', { title: 'Stock & ETFs — Global Mass Funds', description: 'Trade individual stocks, broad market ETFs, and index funds with the same leveled demo portfolio used across every asset class.' });
-  }
-  if (req.path === '/services/loan') {
-    return res.render('services/loan', { title: 'Loan — Global Mass Funds', description: 'Practice borrowing, amortization, and debt service with paper cash.' });
-  }
-  if (req.path === '/services/card') {
-    return res.render('services/card', { title: 'Card — Global Mass Funds', description: 'Simulate a premium credit card with interest-free grace periods, APR, rewards, and balance management using demo funds.' });
-  }
-  if (req.path === '/services/membership') {
-    return res.render('services/membership', { title: 'Membership ID — Global Mass Funds', description: 'Your unified access key. One Membership ID covers every market.' });
-  }
-  if (req.path === '/services/staking') {
-    return res.render('services/staking', { title: 'Staking — Global Mass Funds', description: 'Earn demo yields on BTC, ETH, SOL, and more.' });
-  }
-  if (req.path === '/about') {
-    return res.render('about');
-  }
-  if (req.path === '/contact') {
-    return res.render('contact');
-  }
-  next();
-});
-
 // Static middleware (Clearwave CSS, JS, images). Serves static assets only,
 // never the legacy index.html so the EJS views are never shadowed.
 app.use((req, res, next) => {
   if (req.path === '/' || req.path === '') {
-    return;
+    return next();
   }
   if (req.path.startsWith('/assets/') || req.path.endsWith('.css') || req.path.endsWith('.js') || req.path.endsWith('.png') || req.path.endsWith('.jpg') || req.path.endsWith('.svg') || req.path.endsWith('.woff2') || req.path.endsWith('.ico')) {
     return express.static(path.join(__dirname, '.'))(req, res, next);
@@ -162,18 +120,81 @@ app.get('/api/overview', async (req, res, next) => {
 });
 
 // ---- PAGE ROUTES (EJS) ----
+// One definition per page. Every view renders through the shared head/nav/footer
+// partials so navigation and layout never drift between pages.
+const servicePages = {
+  '/services/commodities-gold': { view: 'services/commodities-gold', title: 'Commodities & Gold — Global Mass Funds', description: 'Simulate spot gold, silver, and energy markets with the same paper simulator used for crypto.' },
+  '/services/cryptocurrency': { view: 'services/cryptocurrency', title: 'Cryptocurrency — Global Mass Funds', description: 'Trade BTC, ETH, SOL, and more with paper funds.' },
+  '/services/real-estate': { view: 'services/real-estate', title: 'Real Estate — Global Mass Funds', description: 'Simulate residential, commercial, and mixed-use property deals with demo cash.' },
+  '/services/stock-etfs': { view: 'services/stock-etfs', title: 'Stock & ETFs — Global Mass Funds', description: 'Trade individual stocks, broad market ETFs, and index funds with the same leveled demo portfolio.' },
+  '/services/loan': { view: 'services/loan', title: 'Loan — Global Mass Funds', description: 'Practice borrowing, amortization, and debt service with paper cash.' },
+  '/services/card': { view: 'services/card', title: 'Card — Global Mass Funds', description: 'Simulate a premium credit card with grace periods, APR, rewards, and balance management.' },
+  '/services/membership': { view: 'services/membership', title: 'Membership ID — Global Mass Funds', description: 'Your unified access key. One Membership ID covers every market.' },
+  '/services/staking': { view: 'services/staking', title: 'Staking — Global Mass Funds', description: 'Earn demo yields on BTC, ETH, SOL, and more.' }
+};
+
 app.get('/', (req, res) => { res.render('index'); });
-app.get('/services', (req, res) => { res.render('services', { title: 'Services — Global Mass Funds', description: 'Explore Global Mass Funds services — commodities & gold, cryptocurrency, real estate, stock & ETFs, loan, card, membership ID, and staking.' }); });
-app.get('/services/commodities-gold', (req, res) => { res.render('services/commodities-gold', { title: 'Commodities & Gold — Global Mass Funds', description: 'Simulate spot gold, silver, and energy markets with local mass funds. ' }); });
-app.get('/services/cryptocurrency', (req, res) => { res.render('services/cryptocurrency', { title: 'Cryptocurrency — Global Mass Funds', description: 'Trade BTC, ETH, SOL, and more with paper funds. ' }); });
-app.get('/services/real-estate', (req, res) => { res.render('services/real-estate', { title: 'Real Estate — Global Mass Funds', description: 'Simulate residential, commercial, and mixed-use property deals with demo cash. ' }); });
-app.get('/services/stock-etfs', (req, res) => { res.render('services/stock-etfs', { title: 'Stock & ETFs — Global Mass Funds', description: 'Trade individual stocks, broad market ETFs, and index funds with the same leveled demo portfolio used across every asset class.' }); });
-app.get('/services/loan', (req, res) => { res.render('services/loan', { title: 'Loan — Global Mass Funds', description: 'Practice borrowing, amortization, and debt service with paper cash.' }); });
-app.get('/services/card', (req, res) => { res.render('services/card', { title: 'Card — Global Mass Funds', description: 'Simulate a premium credit card with interest-free grace periods, APR, rewards, and balance management using demo funds.' }); });
-app.get('/services/membership', (req, res) => { res.render('services/membership', { title: 'Membership ID — Global Mass Funds', description: 'Your unified access key. One Membership ID covers every market.' }); });
-app.get('/services/staking', (req, res) => { res.render('services/staking', { title: 'Staking — Global Mass Funds', description: 'Earn demo yields on BTC, ETH, SOL, and more.' }); });
-app.get('/contact', (req, res) => { res.render('contact'); });
-app.get('/about', (req, res) => { res.render('about'); });
+app.get('/services', (req, res) => {
+  res.render('services', {
+    title: 'Services — Global Mass Funds',
+    description: 'Explore Global Mass Funds services — commodities & gold, cryptocurrency, real estate, stock & ETFs, loan, card, membership ID, and staking.'
+  });
+});
+Object.keys(servicePages).forEach((route) => {
+  const page = servicePages[route];
+  app.get(route, (req, res) => {
+    res.render(page.view, { title: page.title, description: page.description });
+  });
+});
+
+// The old standalone real-estate page now lives under /services.
+app.get('/real-estate', (req, res) => res.redirect(301, '/services/real-estate'));
+
+app.get('/about', (req, res) => res.render('about'));
+app.get('/contact', (req, res) => res.render('contact'));
+
+app.get('/testimonials', (req, res) => {
+  res.render('testimonials', {
+    title: 'Reviews — Global Mass Funds',
+    description: 'What traders say about using Global Mass Funds paper trading to build discipline before going live.'
+  });
+});
+
+const legalPages = {
+  '/privacy': {
+    title: 'Privacy Policy — Global Mass Funds',
+    description: 'How Global Mass Funds handles information on the paper trading demo.',
+    heading: 'Privacy Policy',
+    sections: [
+      { h: 'What this demo collects', p: 'The paper trading demo stores a single simulated account record on the server: a demo cash balance, demo holdings, and a trade ledger. No real money, payment details, or brokerage credentials are collected.' },
+      { h: 'Market data', p: 'Live price quotes are requested from a public market data provider. Those requests contain asset identifiers only — never your account details.' },
+      { h: 'Cookies and analytics', p: 'The demo does not set advertising cookies and does not run third-party tracking scripts. Session state lives on the server, not in your browser.' },
+      { h: 'Contact', p: 'Questions about this policy can go to sales@gmfunds.example and will be answered by the GMF Sales desk.' }
+    ]
+  },
+  '/terms': {
+    title: 'Terms of Service — Global Mass Funds',
+    description: 'Terms for using the Global Mass Funds paper trading demo.',
+    heading: 'Terms of Service',
+    sections: [
+      { h: 'Simulation only', p: 'Global Mass Funds is a paper trading demonstration. All balances, orders, positions, and returns shown are simulated. Nothing on this site is an offer to buy or sell a financial instrument.' },
+      { h: 'No financial advice', p: 'Plan tiers, yields, and property figures describe the simulator only. They are not investment advice and must not be relied on as a forecast of real returns.' },
+      { h: 'Acceptable use', p: 'Do not use the demo to attempt to disrupt the service, probe systems you are not authorised to access, or present simulated results as real trading performance.' },
+      { h: 'Changes', p: 'The demo, its plans, and these terms may change as the simulator evolves. Continued use after a change means you accept the updated terms.' }
+    ]
+  }
+};
+Object.keys(legalPages).forEach((route) => {
+  const page = legalPages[route];
+  app.get(route, (req, res) => {
+    res.render('legal', {
+      title: page.title,
+      description: page.description,
+      heading: page.heading,
+      sections: page.sections
+    });
+  });
+});
 
 app.post('/api/orders', async (req, res, next) => {
   try {

@@ -1,121 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Commodities &amp; Gold paper trading at Global Mass Funds — simulate spot XAU, silver, and energy markets with demo cash." />
-  <title>Commodities &amp; Gold — Global Mass Funds</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/templatemo-622-clearwave.css" />
-  <style>
-    .gmf-video { width: 100%; aspect-ratio: 16/9; border-radius: var(--radius); background: var(--accent); overflow: hidden; box-shadow: var(--shadow-lg); display: flex; align-items: center; justify-content: center; }
-    .gmf-video img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .gmf-video .gmf-video-bg { position: absolute; inset: 0; background: var(--accent); opacity: 0.06; }
-    .gmf-video .gmf-video-glow { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 14px, rgba(26,122,110,0.05) 14px, rgba(26,122,110,0.05) 15px); pointer-events: none; }
-    .gmf-video .gmf-video-glow2 { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(26,122,110,0.04) 10px, rgba(26,122,110,0.04) 11px); pointer-events: none; }
-    .gmf-video-inner { position: relative; display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; }
-    .gmf-video-tag { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.12); color: #fff; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); }
-    .gmf-video-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .gmf-video-play svg { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.18); border: 2px solid rgba(255,255,255,0.35); color: #fff; transition: background 0.4s var(--silk), border-color 0.4s var(--silk); }
-    .gmf-video-play:hover svg { background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.6); }
-
-    .svc-hero { background: linear-gradient(135deg, #b08d2f 0%, #8a6d1f 55%, #6b5218 100%); border-radius: var(--radius); padding: 80px 40px; color: #fff; text-align: center; }
-    .svc-hero .svc-icon { font-size: 3rem; margin-bottom: 16px; }
-    .svc-hero h1 { font-size: 2.2rem; font-weight: 700; margin: 0 0 12px 0; }
-    .svc-hero p { font-size: 1.05rem; opacity: 0.9; max-width: 640px; margin: 0 auto 28px auto; }
-    .svc-hero .btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .svc-hero .btn-group a { display: inline-block; }
-    .svc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px; padding: 40px 20px; }
-    .svc-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); transition: transform 0.2s var(--silk), box-shadow 0.2s var(--silk); }
-    .svc-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    .svc-card .svc-card-icon { font-size: 1.8rem; margin-bottom: 12px; }
-    .svc-card h3 { font-size: 1.15rem; margin: 0 0 8px 0; }
-    .svc-card p { color: var(--text-muted); font-size: 0.92rem; margin: 0; line-height: 1.55; }
-    .svc-note { background: var(--bg); border-left: 4px solid var(--accent); padding: 18px 22px; border-radius: 0 var(--radius) var(--radius) 0; font-size: 0.92rem; color: var(--text-muted); margin: 28px 0; }
-    .svc-cta { text-align: center; padding: 28px 0 32px 0; }
-    .svc-cta .btn-cta-primary { padding: 14px 32px; font-size: 1rem; }
-    .svc-cta .btn-cta-ghost { padding: 14px 32px; font-size: 1rem; }
-    @media (max-width: 768px) {
-      .svc-hero { padding: 56px 20px; }
-      .svc-hero h1 { font-size: 1.6rem; }
+<%- include('../partials/service-layout', { svc: {
+  slug: 'commodities-gold',
+  icon: '🪨',
+  title: 'Commodities & Gold',
+  lead: 'Trading commodity CFDs is a great way to diversify your portfolio and hedge risk. Get access to worldwide commodity prices with tight spreads, deep liquidity and low slippage — using demo capital.',
+  primaryLabel: 'Explore crypto markets',
+  primaryHref: '/services/cryptocurrency',
+  cards: [
+    { icon: '🥇', title: 'Gold (XAU)', body: 'Gold has always been seen as a valuable commodity, and for good reason: as well as being an in-demand precious metal in many industries, it is an ideal hedge for financial market risk during periods of macroeconomic and geopolitical uncertainty. Strong global demand makes it one of the most actively traded commodities in the world.' },
+    { icon: '🛢️', title: 'Oil (WTI / Brent)', body: 'Brent Crude and WTI are the two oil benchmarks of the global market. WTI is a very sweet, light crude — ideal for gasoline refining and always priced at a premium to Brent. OPEC supply decisions, US inventory reports and political events in producing nations move the price directly.' },
+    { icon: '🌾', title: 'Soft commodities', body: 'Coffee is one of the world’s most profitable commodities: Arabica is the more flavourful, premium bean, while Robusta carries more caffeine, a bitter taste and more volatility. Wheat is a staple traded on the Chicago Board of Trade and Euronext, priced in US dollars and cents per bushel.' }
+  ],
+  sections: [
+    {
+      label: 'The basics',
+      heading: 'What is commodities trading?',
+      paragraphs: [
+        'Commodities are essentially the raw materials from which other goods are created — the basic building blocks of the global economy. They fall into two broad categories: hard commodities, which are mined from the earth or extracted from natural resources (gold, silver, iron, oil, natural gas, coal), and soft commodities, which are agricultural products such as livestock and crops like coffee, corn, wheat and soybeans.',
+        'What separates commodities from other goods is that they are interchangeable and standardised, with their values set by the relevant commodity exchange. Because the markets are highly volatile, they give traders greater opportunities for success — and they are usually watched as bellwethers for the health of the industries that produce and consume them.',
+        'Commodity prices are impacted by factors found in few other instruments: adverse weather and seasonal availability, natural disasters, severe climate events, supply cartels such as OPEC, and major inventory reports. Typically, trading in commodities is either speculative — expressing a view on a certain industry — or for hedging, taking an opposite position to offset potential losses elsewhere in a portfolio.',
+        'The market is open 24 hours a day, five days a week, from 5pm EST on Sunday to 4pm EST on Friday.'
+      ]
     }
-  </style>
-</head>
-<body>
-
-  <nav class="nav" role="navigation" aria-label="Main navigation">
-    <div class="nav-inner">
-      <a href="/" class="nav-logo">GMF<span class="accent-light">Funds</span></a>
-      <ul class="nav-links" role="list">
-        <li><a href="/services">Services</a></li>
-        <li><a href="/real-estate">Real Estate</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-      <div class="nav-cta"><a href="/contact" class="btn-primary">Get Started</a></div>
-      <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
-
-  <section class="svc-hero">
-    <div class="container">
-      <div class="svc-icon">🪨</div>
-      <h1>Commodities &amp; Gold</h1>
-      <p>Simulate spot gold, silver, and energy markets with the same paper simulator used for crypto — all funded by demo cash.</p>
-      <div class="btn-group">
-        <a href="/services/cryptocurrency" class="btn-cta-primary">Explore Crypto</a>
-        <a href="/contact" class="btn-cta-ghost">Ask a rep</a>
-      </div>
-    </div>
-  </section>
-
-  <div class="container">
-    <div class="svc-grid">
-      <div class="svc-card">
-        <div class="svc-card-icon">🃏</div>
-        <h3>Gold spot trade</h3>
-        <p>Buy and sell gold (XAU) against USD with tight spreads and real-time spot prices. Track your gold P&amp;L like a pro.</p>
-      </div>
-      <div class="svc-card">
-        <div class="svc-card-icon">☉</div>
-        <h3>Silver &amp; energy</h3>
-        <p>Trade silver, crude oil, and natural gas as futures-style contracts with standard settlement.</p>
-      </div>
-      <div class="svc-card">
-        <div class="svc-card-icon">🌾</div>
-        <h3>Commodities basket</h3>
-        <p>Diversify across a demo commodities basket to understand correlation, inflation hedges, and macro moves.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="svc-note">
-      Gold is available on all plans. Higher tiers (Golden, Ultimate, Premium) get wider spreads and higher demo limits.
-    </div>
-  </div>
-
-  <section class="svc-cta">
-    <div class="container">
-      <a href="/contact" class="btn-cta-primary">Open a Gold account<span>→</span></a>
-      <a href="/services/cryptocurrency" class="btn-cta-ghost">Trade crypto</a>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand"><a href="/" class="nav-logo">GMF<span class="accent-light">Funds</span></a></div>
-        <div><div class="footer-col-label">Product</div><div class="footer-links"><a href="/services">Services</a><a href="/real-estate">Real Estate</a><a href="/testimonials">Reviews</a><a href="/contact">Contact</a></div></div>
-        <div><div class="footer-col-label">Company</div><div class="footer-links"><a href="/about">About</a><a href="/">Blog</a><a href="/">Careers</a><a href="/">Press Kit</a><a href="/">Status</a></div></div>
-        <div><div class="footer-col-label">Support</div><div class="footer-links"><a href="/contact">Help Center</a><a href="/contact">Documentation</a><a href="/contact">Security</a><a href="/contact">Contact</a><a href="/contact">Community</a></div></div>
-      </div>
-      <div class="footer-bottom"><div class="footer-copy">© 2025 Global Mass Funds. Paper trading demo inspired by globalmassfunds.com — design by TemplateMo.</div><div class="footer-legal"><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Service</a><a href="/terms">Cookie Policy</a></div></div>
-    </div>
-  </footer>
-</body>
-</html>
+  ],
+  benefits: {
+    heading: 'What are the benefits of commodities trading?',
+    items: [
+      { title: 'Leverage up to 30:1', body: 'control a larger position without tying up the full notional value' },
+      { title: 'A wide range of markets', body: 'energy, metals and agricultural products, all from one account' },
+      { title: '24/5 access', body: 'enter and exit trades whenever you want during the trading week' },
+      { title: 'Trade in any direction', body: 'sell to go short or buy to go long, maximising opportunities and minimising risk' },
+      { title: 'No price manipulation, no requotes', body: 'the price you see is the price you trade at' },
+      { title: 'Hedge your risk', body: 'offset investment risk with high-value assets like gold (XAU), silver (XAG) and oil (WTI / CL)' },
+      { title: 'Low margin, low cost', body: 'tight spreads from 0.0 pips without compromising execution' },
+      { title: 'Deep liquidity', body: 'the most-traded commodities have an established market of buyers and sellers at any time, which keeps slippage low' }
+    ]
+  },
+  table: {
+    label: 'Markets',
+    heading: 'The top ten commodities to trade',
+    columns: ['Commodity', 'Type', 'Benchmark exchange'],
+    rows: [
+      ['Crude Oil (WTI / Brent)', 'Energy — hard', 'NYMEX / ICE'],
+      ['Gold (XAU)', 'Metal — hard', 'COMEX / spot'],
+      ['Silver (XAG)', 'Metal — hard', 'COMEX / spot'],
+      ['Platinum & Palladium', 'Metal — hard', 'NYMEX'],
+      ['Copper, iron, steel, aluminium', 'Base metals', 'LME'],
+      ['Natural Gas', 'Energy — hard', 'NYMEX'],
+      ['Coffee (Arabica / Robusta)', 'Soft', 'ICE'],
+      ['Soybeans', 'Soft', 'CBOT'],
+      ['Corn', 'Soft', 'CBOT'],
+      ['Wheat', 'Soft', 'CBOT / Euronext']
+    ],
+    note: 'Contract symbols in the demo include WTI, XTIUSD, XBRUSD, XNGUSD, XPTUSD and XPDUSD for energy and metals, plus COFFEE, COCOA, CORN, SOYBEANS and WHEAT for softs.'
+  },
+  faq: {
+    heading: 'Commodities questions',
+    items: [
+      { q: 'What makes a good trading commodity?', a: 'Liquidity is the primary thing to consider, because it determines the ease with which you can buy or sell. A liquid market carries relatively lower risk — there will likely be someone willing to take the other side of your position — and less risk of slippage, which occurs when bid-offer spreads are wide.' },
+      { q: 'What actually moves commodity prices?', a: 'Supply and demand first, then weather and seasonal availability, natural disasters and climate events, the strength of the US dollar, OPEC production decisions, US inventory numbers and political instability or war in producing nations.' },
+      { q: 'Do I take delivery of the metal or the barrel?', a: 'No. Commodity CFDs track the underlying price without any ownership of the physical asset, which is the main reason futures and CFD trading emerged — storing a valuable physical product is expensive and impractical.' },
+      { q: 'How is this different from buying gold bullion?', a: 'You can invest directly in physical gold through bullion dealers or gold ETFs that hold the metal. Alternatively you trade gold through ETFs that track its price, or through gold CFDs which track the underlying price using margin — the latter being one of the most popular ways to trade gold.' }
+    ]
+  },
+  note: 'Demo only: leverage, spreads and execution described here are simulator settings, not a live brokerage account. Gold is available on all plans; higher tiers unlock wider demo limits and tighter simulated spreads.'
+} }) %>

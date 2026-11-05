@@ -1,121 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Staking simulator at Global Mass Funds — earn demo yields on BTC, ETH, SOL, and other supported assets." />
-  <title>Staking — Global Mass Funds</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/templatemo-622-clearwave.css" />
-  <style>
-    .gmf-video { width: 100%; aspect-ratio: 16/9; border-radius: var(--radius); background: var(--accent); overflow: hidden; box-shadow: var(--shadow-lg); display: flex; align-items: center; justify-content: center; }
-    .gmf-video img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .gmf-video .gmf-video-bg { position: absolute; inset: 0; background: var(--accent); opacity: 0.06; }
-    .gmf-video .gmf-video-glow { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 14px, rgba(26,122,110,0.05) 14px, rgba(26,122,110,0.05) 15px); pointer-events: none; }
-    .gmf-video .gmf-video-glow2 { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(26,122,110,0.04) 10px, rgba(26,122,110,0.04) 11px); pointer-events: none; }
-    .gmf-video-inner { position: relative; display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; }
-    .gmf-video-tag { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.12); color: #fff; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); }
-    .gmf-video-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .gmf-video-play svg { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.18); border: 2px solid rgba(255,255,255,0.35); color: #fff; transition: background 0.4s var(--silk), border-color 0.4s var(--silk); }
-    .gmf-video-play:hover svg { background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.6); }
-
-    .svc-hero { background: linear-gradient(135deg, #68d391 0%, #48bb78 55%, #38a169 100%); border-radius: var(--radius); padding: 80px 40px; color: #fff; text-align: center; }
-    .svc-hero .svc-icon { font-size: 3rem; margin-bottom: 16px; }
-    .svc-hero h1 { font-size: 2.2rem; font-weight: 700; margin: 0 0 12px 0; }
-    .svc-hero p { font-size: 1.05rem; opacity: 0.9; max-width: 640px; margin: 0 auto 28px auto; }
-    .svc-hero .btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .svc-hero .btn-group a { display: inline-block; }
-    .svc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px; padding: 40px 20px; }
-    .svc-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); transition: transform 0.2s var(--silk), box-shadow 0.2s var(--silk); }
-    .svc-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    .svc-card .svc-card-icon { font-size: 1.8rem; margin-bottom: 12px; }
-    .svc-card h3 { font-size: 1.15rem; margin: 0 0 8px 0; }
-    .svc-card p { color: var(--text-muted); font-size: 0.92rem; margin: 0; line-height: 1.55; }
-    .svc-note { background: var(--bg); border-left: 4px solid var(--accent); padding: 18px 22px; border-radius: 0 var(--radius) var(--radius) 0; font-size: 0.92rem; color: var(--text-muted); margin: 28px 0; }
-    .svc-cta { text-align: center; padding: 28px 0 32px 0; }
-    .svc-cta .btn-cta-primary { padding: 14px 32px; font-size: 1rem; }
-    .svc-cta .btn-cta-ghost { padding: 14px 32px; font-size: 1rem; }
-    @media (max-width: 768px) {
-      .svc-hero { padding: 56px 20px; }
-      .svc-hero h1 { font-size: 1.6rem; }
+<%- include('../partials/service-layout', { svc: {
+  slug: 'staking',
+  icon: '🌾',
+  title: 'Staking',
+  lead: 'Staking cryptocurrency is a great way to diversify your portfolio and put idle assets to work. Soft staking lets you earn rewards simply by holding supported tokens — with demo funds, no wallet and no keys.',
+  primaryLabel: 'Explore crypto markets',
+  primaryHref: '/services/cryptocurrency',
+  cards: [
+    { icon: '🔒', title: 'Soft staking', body: 'Our soft-staking program lets you generate rewards simply by holding your digital tokens on the platform. Rewards can be as high as 10% for supported tokens, with no lock-up and no on-chain wallet to manage.' },
+    { icon: '⛓️', title: 'Proof of Stake', body: 'A newer consensus mechanism built to increase speed and efficiency while lowering fees. Instead of miners churning through energy-intensive maths, transactions are validated by people who are literally invested in the blockchain through staking.' },
+    { icon: '🏦', title: 'Locked, fixed & DeFi', body: 'Three ways to stake: locked pools with the best rates, fixed terms with a defined end date, and DeFi pools where deposits sit in smart contracts on your behalf so you avoid on-chain gas fees.' }
+  ],
+  sections: [
+    {
+      label: 'The basics',
+      heading: 'What is staking?',
+      paragraphs: [
+        'On a Proof of Stake blockchain, staking is the act of depositing tokens in order to become a validator — that is, to participate in proposing and attesting to transaction blocks. Anyone with the minimum required coin balance can validate transactions and earn staking rewards.',
+        'The reason your crypto earns rewards while staked is that the blockchain puts it to work. Proof of Stake is the consensus mechanism that ensures every transaction is verified and secured without a bank or payment processor in the middle, and your staked tokens become part of that process.',
+        'By forcing participants to lock away a certain amount of tokens, the network makes it unattractive to act dishonestly: if the chain were corrupted through malicious activity the native token would likely plummet, and the perpetrator would lose money. The network chooses validators based on the size of their stake and how long they have held it, so the most invested participants are rewarded.',
+        'Staking is only possible with cryptocurrencies linked to blockchains that use Proof of Stake. The most established names are Ethereum, Cardano, Solana, Polkadot, Avalanche, Tezos, Chainlink, EOS and Cosmos.'
+      ]
     }
-  </style>
-</head>
-<body>
-
-  <nav class="nav" role="navigation" aria-label="Main navigation">
-    <div class="nav-inner">
-      <a href="/" class="nav-logo">GMF<span class="accent-light">Funds</span></a>
-      <ul class="nav-links" role="list">
-        <li><a href="/services">Services</a></li>
-        <li><a href="/real-estate">Real Estate</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-      <div class="nav-cta"><a href="/contact" class="btn-primary">Get Started</a></div>
-      <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
-
-  <section class="svc-hero">
-    <div class="container">
-      <div class="svc-icon">🌾</div>
-      <h1>Staking</h1>
-      <p>Earn demo yields on BTC, ETH, SOL, and more. Practice restaking, compounding, and lock-ups before committing real capital.</p>
-      <div class="btn-group">
-        <a href="/services/cryptocurrency" class="btn-cta-primary">Crypto trading</a>
-        <a href="/contact" class="btn-cta-ghost">Ask a rep</a>
-      </div>
-    </div>
-  </section>
-
-  <div class="container">
-    <div class="svc-grid">
-      <div class="svc-card">
-        <div class="svc-card-icon">₿</div>
-        <h3>Native staking</h3>
-        <p>Stake BTC, ETH, and SOL in the paper environment and watch your demo balance grow with daily compounding yields.</p>
-      </div>
-      <div class="svc-card">
-        <div class="svc-card-icon">🔄</div>
-        <h3>Restaking &amp; pools</h3>
-        <p>Pool assets across multiple chains and restake rewards for boosted yields — all within a risk-free paper wallet.</p>
-      </div>
-      <div class="svc-card">
-        <div class="svc-card-icon">📅</div>
-        <h3>Lock-ups &amp; rewards</h3>
-        <p>Simulate lock-up periods, early-withdraw penalties, and reward vesting so you learn how staking actually behaves.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="svc-note">
-      Staking yields vary by asset and plan. Solo staking pays less than pools; higher tiers unlock restaking and boost yields.
-    </div>
-  </div>
-
-  <section class="svc-cta">
-    <div class="container">
-      <a href="/contact" class="btn-cta-primary">Start staking<span>→</span></a>
-      <a href="/services/cryptocurrency" class="btn-cta-ghost">Trade crypto</a>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand"><a href="/" class="nav-logo">GMF<span class="accent-light">Funds</span></a></div>
-        <div><div class="footer-col-label">Product</div><div class="footer-links"><a href="/services">Services</a><a href="/real-estate">Real Estate</a><a href="/testimonials">Reviews</a><a href="/contact">Contact</a></div></div>
-        <div><div class="footer-col-label">Company</div><div class="footer-links"><a href="/about">About</a><a href="/">Blog</a><a href="/">Careers</a><a href="/">Press Kit</a><a href="/">Status</a></div></div>
-        <div><div class="footer-col-label">Support</div><div class="footer-links"><a href="/contact">Help Center</a><a href="/contact">Documentation</a><a href="/contact">Security</a><a href="/contact">Contact</a><a href="/contact">Community</a></div></div>
-      </div>
-      <div class="footer-bottom"><div class="footer-copy">© 2025 Global Mass Funds. Paper trading demo inspired by globalmassfunds.com — design by TemplateMo.</div><div class="footer-legal"><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Service</a><a href="/terms">Cookie Policy</a></div></div>
-    </div>
-  </footer>
-</body>
-</html>
+  ],
+  benefits: {
+    heading: 'What are the benefits of crypto staking?',
+    items: [
+      { title: 'Security', body: 'staking contributes to the security and efficiency of the blockchain projects you support' },
+      { title: 'Resilience', body: 'a larger stake makes the chain more resistant to attacks and strengthens its ability to process transactions' },
+      { title: 'Reward for commitment', body: 'validators are chosen by the size of their stake and the length of time they have held it' },
+      { title: 'Assets that work', body: 'long-term holders use staking to make their assets work for them rather than collecting dust in a wallet' },
+      { title: 'Passive income', body: 'rewards are paid for holding and verifying, not for trading' },
+      { title: 'No gas fees', body: 'pooled staking deposits funds into smart contracts on your behalf, saving on-chain costs' },
+      { title: 'Easy to use', body: 'no private keys, no resources to acquire, no trades to place and no on-chain wallet to run' },
+      { title: 'Compounding', body: 'rewards can be restaked so the balance earning yield keeps growing' }
+    ]
+  },
+  steps: {
+    heading: 'How the staking pool works',
+    items: [
+      { title: 'Stake assets', body: 'Choose a supported token and the pool that matches your horizon.' },
+      { title: 'Obtain initial computing power', body: 'Your stake is assigned validation weight in the simulated network.' },
+      { title: 'Burn coin to increase computing power', body: 'Boost the position to raise its share of the reward pool.' },
+      { title: 'Earn rewards', body: 'Rewards accrue for the length of the term and can be restaked.' }
+    ]
+  },
+  table: {
+    label: 'Pools',
+    heading: 'Indicative annual rewards',
+    columns: ['Coin', 'APY', 'Duration', 'Pool'],
+    rows: [
+      ['Ethereum (ETH)', '11.0%', '30 days', 'Fixed'],
+      ['Solana (SOL)', '14.0%', '60 days', 'DeFi'],
+      ['Cardano (ADA)', '21.0%', '20 days', 'Locked'],
+      ['Polkadot (DOT)', '21.0%', '60 days', 'Locked'],
+      ['Bitcoin (BTC)', '28.0%', '20 days', 'Fixed'],
+      ['Litecoin (LTC)', '10.0%', '15 days', 'DeFi'],
+      ['Ripple (XRP)', '24.0%', '120 days', 'Locked'],
+      ['Dogecoin (DOGE)', '22.0%', '40 days', 'DeFi'],
+      ['Binance Coin (BNB)', '9.0%', '15 days', 'Fixed'],
+      ['Dai (DAI)', '32.8%', '90 days', 'DeFi']
+    ],
+    note: 'Pool APYs are the indicative annual awards published per asset; soft-staking rates are separate and capped lower. Shiba Inu, Tether and Monero pools also appear in the demo. Rates are simulated and change with the network.'
+  },
+  faq: {
+    heading: 'Staking questions',
+    items: [
+      { q: 'How can I calculate potential profit?', a: 'Each crypto has its own reward system, so the size and frequency of rewards differ. It depends on the current blockchain block, roadmap changes and compounded coins, but the simplest dependency is volume: the more you stake, the more you earn. Every asset in the table carries an indicative annual award next to it.' },
+      { q: 'How can I earn passive income with crypto?', a: 'Through the Proof of Stake consensus model — the alternative to Proof of Work. By holding coins to verify transactions and support the network, stakers are awarded rewards, which is what generates the passive income.' },
+      { q: 'Why move to Proof of Stake?', a: 'Decentralisation and sustainability are the two key benefits compared with Proof of Work. Instead of miners buying hardware, token owners offer their coins as collateral for the chance to validate blocks and secure the network, and earn a reward in return.' },
+      { q: 'Are there risks?', a: 'Yes. A portion of staked ETH can be slashed — you can lose tokens for malicious actions, going offline, failing to validate or double-spending. In the demo slashing is simulated so you can see the risk, but no real assets are ever at stake.' },
+      { q: 'What are the advantages of DeFi staking?', a: 'It is easy to use — no private keys, resources or trades to manage — and there is no gas fee, because deposits are pooled into smart contracts on your behalf instead of being written on-chain by you.' }
+    ]
+  },
+  note: 'Staking yields vary by asset, pool and plan. Solo staking pays less than pooled staking; higher tiers unlock restaking and boosted rewards. All yields shown are simulated.'
+} }) %>

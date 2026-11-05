@@ -24,13 +24,17 @@
 
     /* ---------- 2. Services dropdown ---------- */
     var navItems = Array.prototype.slice.call(document.querySelectorAll('.nav-item'));
+    var closeTimer = null;
+
+    function closeItem(item) {
+      item.classList.remove('open');
+      var toggle = item.querySelector('.nav-link');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    }
 
     function closeAllDropdowns(except) {
       navItems.forEach(function (item) {
-        if (item === except) return;
-        item.classList.remove('open');
-        var toggle = item.querySelector('.nav-link');
-        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        if (item !== except) closeItem(item);
       });
     }
 
@@ -39,33 +43,51 @@
       var panel = item.querySelector('.dropdown-panel');
       if (!toggle || !panel) return;
 
+      var hoverQuery = window.matchMedia('(hover: hover) and (min-width: 769px)');
+      // Set when the open menu is dismissed by a click, so the pointer resting
+      // on the trigger does not immediately reopen what was just closed.
+      var hoverBlocked = false;
+
+      function openItem() {
+        clearTimeout(closeTimer);
+        closeAllDropdowns(item);
+        item.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+      }
+
+      function scheduleClose() {
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(function () { closeItem(item); }, 220);
+      }
+
       toggle.addEventListener('click', function (event) {
         event.preventDefault();
-        var willOpen = !item.classList.contains('open');
-        closeAllDropdowns(item);
-        item.classList.toggle('open', willOpen);
-        toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        if (item.classList.contains('open')) {
+          closeItem(item);
+          hoverBlocked = true;
+        } else {
+          hoverBlocked = false;
+          openItem();
+        }
       });
 
-      // Desktop pointer users get hover as well as click.
+      // Desktop pointer users get hover as well as click. The close is delayed
+      // and the panel bridges the gap to the trigger, so travelling from the
+      // button to a link never dismisses the menu.
       item.addEventListener('mouseenter', function () {
-        if (window.matchMedia('(hover: hover) and (min-width: 769px)').matches) {
-          closeAllDropdowns(item);
-          item.classList.add('open');
-          toggle.setAttribute('aria-expanded', 'true');
-        }
+        if (!hoverQuery.matches || hoverBlocked) return;
+        openItem();
       });
       item.addEventListener('mouseleave', function () {
-        if (window.matchMedia('(hover: hover) and (min-width: 769px)').matches) {
-          item.classList.remove('open');
-          toggle.setAttribute('aria-expanded', 'false');
-        }
+        if (!hoverQuery.matches) return;
+        hoverBlocked = false;
+        scheduleClose();
       });
       // Keyboard support: close once focus leaves the panel.
       item.addEventListener('focusout', function (event) {
         if (!item.contains(event.relatedTarget)) {
-          item.classList.remove('open');
-          toggle.setAttribute('aria-expanded', 'false');
+          hoverBlocked = false;
+          closeItem(item);
         }
       });
     });

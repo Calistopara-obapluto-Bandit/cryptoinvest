@@ -73,6 +73,17 @@
   transition: opacity 0.25s var(--silk), transform 0.25s var(--silk), visibility 0.25s;
   z-index: 1200;
 }
+/* The panel sits 14px below the trigger. Without this bridge the pointer
+   crosses a strip belonging to neither element, so mouseleave fired mid-travel
+   and the panel closed before any link could be clicked. */
+.dropdown-panel::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -15px;
+  height: 15px;
+}
 .dropdown-panel::before {
   content: "";
   position: absolute;

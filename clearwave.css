@@ -1230,3 +1230,144 @@ html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
 @media (max-width: 480px) {
   .prop-img { min-height: 290px; }
 }
+
+/* ============================================================
+   12. SITE PHOTOGRAPHY
+   Library imagery pulled from the main brand library: hero banner,
+   about photo with floating stats, feature media, service glyphs
+   and author portraits.
+   ============================================================ */
+.hero-shot img {
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+/* About block: photo left, copy right, stat cards riding the photo edge */
+.about-section { padding: 90px 0 40px; }
+.about-inner {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  align-items: center;
+  gap: 64px;
+}
+.about-media { position: relative; }
+.about-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1000 / 630;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+.about-accent {
+  position: absolute;
+  top: -20px;
+  right: -12px;
+  width: 44px;
+  height: auto;
+  opacity: 0.9;
+  pointer-events: none;
+}
+.about-stats {
+  position: absolute;
+  left: 22px;
+  bottom: -26px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.about-stat {
+  padding: 14px 18px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+.about-stat-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--accent);
+}
+.about-stat-label {
+  max-width: 116px;
+  margin-top: 4px;
+  font-size: 0.7rem;
+  line-height: 1.35;
+  color: var(--text-3);
+}
+.about-list {
+  display: grid;
+  gap: 10px;
+  margin: 22px 0 28px;
+  padding: 0;
+  list-style: none;
+}
+.about-list li {
+  display: flex;
+  gap: 10px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+.about-list li::before {
+  content: "✓";
+  flex: 0 0 auto;
+  font-weight: 700;
+  color: var(--accent);
+}
+@media (max-width: 980px) {
+  .about-section { padding: 70px 0 30px; }
+  .about-inner { grid-template-columns: 1fr; gap: 52px; }
+  .about-media { max-width: 580px; }
+}
+@media (max-width: 560px) {
+  .about-stats { position: static; margin-top: 16px; }
+  .about-accent { display: none; }
+  .about-stat { flex: 1 1 auto; }
+}
+
+/* Service glyphs sit on a light chip so the dark line icons stay legible in both themes */
+.home-services .hsvc-icon {
+  background: #E8F5F1;
+  border: 1px solid rgba(15, 124, 111, 0.12);
+}
+.home-services .hsvc-icon img {
+  display: block;
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+/* Benefit cards lead with media instead of an emoji */
+.cw-benefit-media {
+  margin: -30px -26px 20px;
+  height: 190px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+  background: linear-gradient(160deg, var(--accent-ghost) 0%, transparent 88%);
+}
+.cw-benefit-media img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.cw-benefit-stars {
+  display: block;
+  width: auto;
+  height: 13px;
+  margin-bottom: 14px;
+}
+
+/* Author portraits replace the initial badges */
+.avatar-img {
+  object-fit: cover;
+  padding: 0;
+  background: var(--surface-2);
+}
+

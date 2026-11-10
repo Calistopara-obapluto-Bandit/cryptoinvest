@@ -1,0 +1,148 @@
+<%- include('partials/head', { title: 'Cryptocurrency — Clearwave Crypto', description: 'Trade cryptocurrency CFDs with Clearwave: Bitcoin, Ethereum, Litecoin, Ripple and more with up to 1:200 leverage.' }) %>
+<%- include('partials/nav', { active: 'cryptocurrency' }) %>
+
+  <main class="page-main">
+    <%- include('partials/page-header', { title: 'Cryptocurrency', crumb: 'Cryptocurrency' }) %>
+
+    <section class="container section-pad">
+      <div class="split">
+        <div class="split-copy prose">
+          <h2>Trade cryptocurrencies with Clearwave</h2>
+          <p>Trading cryptocurrency CFDs (“contracts for difference”) is a great way to diversify your portfolio and hedge risks. Clearwave has carved a niche for itself in the crypto trading market, offering the optimal trading experience.</p>
+          <p>Choosing from an extensive portfolio of financial products, while benefiting from the latest real-time technology and the leverage available on crypto pairs BTCUSD, ETHUSD, LTCUSD and BCHUSD is now 1:200 for clients registered with Clearwave.</p>
+          <p>Unlike other asset classes (FX, equities, commodities, etc.), the cryptocurrency market is dominated by retail speculators. With Clearwave cryptocurrency CFDs, you’ll trade in a market where there is no central bank intervention, no interbank dealers controlling order flow and no giant pension funds moving prices.</p>
+        </div>
+        <figure class="split-media">
+          <img src="/assets/images/site/feature-1.png" width="581" height="460" loading="lazy" alt="Clearwave crypto market coverage" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <h2>What are the benefits of crypto trading?</h2>
+        <ul class="check-list">
+          <li>1:200 leverage on MT4/MT5</li>
+          <li>1:5 leverage for traders who prefer lower exposure</li>
+          <li>Trade the market seven days a week</li>
+          <li>Enter and exit trades whenever you want to, 24/5</li>
+          <li>Trade in any direction you think the markets will go — sell and go short or buy to go long</li>
+          <li>No price manipulation and no requotes</li>
+          <li>Hedge your investment risks with high-value assets</li>
+          <li>Benefit from low margin, low-cost trading, without compromising execution</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <h2>The Top Ten Crypto Pairs to Trade</h2>
+        <p>When you trade cryptocurrencies with Clearwave, you are speculating on whether your chosen market will rise or fall in value, without ever taking ownership of the digital asset. This is done by using derivative products such as CFDs.</p>
+        <p>Although the cryptocurrency market is relatively new, it has experienced significant volatility due to huge amounts of short-term speculative interest. For example, between October 2017 and October 2018, the price of bitcoin rose as high as $19,378 and fell to lows of $5,851.</p>
+        <p>The volatility of cryptocurrencies is part of what makes this market so exciting. Rapid intraday price movements can provide a range of opportunities to traders to go long and short but also come with increased risk. So, if you decide to explore the cryptocurrency market, make sure that you have done your research and developed a risk management strategy.</p>
+        <p>However, when it comes to digital currencies trading, not all currencies are tradable. Some are better than others. With a wide range of currencies on the market, it’s important to know what makes a coin best for trading.</p>
+      </div>
+      <div class="symbol-grid">
+        <% ['Bitcoin CFD', 'Ethereum CFD', 'Litecoin CFD', 'Dash CFD', 'Bitcoin Cash CFD', 'Bitcoin SV CFD', 'Ripple CFD', 'EOS CFD', 'Polkadot CFD', 'Dogecoin CFD'].forEach(function (item, index) { %>
+          <div class="symbol-chip"><span class="symbol-index"><%= index + 1 %></span><%= item %></div>
+        <% }); %>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <h2>What makes a good trading digital currency?</h2>
+        <p>The market capitalization of all publicly traded cryptos plunged by 33% in a short period, falling from $1.31 trillion to $880 billion. That, in turn, is a 70% decline from the $2.96 trillion market cap in November 2021. Needless to say, this asset class isn’t a playground for momentum investors at the moment, but contrarians may want to start considering small investments in some of the top cryptocurrencies at current levels, for a few reasons.</p>
+        <p>First, digital assets are more established than they’ve ever been at any point in their history, and projects in the young industry continue to attract huge levels of brainpower, labour and investment.</p>
+        <p>Second, 70% declines aren’t actually unprecedented in crypto. Bitcoin fell from roughly $20,000 to about $3,000 between late 2017 and late 2018, for example.</p>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="split split--reverse">
+        <div class="split-copy prose">
+          <h2>What is the best platform to trade crypto currencies?</h2>
+          <h3>MetaTrader 4 — the world’s most popular trading platform</h3>
+          <p>Discover the benefits of cryptocurrency trading on one of the most powerful trading platforms available, MetaTrader 4 (MT4).</p>
+          <ul class="check-list">
+            <li>Leverage shift in price</li>
+            <li>Customisable interface, including colours of technical indicators</li>
+            <li>One-click trading</li>
+            <li>Live price streaming on all accounts, 128-bit encryption for secure trading</li>
+            <li>Expert Advisors (EAs)</li>
+            <li>The option of going long or short</li>
+          </ul>
+          <h3>Are there more platform options?</h3>
+          <p>We recommend MT4 for cryptocurrencies but a range of products can also be traded on MT5 platforms.</p>
+        </div>
+        <aside class="split-aside">
+          <div class="aside-card">
+            <div class="aside-title">Clearwave trading desk</div>
+            <p>24/5 multilingual support, personal account managers and segregated client funds.</p>
+            <a href="/contact" class="btn-cta-primary">Talk to a specialist<span>→</span></a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">Why Clearwave</div>
+          <h2 class="section-title">6 reasons to choose <em>Clearwave</em></h2>
+        </div>
+        <div class="reason-grid">
+          <% [
+            { t: 'Globally Regulated', b: 'Segregated client funds and regulation in the United Kingdom.' },
+            { t: 'Tighter Spreads', b: 'Market leading spreads from 0.0 pips, 24/5.' },
+            { t: 'Faster Execution', b: 'Low latency execution under 40ms*.' },
+            { t: 'Advanced Platforms', b: 'MT4, MT5 &amp; WebTrader with a superior client portal.' },
+            { t: '24/5 Multilingual Support', b: 'Award-winning support and personal account managers.' },
+            { t: 'Established in 2005', b: '15+ years of trading experience.' }
+          ].forEach(function (item, index) { %>
+            <article class="reason-card">
+              <div class="reason-num"><%= index + 1 %></div>
+              <h3><%= item.t %></h3>
+              <p><%- item.b %></p>
+            </article>
+          <% }); %>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="table-block">
+        <h2 class="table-title">Crypto CFD Spreads</h2>
+        <div class="svc-table-wrap">
+          <table class="svc-table">
+            <thead><tr><th scope="col">Symbol</th><th scope="col">Product</th><th scope="col">Min</th><th scope="col">Avg</th></tr></thead>
+            <tbody>
+              <% [
+                ['BCHUSD', 'Bitcoin Cash vs United States Dollar CFD', '2.210', '5.839'],
+                ['BTCUSD', 'Bitcoin vs United States Dollar CFD', '8.710', '42.036'],
+                ['DOTUSD', 'Polkadot vs United States Dollar CFD', '0.011', '0.013'],
+                ['DSHUSD', 'Dash Coin vs United States Dollar CFD', '0.000', '1.241'],
+                ['EOSUSD', 'EOS vs United States Dollar CFD', '0.000', '0.064'],
+                ['ETHUSD', 'Ethereum vs United States Dollar CFD', '4.560', '11.605'],
+                ['LNKUSD', 'Chainlink vs United States Dollar CFD', '0.012', '0.020'],
+                ['LTCUSD', 'Litecoin vs United States Dollar CFD', '1.050', '1.597'],
+                ['XLMUSD', 'Stellar vs United States Dollar CFD', '0.000', '0.000'],
+                ['XRPUSD', 'Ripple vs United States Dollar CFD', '0.008', '0.020'],
+                ['ADAUSD', 'Cardano vs United States Dollar CFD', '0.003', '0.003'],
+                ['BNBUSD', 'Binance Smartchain vs United States Dollar CFD', '1.266', '1.415'],
+                ['DOGUSD', 'Doge vs United States Dollar CFD', '0.001', '0.001'],
+                ['BSVUSD', 'Bitcoin SV vs United States Dollar CFD', '1.700', '0.600']
+              ].forEach(function (row) { %>
+                <tr><th scope="row"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td><td><%= row[3] %></td></tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Spreads are indicative and vary with market conditions. Figures are illustrative only.</p>
+      </div>
+    </section>
+
+    <%- include('partials/newsletter') %>
+  </main>
+
+<%- include('partials/footer') %>

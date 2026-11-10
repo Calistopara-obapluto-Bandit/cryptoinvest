@@ -8,18 +8,15 @@ const BASE = `http://127.0.0.1:${PORT}`;
 
 const routes = [
   '/',
-  '/services',
-  '/services/commodities-gold',
-  '/services/cryptocurrency',
-  '/services/real-estate',
-  '/services/stock-etfs',
-  '/services/loan',
-  '/services/card',
-  '/services/membership',
-  '/services/staking',
-  '/about',
+  '/commodities',
+  '/cryptocurrency',
+  '/real-estate',
+  '/staking',
+  '/stocks',
+  '/company',
+  '/plan',
+  '/faq',
   '/contact',
-  '/testimonials',
   '/privacy',
   '/terms'
 ];
@@ -77,8 +74,12 @@ async function check(route) {
     }
 
     // Redirect + API + stale asset checks
-    const redirect = await fetch(`${BASE}/real-estate`, { redirect: 'manual', signal: AbortSignal.timeout(5000) });
-    console.log(`\n/real-estate -> ${redirect.status} ${redirect.headers.get('location')}`);
+    const legacyChecks = ['/services/commodities-gold', '/about', '/testimonials'];
+    console.log('');
+    for (const route of legacyChecks) {
+      const redirect = await fetch(`${BASE}${route}`, { redirect: 'manual', signal: AbortSignal.timeout(5000) });
+      console.log(`${route} -> ${redirect.status} ${redirect.headers.get('location')}`);
+    }
     const health = await fetch(`${BASE}/api/health`, { signal: AbortSignal.timeout(5000) });
     console.log(`/api/health -> ${health.status} ${await health.text()}`);
     const overview = await fetch(`${BASE}/api/overview`, { signal: AbortSignal.timeout(15000) });

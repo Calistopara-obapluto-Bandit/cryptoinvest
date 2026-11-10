@@ -1,0 +1,33 @@
+<% var faqs = [
+  { q: 'What do I need to get started?', a: 'To get started you need to be over 18 years of age, create an account by completing the registration form and have cryptocurrencies in your wallet to be able to deposit into the account types offered and that way start making profits.' },
+  { q: 'How does it work?', a: 'We offer our clients the opportunity to earn income that far exceeds even the most ambitious banking deposit offers. For investors, we provide a simple and convenient system for managing their investments: a wide selection of professional fund managers and capital management strategies, allowing everyone to choose comfortable ways to generate profits. The managed assets are delivered to professional traders who are responsible for making profits every day in various financial and high volatility markets, allowing high profits to be obtained in a short period of time. The profits are divided between the investor users, the company, the traders and the security fund, allowing in this way and with good management to almost completely eliminate the risk of loss maintaining the security of funds as the top priority.' },
+  { q: 'I forgot my password, how can I regain access to my account?', a: 'On the login panel you can find the “Forgot Password” button. Click on it and enter your email. You will receive an email with a confirmation link to reset your password, and after clicking on the link you will receive a new email with a new password.' },
+  { q: 'How to get started?', a: '1 — Create an account by completing the registration form. 2 — Click on Add Funds to make your deposit and have funds in the account. 3 — Go to Investment Plans and select the package that best suits your needs. 4 — After purchasing a package, earnings will be reflected in your account every hour. 5 — Go to Withdraw to withdraw earnings or your entire balance.' },
+  { q: 'How long will my deposit be active?', a: 'The deposit generates profits automatically until the user decides to cancel it. As long as the user does not cancel it, it will continue to generate profits.' },
+  { q: 'What profits do I get if I invite other people?', a: 'By inviting new partners to our company you can earn a percentage of the profits made by the new partners.' }
+]; %>
+<%- include('partials/head', { title: 'FAQ — Clearwave Crypto', description: 'Answers to the most common questions about Clearwave accounts, deposits, profits and withdrawals.' }) %>
+<%- include('partials/nav', { active: 'faq' }) %>
+
+  <main class="page-main">
+    <%- include('partials/page-header', { title: 'FAQ', crumb: 'Faq' }) %>
+
+    <section class="container section-pad">
+      <div class="features-header">
+        <h2 class="section-title">Frequently <em>asked questions</em></h2>
+        <p class="section-sub">Hey there! Got questions? We’ve got answers. Check out our FAQ page for all the deets. Still not satisfied? Hit us up.</p>
+      </div>
+      <div class="faq-list faq-list--wide">
+        <% faqs.forEach(function (item) { %>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false"><%= item.q %><div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner"><%= item.a %></div></div>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+
+    <%- include('partials/newsletter') %>
+  </main>
+
+<%- include('partials/footer') %>

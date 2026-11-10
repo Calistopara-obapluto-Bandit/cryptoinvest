@@ -1,436 +1,282 @@
-<%- include('partials/head', { title: 'Clearwave Crypto — Paper Trading Demo', description: 'Clearwave Crypto — paper trading demo with live crypto markets. Practice before you commit real capital.' }) %>
+<%
+  var standardPlans = [
+    { name: 'Starter Plan',  rate: '1.5%', min: '$100',    max: '$4,999' },
+    { name: 'Golden Plan',   rate: '2.5%', min: '$5,000',  max: '$99,999', featured: true },
+    { name: 'Ultimate Plan', rate: '3.5%', min: '$10,000', max: '$19,999' },
+    { name: 'Premium Plan',  rate: '4.5%', min: '$20,000', max: '$39,999' },
+    { name: 'Index Plan',    rate: '5.5%', min: '$40,000', max: '$49,999' },
+    { name: 'VIP Plan',      rate: '6.6%', min: '$50,000', max: 'Unlimited' }
+  ];
+  var estatePlans = [
+    { name: 'The Skylight Manor',     rate: '22%', min: '$200,000', max: '$1,200,000', img: 'property-1.jpg' },
+    { name: 'Cedarstone Residence',   rate: '18%', min: '$100,000', max: '$750,000',   img: 'property-2.jpg' },
+    { name: 'The Haven at Montclair', rate: '15%', min: '$50,000',  max: '$500,000',   img: 'property-3.jpg' }
+  ];
+  var differentiators = [
+    { title: 'An insurgent mindset', body: 'We work with ambitious clients who want to define the future, not hide from it. Together, we define a bold ambition and achieve extraordinary results that redefine industries.' },
+    { title: 'Integrated innovation', body: 'We deliver integrated solutions, complementing our capabilities with a curated ecosystem of the world’s leading innovators to achieve better, faster, more enduring results for clients.' },
+    { title: 'A uniquely collaborative culture', body: 'It feels different to work with us because our people are unlike any other. We bring a fresh perspective, mutual trust and infectious energy to every client relationship.' },
+    { title: 'Practical', body: 'We combine bold thinking with a practical approach that focuses on getting the job done, turning decisions into action and delivering results.' },
+    { title: 'One Team', body: 'We work as one global team — both with each other and our clients — to direct our collective energy toward achieving the extraordinary.' },
+    { title: 'Passion & Commitment', body: 'We have a passion for results aligned with our clients’ success, and a commitment to the highest level of professionalism and ethical standards in everything we do.' }
+  ];
+  var steps = [
+    { title: 'Registration', body: 'Register an account on our website to get a full package of services and work with cash flow.' },
+    { title: 'Deposit', body: 'Open a deposit in one of the offered investment plans in your personal account using your prefered payment system.' },
+    { title: 'Earn', body: 'Keep track of the profits in your personal account.' },
+    { title: 'Withdraw', body: 'Once plan is completed you can withdraw profits to your wallet.' }
+  ];
+  var testimonials = [
+    { quote: 'For me investing is about trust, ability, affinity and availability. I have been an investor with Clearwave since March and have found them to be competent individuals with integrity who pay attention to details and deliver for their clients.', name: 'Andre Cassidy', role: 'New Jersey', img: 'testimonial-1.png' },
+    { quote: 'I am loving this platform so much, it is now my major way of earning money while I save. Please you should pay more attention to adverts, more people need to know about this.', name: 'Olivia Hawkins', role: 'Canada', img: 'testimonial-2.png' },
+    { quote: 'I have never trusted any investment platform ever before, but this changed everything. They manage my assets, funds and everything in-between.', name: 'Belal Liam', role: 'New Zealand', img: 'testimonial-3.png' }
+  ];
+%>
+<%- include('partials/head', { title: 'Clearwave Crypto — Investment Platform', description: 'Clearwave helps to grow your financial portfolio with commodities, cryptocurrency, real estate, staking and stock & ETFS investment plans.' }) %>
 <%- include('partials/nav', { active: 'home' }) %>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-inner">
-        <div class="hero-content">
-          <div class="hero-badge"><div class="hero-badge-dot">✦</div> Build <strong>paper-rich</strong> portfolios with confidence</div>
-          <h1 class="hero-title">Simulate real markets,<br/><em>risk-free</em> in your browser.</h1>
-          <p class="hero-sub">Paper trading lets you test strategies, track live crypto moves, and learn the market — no capital at stake.</p>
-          <div class="hero-actions">
-            <a href="/services" class="btn-primary-lg">Choose a Plan<span class="btn-arrow">→</span></a>
-            <a href="/contact" class="btn-outline-lg"><span>▶</span> Talk to an advisor</a>
-          </div>
-        </div>
-        <div class="hero-visual">
-          <figure class="hero-shot">
-            <img src="/assets/images/site/hero-banner.jpg" width="1000" height="667" alt="Clearwave Crypto trading platform" />
-          </figure>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <section class="stats-section">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-rule"></div>
-          <div class="stat-value">12k+</div>
-          <div class="stat-label">Active Paper Traders</div>
-          <div class="stat-sublabel">Across 40+ countries</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-rule"></div>
-          <div class="stat-value">$2.1B</div>
-          <div class="stat-label">Simulated Volume (24h)</div>
-          <div class="stat-sublabel">BTC · ETH · SOL</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-rule"></div>
-          <div class="stat-value">4.9</div>
-          <div class="stat-label">App Store Rating</div>
-          <div class="stat-sublabel">Most reviewed paper trading app</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-rule"></div>
-          <div class="stat-value">$0</div>
-          <div class="stat-label">Capital at Risk</div>
-          <div class="stat-sublabel">Play with pretend money</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section class="about-section">
-    <div class="container">
-      <div class="about-inner">
-        <div class="about-media">
-          <img class="about-photo" src="/assets/images/site/about-image.jpg" width="1000" height="630" loading="lazy" alt="Clearwave Crypto team" />
-          <img class="about-accent" src="/assets/images/site/about-badge.png" width="60" height="69" alt="" aria-hidden="true" />
-          <div class="about-stats">
-            <div class="about-stat">
-              <div class="about-stat-value">10+</div>
-              <div class="about-stat-label">Years of market experience</div>
-            </div>
-            <div class="about-stat">
-              <div class="about-stat-value">15K+</div>
-              <div class="about-stat-label">Traders trained risk-free</div>
+  <main>
+    <!-- BANNER -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-inner">
+          <div class="hero-content">
+            <h1 class="hero-title">We help to grow your <em>financial portfolio</em></h1>
+            <p class="hero-sub">As industry leaders, we pride ourselves on attracting and retaining the brightest minds in the business.</p>
+            <div class="hero-actions">
+              <a href="/contact" class="btn-primary-lg">Get Started<span class="btn-arrow">→</span></a>
+              <a href="#video" class="btn-outline-lg"><span>▶</span> Watch Video</a>
             </div>
           </div>
+          <div class="hero-visual">
+            <figure class="hero-shot">
+              <img src="/assets/images/site/hero-banner.jpg" width="1000" height="667" alt="Clearwave investment platform" />
+            </figure>
+          </div>
         </div>
-        <div class="about-copy">
-          <div class="section-label">Learn More About Our Company</div>
-          <h2 class="section-title">A paper account that behaves <em>like the real thing</em></h2>
-          <p class="section-sub">Clearwave Crypto gives you the same order flow, live quotes, and trade ledger you would get with real capital — except every dollar is simulated. Learn the mechanics first, then decide if and when to go live.</p>
-          <ul class="about-list">
-            <li>Live BTC, ETH, and SOL quotes with instant simulated fills</li>
-            <li>A trade journal and P&amp;L history for every position</li>
-            <li>One demo balance across crypto, stocks, and property</li>
+      </div>
+    </section>
+
+    <!-- VIDEO -->
+    <section class="video-section" id="video">
+      <div class="container">
+        <div class="features-header">
+          <h2 class="section-title">Watch how <em>we work</em></h2>
+          <p class="section-sub">Discover our investment strategies and success stories through our comprehensive video presentation</p>
+        </div>
+        <div class="video-frame">
+          <video class="video-player" controls preload="none" poster="/assets/images/site/video-poster.png">
+            <source src="https://globalmassfunds.com/assets/templates/new_template/video/globalmassfunds.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="video-features">
+          <div class="video-feature">
+            <h3>Secure Investment Platform</h3>
+            <p>Learn about our advanced security measures and investment protection strategies.</p>
+          </div>
+          <div class="video-feature">
+            <h3>Expert Guidance</h3>
+            <p>Watch how our team of experts helps you maximize your investment returns.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about-section">
+      <div class="container">
+        <div class="about-inner">
+          <div class="about-media">
+            <img class="about-photo" src="/assets/images/site/about-image.jpg" width="1000" height="630" loading="lazy" alt="Clearwave team" />
+            <img class="about-accent" src="/assets/images/site/about-badge.png" width="60" height="69" alt="" aria-hidden="true" />
+            <div class="about-stats">
+              <div class="about-stat">
+                <div class="about-stat-value">10</div>
+                <div class="about-stat-label">Years + Experience</div>
+              </div>
+              <div class="about-stat">
+                <div class="about-stat-value">15K</div>
+                <div class="about-stat-label">Satisfied Customers</div>
+              </div>
+            </div>
+          </div>
+          <div class="about-copy">
+            <div class="section-label">Learn More About our company</div>
+            <h2 class="section-title">An income that exceeds <em>the most ambitious deposits</em></h2>
+            <p class="section-sub">Clearwave offers its clients the opportunity to earn income that far exceeds even the most ambitious banking deposit offers. For investors, we provide a simple and convenient system for managing their investments: a wide selection of professional fund managers and capital management strategies, allowing everyone to choose comfortable ways to generate profits.</p>
+            <p class="section-sub">Our company is all about creating innovative solutions and providing top-notch services to our clients. From start to finish, we’re dedicated to delivering results that exceed expectations.</p>
+            <a href="/company" class="btn-outline-lg">Explore More <span>→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFITS -->
+    <section class="features-section">
+      <div class="container">
+        <div class="benefit-split">
+          <div class="benefit-intro">
+            <div class="section-label">Benefits</div>
+            <h2 class="section-title">We <em>offer</em></h2>
+            <p class="section-sub">Our platform invests in a variety of assets, including securities of various industries, hedge funds and high-yield debt and money market instruments.</p>
+            <div class="stat-tiles">
+              <div class="stat-tile"><strong>25K</strong><span>Success rate</span></div>
+              <div class="stat-tile"><strong>24/7</strong><span>Online service</span></div>
+            </div>
+          </div>
+          <ul class="benefit-list">
+            <li><span class="benefit-mark" aria-hidden="true">✓</span>Stay up to date with market trends and best practices in your industry.</li>
+            <li><span class="benefit-mark" aria-hidden="true">✓</span>Get help from pros with diverse industry experience.</li>
+            <li><span class="benefit-mark" aria-hidden="true">✓</span>Get personalized advice for your business needs.</li>
+            <li><span class="benefit-mark" aria-hidden="true">✓</span>All transactions are free for all members.</li>
           </ul>
-          <a href="/about" class="btn-outline-lg">Explore more <span>→</span></a>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- SERVICES: the eight markets -->
-  <section class="features-section" id="services">
-    <div class="container">
-      <div class="features-header">
-        <div class="section-label">Services</div>
-        <h2 class="section-title">Eight markets,<br><em>one paper account</em></h2>
-        <p class="section-sub">Every asset class runs on the same simulated balance, so you can compare strategies across markets without moving money.</p>
+    <!-- WHAT MAKES US DIFFERENT -->
+    <section class="features-section">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">Why you should choose us</div>
+          <h2 class="section-title">What makes us <em>different</em></h2>
+        </div>
+        <div class="diff-grid">
+          <% differentiators.forEach(function (item, index) { %>
+            <article class="diff-card">
+              <div class="diff-num"><%= index + 1 %></div>
+              <h3><%= item.title %></h3>
+              <p><%= item.body %></p>
+            </article>
+          <% }); %>
+        </div>
       </div>
-      <div class="home-services">
-        <a class="hsvc" href="/services/commodities-gold">
-          <div class="hsvc-icon"><img src="/assets/images/site/service-1.png" width="56" height="56" alt="" loading="lazy" /></div>
-          <div class="hsvc-title">Commodities &amp; Gold</div>
-          <div class="hsvc-desc">Spot metals, energy and safe havens.</div>
-        </a>
-        <a class="hsvc" href="/services/cryptocurrency">
-          <div class="hsvc-icon"><img src="/assets/images/site/service-2.png" width="56" height="56" alt="" loading="lazy" /></div>
-          <div class="hsvc-title">Cryptocurrency</div>
-          <div class="hsvc-desc">BTC, ETH, SOL and alt markets.</div>
-        </a>
-        <a class="hsvc" href="/services/real-estate">
-          <div class="hsvc-icon"><img src="/assets/images/site/service-3.png" width="56" height="56" alt="" loading="lazy" /></div>
-          <div class="hsvc-title">Real Estate</div>
-          <div class="hsvc-desc">Residential, commercial and mixed-use.</div>
-        </a>
-        <a class="hsvc" href="/services/stock-etfs">
-          <div class="hsvc-icon"><img src="/assets/images/site/service-4.png" width="56" height="56" alt="" loading="lazy" /></div>
-          <div class="hsvc-title">Stock &amp; ETFs</div>
-          <div class="hsvc-desc">Single names, index and sector funds.</div>
-        </a>
-        <a class="hsvc" href="/services/loan">
-          <div class="hsvc-icon"><img src="/assets/images/site/service-5.png" width="56" height="56" alt="" loading="lazy" /></div>
-          <div class="hsvc-title">Loan</div>
-          <div class="hsvc-desc">Borrowing, APR and amortization.</div>
-        </a>
-        <a class="hsvc" href="/services/card">
-          <div class="hsvc-icon"><img src="/assets/images/site/service-6.png" width="56" height="56" alt="" loading="lazy" /></div>
-          <div class="hsvc-title">Card</div>
-          <div class="hsvc-desc">Credit lines, rewards and grace periods.</div>
-        </a>
-        <a class="hsvc" href="/services/membership">
-          <div class="hsvc-icon"><img src="/assets/images/site/service-1.png" width="56" height="56" alt="" loading="lazy" /></div>
-          <div class="hsvc-title">Membership ID</div>
-          <div class="hsvc-desc">One access key across every market.</div>
-        </a>
-        <a class="hsvc" href="/services/staking">
-          <div class="hsvc-icon"><img src="/assets/images/site/service-2.png" width="56" height="56" alt="" loading="lazy" /></div>
-          <div class="hsvc-title">Staking</div>
-          <div class="hsvc-desc">Yields, lock-ups and restaking.</div>
-        </a>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- BENEFITS -->
-  <section class="features-section" id="benefits">
-    <div class="container">
-      <div class="features-header">
-        <div class="section-label">Why Traders Trust Us</div>
-        <h2 class="section-title">Build skills before you <em>risk real money</em></h2>
-        <p class="section-sub">Paper trading gives you the same speed, size, and feedback as live markets — without the regret.</p>
+    <!-- PRICING -->
+    <section class="pricing-section" id="plans">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">Investment Plans</div>
+          <h2 class="section-title">Explore our diverse range of <em>investment plans</em></h2>
+        </div>
+        <%- include('partials/plan-grid', { standardPlans: standardPlans, estatePlans: estatePlans }) %>
       </div>
-      <div class="cards-3">
-        <div class="cw-benefit-card">
-          <div class="cw-benefit-media"><img src="/assets/images/site/feature-1.png" width="581" height="460" alt="" loading="lazy" /></div>
-          <img class="cw-benefit-stars" src="/assets/images/site/rating-stars.webp" alt="Rated 5 out of 5" loading="lazy" />
-          <div class="cw-benefit-title">Live market feeds</div>
-          <p class="cw-benefit-desc">Real-time BTC, ETH, and SOL quotes with 24h change and volume — exactly what you'd see on an exchange.</p>
-        </div>
-        <div class="cw-benefit-card">
-          <div class="cw-benefit-media"><img src="/assets/images/site/feature-2.png" width="477" height="347" alt="" loading="lazy" /></div>
-          <img class="cw-benefit-stars" src="/assets/images/site/rating-stars.webp" alt="Rated 5 out of 5" loading="lazy" />
-          <div class="cw-benefit-title">Risk-free practice</div>
-          <p class="cw-benefit-desc">Execute simulated orders, track your P&amp;L, and refine your strategy until it's second nature.</p>
-        </div>
-        <div class="cw-benefit-card">
-          <div class="cw-benefit-media"><img src="/assets/images/site/feature-3.png" width="447" height="391" alt="" loading="lazy" /></div>
-          <img class="cw-benefit-stars" src="/assets/images/site/rating-stars.webp" alt="Rated 5 out of 5" loading="lazy" />
-          <div class="cw-benefit-title">No capital at risk</div>
-          <p class="cw-benefit-desc">Paper funds only. No real loss, no regret — just the muscle memory you need for the live market.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- PLANS -->
-  <section class="pricing-section" id="plans">
-    <div class="container">
-      <div class="pricing-header">
-        <div class="section-label">Investment Plans</div>
-        <h2 class="section-title">Pick your <em>rank</em></h2>
-        <p class="section-sub">Daily compounded profit on BTC, ETH, and SOL — from starter to premium.</p>
-      </div>
-      <div class="price-toggle">
-        <span class="toggle-label active">Daily</span>
-        <div class="toggle-switch" role="switch" tabindex="0" aria-label="Toggle daily compounding"></div>
-        <span class="toggle-label">Monthly</span>
-        <span class="toggle-badge">Compounds daily</span>
-      </div>
-      <div class="pricing-grid">
-        <div class="pricing-card">
-          <div class="pricing-tier">Starter</div>
-          <div class="pricing-price">5% <small>/ day</small></div>
-          <div class="pricing-desc">For anyone starting paper trading.</div>
-          <div class="pricing-features">
-            <div class="pricing-feature"><span>Min deposit $100</span></div>
-            <div class="pricing-feature"><span>Max balance $2,500</span></div>
-            <div class="pricing-feature"><span>BTC · ETH · SOL</span></div>
-          </div>
-          <a href="/contact" class="pricing-cta">Choose Starter</a>
+    <!-- REPRESENTATIVES -->
+    <section class="reps-section">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">Need Help?</div>
+          <h2 class="section-title">Contact our <em>representatives</em></h2>
+          <p class="section-sub">Have questions about investments or need assistance? Our dedicated team is here to help you 24/7.</p>
         </div>
-        <div class="pricing-card featured">
-          <div class="pricing-badge">Recommended</div>
-          <div class="pricing-tier">Golden</div>
-          <div class="pricing-price">12% <small>/ day</small></div>
-          <div class="pricing-desc">Best balance of access and limits.</div>
-          <div class="pricing-features">
-            <div class="pricing-feature"><span>Min deposit $500</span></div>
-            <div class="pricing-feature"><span>Max balance $10,000</span></div>
-            <div class="pricing-feature"><span>BTC · ETH · SOL · Demo</span></div>
-          </div>
-          <a href="/contact" class="pricing-cta">Choose Golden</a>
-        </div>
-        <div class="pricing-card">
-          <div class="pricing-tier">Ultimate</div>
-          <div class="pricing-price">18% <small>/ day</small></div>
-          <div class="pricing-desc">All demo markets.</div>
-          <div class="pricing-features">
-            <div class="pricing-feature"><span>Min deposit $2,000</span></div>
-            <div class="pricing-feature"><span>Max balance $50,000</span></div>
-            <div class="pricing-feature"><span>All demo markets</span></div>
-          </div>
-          <a href="/contact" class="pricing-cta">Choose Ultimate</a>
-        </div>
-        <div class="pricing-card">
-          <div class="pricing-tier">Premium</div>
-          <div class="pricing-price">22% <small>/ day</small></div>
-          <div class="pricing-desc">All markets plus credit.</div>
-          <div class="pricing-features">
-            <div class="pricing-feature"><span>Min deposit $5,000</span></div>
-            <div class="pricing-feature"><span>Max balance $150,000</span></div>
-            <div class="pricing-feature"><span>All markets + credit</span></div>
-          </div>
-          <a href="/contact" class="pricing-cta">Choose Premium</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- REAL ESTATE -->
-  <section class="features-section" id="real-estate">
-    <div class="container">
-      <div class="features-header">
-        <div class="section-label">Real Estate Portfolio</div>
-        <h2 class="section-title">Diversify beyond <em>the crypto chart</em></h2>
-        <p class="section-sub">Simulate real-world property deals alongside your crypto paper accounts.</p>
-      </div>
-      <div class="real-estate-grid">
-        <div class="prop-card">
-          <div class="prop-img">
-            <img class="prop-photo" src="/assets/images/site/property-1.jpg" width="1920" height="1280" loading="lazy" alt="Residential property portfolio" />
-            <span class="prop-tag">Residential</span>
-            <div class="prop-body">
-              <div class="prop-roi">14.2%</div>
-              <div class="prop-price">$840,000</div>
-              <div class="prop-meta"><span>12 units</span><span>Austin, TX</span><span>5.8% cap rate</span></div>
-              <a href="/services/real-estate" class="prop-cta">View Deal</a>
+        <div class="reps-grid">
+          <article class="rep-card">
+            <img class="rep-photo" src="/assets/images/site/company-1.jpg" width="640" height="480" loading="lazy" alt="Alexander, Clearwave representative" />
+            <div class="rep-body">
+              <div class="rep-name">Alexander</div>
+              <div class="rep-role">Client Representative</div>
+              <a href="/contact" class="rep-cta">Contact Alexander</a>
             </div>
-          </div>
-        </div>
-        <div class="prop-card">
-          <div class="prop-img">
-            <img class="prop-photo" src="/assets/images/site/property-2.jpg" width="1920" height="1280" loading="lazy" alt="Commercial office property" />
-            <span class="prop-tag">Commercial</span>
-            <div class="prop-body">
-              <div class="prop-roi">9.6%</div>
-              <div class="prop-price">$2.1M</div>
-              <div class="prop-meta"><span>14,400 sqft</span><span>Chicago, IL</span><span>8.1% yield</span></div>
-              <a href="/services/real-estate" class="prop-cta">View Deal</a>
+          </article>
+          <article class="rep-card">
+            <img class="rep-photo" src="/assets/images/site/team-md.jpg" width="640" height="480" loading="lazy" alt="Kaiforc, Clearwave representative" />
+            <div class="rep-body">
+              <div class="rep-name">Kaiforc</div>
+              <div class="rep-role">Investment Representative</div>
+              <a href="/contact" class="rep-cta">Contact Kaiforc</a>
             </div>
-          </div>
+          </article>
         </div>
-        <div class="prop-card">
-          <div class="prop-img">
-            <img class="prop-photo" src="/assets/images/site/property-3.jpg" width="1920" height="1280" loading="lazy" alt="Mixed-use property with retail and apartments" />
-            <span class="prop-tag">Mixed Use</span>
-            <div class="prop-body">
-              <div class="prop-roi">16.8%</div>
-              <div class="prop-price">$1.4M</div>
-              <div class="prop-meta"><span>32 units</span><span>Phoenix, AZ</span><span>6.4% cap rate</span></div>
-              <a href="/services/real-estate" class="prop-cta">View Deal</a>
+      </div>
+    </section>
+
+    <!-- CALCULATOR -->
+    <section class="calc-section" id="calculator">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">Calculate profit</div>
+          <h2 class="section-title">Choose your <em>plan</em></h2>
+          <p class="section-sub">Estimate what a 30-day plan returns on your deposit. Figures are illustrative only.</p>
+        </div>
+        <form class="calc-form" data-cw-calc>
+          <label class="calc-field">
+            <span>Choose your plan</span>
+            <select name="plan">
+              <option value="1.5" selected>BASIC — 1.5% daily</option>
+              <option value="2.5">SILVER — 2.5% daily</option>
+              <option value="3.5">GOLD — 3.5% daily</option>
+              <option value="4.5">PREMIUM — 4.5% daily</option>
+              <option value="5.5">SPECIAL SILVER — 5.5% daily</option>
+              <option value="6.6">SPECIAL GOLD — 6.6% daily</option>
+              <option value="15">GOLD STARTER — 15% daily</option>
+              <option value="18">GOLD SILVER — 18% daily</option>
+              <option value="22">GOLD PREMIUM — 22% daily</option>
+              <option value="22">SPECIAL PREMIUM — 22% daily</option>
+            </select>
+          </label>
+          <label class="calc-field">
+            <span>Deposit Amount</span>
+            <input type="number" name="deposit" min="100" step="100" value="1000" inputmode="numeric" />
+          </label>
+          <div class="calc-result">
+            <span>Net Profit</span>
+            <strong data-calc-profit>$450.00</strong>
+          </div>
+          <div class="calc-result">
+            <span>Total Return</span>
+            <strong data-calc-total>$1,450.00</strong>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- STEPS -->
+    <section class="features-section">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">Simple steps to earn with us</div>
+          <h2 class="section-title">Four steps to <em>your first payout</em></h2>
+        </div>
+        <div class="step-list">
+          <% steps.forEach(function (step, index) { %>
+            <div class="step">
+              <div class="step-num"><%= index + 1 %></div>
+              <div class="step-title"><%= step.title %></div>
+              <div class="step-desc"><%= step.body %></div>
             </div>
-          </div>
+          <% }); %>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="testimonials-section" id="testimonials">
-    <div class="container">
-      <div class="features-header">
-        <div class="section-label">What Traders Say</div>
-        <h2 class="section-title">Paper trading, <em>done right</em></h2>
-        <p class="section-sub">Thousands of traders have honed their edge before going live.</p>
-      </div>
-      <div class="testimonials-grid">
-        <div class="testimonial-card">
-          <div class="quote-stars">★★★★★</div>
-          <p class="quote">"I went from watching crypto videos to placing real simulated orders in under an hour. The demo balance gives me room to make mistakes without guilt."</p>
-          <div class="author"><img class="avatar avatar-img" src="/assets/images/site/testimonial-1.png" width="121" height="121" alt="Sarah Kim" loading="lazy" /><div><div class="author-name">Sarah Kim</div><div class="author-role">Day Trader · NY</div></div></div>
+    <!-- TESTIMONIALS -->
+    <section class="testimonials-section" id="testimonials">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">Our Clients Testimonials</div>
+          <h2 class="section-title">Our clients are as diverse as <em>they are amazing</em></h2>
+          <p class="section-sub">Ranging from individuals to established businesses.</p>
         </div>
-        <div class="testimonial-card">
-          <div class="quote-stars">★★★★★</div>
-          <p class="quote">"Better than any tutorial. I learned position sizing, stop-loss habits, and how fees actually eat into a trade — all with fake money."</p>
-          <div class="author"><img class="avatar avatar-img" src="/assets/images/site/testimonial-2.png" width="48" height="48" alt="David Chen" loading="lazy" /><div><div class="author-name">David Chen</div><div class="author-role">Portfolio Manager · Singapore</div></div></div>
-        </div>
-        <div class="testimonial-card">
-          <div class="quote-stars">★★★★★</div>
-          <p class="quote">"I used the ledger to review every trade for three weeks. My win rate went from 42% to 68% before I touched real cash."</p>
-          <div class="author"><img class="avatar avatar-img" src="/assets/images/site/testimonial-3.png" width="48" height="48" alt="Julia Lopez" loading="lazy" /><div><div class="author-name">Julia Lopez</div><div class="author-role">Crypto Trader · Buenos Aires</div></div></div>
+        <div class="testimonials-grid">
+          <% testimonials.forEach(function (item) { %>
+            <div class="testimonial-card">
+              <div class="quote-stars">★★★★★</div>
+              <p class="quote"><%= item.quote %></p>
+              <div class="author">
+                <img class="avatar avatar-img" src="/assets/images/site/<%= item.img %>" width="121" height="121" alt="<%= item.name %>" loading="lazy" />
+                <div><div class="author-name"><%= item.name %></div><div class="author-role"><%= item.role %></div></div>
+              </div>
+            </div>
+          <% }); %>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- HOW IT WORKS -->
-  <section class="features-section">
-    <div class="container">
-      <div class="features-header">
-        <div class="section-label">4 Steps to Paper Trading</div>
-        <h2 class="section-title">From zero to <em>live practice</em></h2>
-        <p class="section-sub">No sign-up friction. Just pick a plan and start simulating.</p>
-      </div>
-      <figure class="how-figure">
-        <img src="/assets/images/how-paper-trading-works.svg" width="1200" height="480" loading="lazy" alt="Diagram of the four Clearwave steps: pick a plan, fund a demo account with pretend cash, trade live BTC, ETH and SOL quotes, then review the trade ledger and repeat." />
-        <figcaption>Every account runs the same loop: open a plan, fund it with demo cash, trade live quotes, then review the ledger before scaling up.</figcaption>
-      </figure>
-      <div class="step-list">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-title">Pick a plan</div>
-          <div class="step-desc">Choose Starter, Golden, Ultimate, or Premium — each unlocks different asset markets and balance caps.</div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-title">Fund your demo account</div>
-          <div class="step-desc">Add between $100 and $100,000 of pretend cash. Top up or withdraw anytime from your dashboard.</div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-title">Trade live markets</div>
-          <div class="step-desc">Buy and sell BTC, ETH, and SOL with live prices. Watch your ledger fill up with every order.</div>
-        </div>
-        <div class="step">
-          <div class="step-num">4</div>
-          <div class="step-title">Review and repeat</div>
-          <div class="step-desc">Track pnl, read your trade journal, and scale up only when your strategy is proven.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ / CONTACT -->
-  <section class="faq-section" id="contact">
-    <div class="container">
-      <div class="faq-inner">
-        <div class="faq-sidebar">
-          <div class="section-label">Contact</div>
-          <h2 class="section-title">Get in touch <em>with a Clearwave rep</em></h2>
-          <p class="section-sub">Ask about plans, risk controls, or how to set up your first simulated portfolio.</p>
-        </div>
-        <div class="faq-list">
-          <div class="faq-item">
-            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">Which plans include demo cash?<div class="faq-icon">+</div></div>
-            <div class="faq-answer"><div class="faq-answer-inner">Every plan starts with $100–$100,000 of demo cash. Golden includes an extra $500 welcome top-up.</div></div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">How do I withdraw my profit?<div class="faq-icon">+</div></div>
-            <div class="faq-answer"><div class="faq-answer-inner">Cash out to your bank via the demo dashboard. Withdrawals settle in 1–3 business days for paper funds.</div></div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">What assets can I trade?<div class="faq-icon">+</div></div>
-            <div class="faq-answer"><div class="faq-answer-inner">BTC, ETH, SOL, and additional demo markets scale up as you move to higher plans.</div></div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">Is there a time limit on demo accounts?<div class="faq-icon">+</div></div>
-            <div class="faq-answer"><div class="faq-answer-inner">Demo cash stays active as long as you hold an active plan. Pause the plan and balances pause too.</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="contacts">
-    <div class="container">
-      <div class="contact-grid">
-        <div class="contact-box">
-          <div class="contact-label">Representative</div>
-          <div class="contact-name">Elena Voss</div>
-          <div class="contact-role">Head of Trader Education</div>
-          <div class="contact-value"><span>Email</span> elena@clearwavecrypto.example</div>
-          <div class="contact-value"><span>Phone</span> +1 (555) 019-2847</div>
-          <div class="contact-value"><span>Office</span> 9:00 AM – 6:00 PM UTC</div>
-        </div>
-        <div class="contact-box">
-          <div class="contact-label">Sales</div>
-          <div class="contact-name">Clearwave Sales</div>
-          <div class="contact-role">Plan &amp; Account Support</div>
-          <div class="contact-value"><span>Email</span> sales@clearwavecrypto.example</div>
-          <div class="contact-value"><span>Live chat</span> Chat opens in &lt;30s</div>
-          <div class="contact-value"><span>Support hours</span> 24/7 for Gold+</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="newsletter">
-    <div class="newsletter-text">
-      <div class="newsletter-title">Trade with the market, not against it</div>
-      <div class="newsletter-sub">Get one lesson a week on paper trading, risk control, and live crypto moves — before it changes your real portfolio.</div>
-    </div>
-    <form class="newsletter-form" data-cw-form>
-      <input class="newsletter-input" type="email" placeholder="Enter your email" aria-label="Email address" required />
-      <button class="newsletter-btn" type="submit">Subscribe</button>
-      <span data-form-status aria-live="polite"></span>
-    </form>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section">
-    <div class="container">
-      <div class="cta-inner">
-        <div class="cta-content">
-          <div class="cta-label">Start Paper Trading Today</div>
-          <h2 class="cta-title">Practice with fake cash, <em>trade with confidence</em></h2>
-          <p class="cta-sub">Join 12k+ traders who simulate BTC, ETH, and SOL before going live.</p>
-        </div>
-        <div class="cta-actions">
-          <a href="/services" class="btn-cta-primary">Choose a Plan<span>→</span></a>
-          <a href="/contact" class="btn-cta-ghost">Talk to an advisor</a>
-        </div>
-      </div>
-    </div>
-  </section>
+    <%- include('partials/newsletter') %>
+  </main>
 
 <%- include('partials/footer') %>

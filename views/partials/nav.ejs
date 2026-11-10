@@ -1,15 +1,12 @@
 <%
   var page = (typeof active !== 'undefined' && active) ? active : '';
-  var isServices = page === 'services' || page.indexOf('services/') === 0;
+  var isServices = ['commodities', 'cryptocurrency', 'real-estate', 'staking', 'stocks'].indexOf(page) !== -1;
   var categories = [
-    { slug: 'commodities-gold', icon: '🪨', title: 'Commodities & Gold', desc: 'Spot metals, energy and safe havens' },
-    { slug: 'cryptocurrency',    icon: '₿',  title: 'Cryptocurrency',     desc: 'BTC, ETH, SOL and alt markets' },
-    { slug: 'real-estate',       icon: '🏠', title: 'Real Estate',        desc: 'Residential, commercial, mixed-use' },
-    { slug: 'stock-etfs',        icon: '📊', title: 'Stock & ETFs',       desc: 'Single names, index and sector funds' },
-    { slug: 'loan',              icon: '🧾', title: 'Loan',               desc: 'Borrowing, APR and amortization' },
-    { slug: 'card',              icon: '💳', title: 'Card',               desc: 'Credit lines, rewards and grace periods' },
-    { slug: 'membership',        icon: '🎟️', title: 'Membership ID',      desc: 'One access key across every market' },
-    { slug: 'staking',           icon: '🌾', title: 'Staking',            desc: 'Yields, lock-ups and restaking' }
+    { slug: 'commodities',    title: 'Commodities & Gold', desc: 'Metals, energy and soft commodities' },
+    { slug: 'cryptocurrency', title: 'Cryptocurrency',     desc: 'BTC, ETH, LTC and major pairs' },
+    { slug: 'real-estate',    title: 'Real Estate',        desc: 'Residential and commercial deals' },
+    { slug: 'staking',        title: 'Staking',            desc: 'Proof-of-stake rewards and lock-ups' },
+    { slug: 'stocks',         title: 'Stock & ETFS',       desc: 'Equities, index and sector funds' }
   ];
 %>
   <header class="nav" id="site-nav">
@@ -17,6 +14,7 @@
       <a href="/" class="nav-logo">Clearwave<span class="accent-light">Crypto</span></a>
 
       <ul class="nav-links" role="list">
+        <li><a class="nav-link<%= page === 'home' ? ' is-active' : '' %>" href="/">Home</a></li>
         <li class="nav-item">
           <button type="button" class="nav-link<%= isServices ? ' is-active' : '' %>" aria-expanded="false" aria-controls="services-panel" aria-haspopup="true">
             Services
@@ -24,19 +22,20 @@
           </button>
           <div class="dropdown-panel" id="services-panel">
             <% categories.forEach(function (cat) { %>
-              <a class="dropdown-item<%= page === 'services/' + cat.slug ? ' is-active' : '' %>" href="/services/<%= cat.slug %>">
-                <span class="di-icon" aria-hidden="true"><%= cat.icon %></span>
+              <a class="dropdown-item<%= page === cat.slug ? ' is-active' : '' %>" href="/<%= cat.slug %>">
+                <span class="di-icon di-icon--img" aria-hidden="true"><img src="/assets/images/site/service-<%= categories.indexOf(cat) + 1 %>.png" width="56" height="56" alt="" loading="lazy" /></span>
                 <span>
                   <span class="di-title"><%= cat.title %></span>
                   <span class="di-desc"><%= cat.desc %></span>
                 </span>
               </a>
             <% }); %>
-            <a class="dropdown-foot" href="/services">View all services <span aria-hidden="true">→</span></a>
           </div>
         </li>
-        <li><a class="nav-link<%= page === 'about' ? ' is-active' : '' %>" href="/about">About</a></li>
-        <li><a class="nav-link<%= page === 'contact' ? ' is-active' : '' %>" href="/contact">Contact</a></li>
+        <li><a class="nav-link<%= page === 'company' ? ' is-active' : '' %>" href="/company">About</a></li>
+        <li><a class="nav-link<%= page === 'plan' ? ' is-active' : '' %>" href="/plan">Plan</a></li>
+        <li><a class="nav-link<%= page === 'faq' ? ' is-active' : '' %>" href="/faq">FAQs</a></li>
+        <li><a class="nav-link<%= page === 'contact' ? ' is-active' : '' %>" href="/contact">Contact Us</a></li>
       </ul>
 
       <div class="nav-cta">
@@ -55,18 +54,19 @@
   </header>
 
   <div class="mobile-menu" id="mobile-menu">
-    <div class="mm-label">Service categories</div>
-    <div class="mm-grid">
+    <div class="mm-label">Services</div>
+    <div class="mm-links">
       <% categories.forEach(function (cat) { %>
-        <a href="/services/<%= cat.slug %>"><span aria-hidden="true"><%= cat.icon %></span><%= cat.title %></a>
+        <a href="/<%= cat.slug %>"><%= cat.title %></a>
       <% }); %>
     </div>
 
     <div class="mm-label">Company</div>
     <div class="mm-links">
-      <a href="/services">All services</a>
-      <a href="/about">About</a>
-      <a href="/contact">Contact</a>
+      <a href="/company">About Us</a>
+      <a href="/plan">Plan</a>
+      <a href="/faq">FAQs</a>
+      <a href="/contact">Contact Us</a>
     </div>
 
     <a href="/contact" class="mm-cta">Get Started</a>

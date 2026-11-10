@@ -1,0 +1,143 @@
+<%
+  var coins = [
+    ['XMR', 'Monero', '18.8%', 'Active', '20 Days', '10,000 XMR'],
+    ['DAI', 'Dai Token', '32.8%', 'Ongoing', '90 Days', '20,000,000 DAI'],
+    ['ETH', 'Ethereum', '11.0%', 'Awaiting', '30 Days', '2,700 ETH'],
+    ['SHIBA', 'Shiba Inu', '31.0%', 'Active', '60 Days', '900,000 SHIBA'],
+    ['BSV', 'BitcoinSV', '20.0%', 'Ongoing', '365 Days', '1,000,000 BSV'],
+    ['BNB', 'Binance Coin', '9.0%', 'Awaiting', '15 Days', '800,000 BNB'],
+    ['LTC', 'Litecoin', '11.0%', 'Active', '120 Days', '19,000 LTC'],
+    ['DOT', 'Polkadot', '21.0%', 'Ongoing', '60 Days', '200,000 DOT'],
+    ['TRX', 'Tron', '18.0%', 'Awaiting', '100 Days', '100,000,000 TRX'],
+    ['DOGE', 'Dodge Coin', '22.0%', 'Active', '40 Days', '200,000 DOGE'],
+    ['ADA', 'Cardano', '31.0%', 'Ongoing', '90 Days', '21,000 ADA'],
+    ['BTC', 'Bitcoin', '28.0%', 'Awaiting', '20 Days', '1 BTC']
+  ];
+  var fixed = [
+    ['SHIBA', 'Shiba Inu', '31.0%', 'Active', '30 Days', '400,000 SHIBA'],
+    ['LTC', 'Litecoin', '10.0%', 'Ongoing', '15 Days', '800,000 LTC'],
+    ['USDT', 'Tether (Trc20)', '19.0%', 'Awaiting', '30 Days', '500,000 USDT']
+  ];
+  var defi = [
+    ['SOL', 'Solana', '14.0%', 'Active', '60 Days', '300,000 SOL'],
+    ['ADA', 'Cardano', '21.0%', 'Ongoing', '20 Days', '6,000,000 ADA'],
+    ['XRP', 'Ripple', '24.0%', 'Awaiting', '120 Days', '600,000 XRP']
+  ];
+  var stakeSteps = ['Stake Assets', 'Obtain initial computing power', 'Burn coin to increase your computing power', 'Mine'];
+%>
+<%- include('partials/head', { title: 'Staking — Clearwave Crypto', description: 'Stake your digital tokens with Clearwave and earn rewards as high as 10% on supported assets, with locked, fixed and DeFi staking.' }) %>
+<%- include('partials/nav', { active: 'staking' }) %>
+
+  <main class="page-main">
+    <%- include('partials/page-header', { title: 'Staking', crumb: 'Staking' }) %>
+
+    <section class="container section-pad">
+      <div class="split">
+        <div class="split-copy prose">
+          <h2>Stake with us</h2>
+          <p>Staking is one of the simplest ways to put your digital tokens to work simply by holding them on Clearwave. Staking rewards can be as high as 10%* for supported digital tokens.</p>
+          <p>A newer consensus mechanism called Proof of Stake has emerged — with the idea of increasing speed and efficiency while lowering fees. A major way Proof of Stake reduces costs is by not requiring all those miners to churn through math problems, which is an energy-intensive process. Instead, transactions are validated by people who are literally invested in the blockchain via staking.</p>
+        </div>
+        <figure class="split-media">
+          <img src="/assets/images/site/feature-2.png" width="477" height="347" loading="lazy" alt="Clearwave staking rewards" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <h2>What are the benefits of cryptocurrency staking?</h2>
+        <ul class="check-list">
+          <li>Staking has the added benefit of contributing to the security and efficiency of the blockchain projects you support</li>
+          <li>By staking your funds, you make the blockchain more resistant to attacks and strengthen its ability to process transactions</li>
+          <li>The network chooses validators based on the size of their stake and the length of time they’ve held it, so the most invested participants are rewarded</li>
+          <li>Many long-term crypto holders look at staking as a way of making their assets work for them by generating rewards, rather than collecting dust in their wallets</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <h2>The Top Ten Cryptocurrencies to Stake</h2>
+        <p>The reason your crypto earns rewards while staked is because the blockchain puts it to work. Cryptocurrencies that allow staking use a “consensus mechanism” called Proof of Stake, which is the way they ensure that all transactions are verified and secured without a bank or payment processor in the middle. Your crypto, if you choose to stake it, becomes part of that process.</p>
+        <p>Staking is only possible via the proof-of-stake consensus mechanism, which is a specific method used by certain blockchains to select honest participants and verify new blocks of data being added to the network.</p>
+        <p>By forcing these network participants — known as validators or stakers — to purchase and lock away a certain amount of tokens, it makes it unattractive to act dishonestly in the network. If the blockchain was corrupted in any way through malicious activity, the native token associated with it would likely plummet in price.</p>
+      </div>
+      <div class="symbol-grid">
+        <% ['Ethereum', 'Cardano', 'Solana', 'Polkadot', 'Luna', 'Avalanche', 'Tezos', 'Chainlink', 'EOS', 'Cosmos'].forEach(function (item, index) { %>
+          <div class="symbol-chip"><span class="symbol-index"><%= index + 1 %></span><%= item %></div>
+        <% }); %>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">How staking works</div>
+          <h2 class="section-title">From tokens to <em>rewards</em></h2>
+        </div>
+        <div class="step-list">
+          <% stakeSteps.forEach(function (step, index) { %>
+            <div class="step">
+              <div class="step-num"><%= index + 1 %></div>
+              <div class="step-title"><%= step %></div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <% [['Locked Staking', coins], ['Fixed Staking', fixed], ['DeFi Staking', defi]].forEach(function (group) { %>
+        <div class="table-block">
+          <h2 class="table-title"><%= group[0] %></h2>
+          <div class="svc-table-wrap">
+            <table class="svc-table">
+              <thead><tr><th scope="col">Coins</th><th scope="col">APY</th><th scope="col">Status</th><th scope="col">Duration</th><th scope="col">Staking Amount</th><th scope="col">Stake</th></tr></thead>
+              <tbody>
+                <% group[1].forEach(function (row) { %>
+                  <tr>
+                    <th scope="row"><span class="coin-symbol"><%= row[0] %></span> <%= row[1] %></th>
+                    <td><%= row[2] %></td>
+                    <td><span class="status-dot"><%= row[3] %></span></td>
+                    <td><%= row[4] %></td>
+                    <td><%= row[5] %></td>
+                    <td><a href="/contact" class="table-cta">Stake Now</a></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% }); %>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <div class="section-label">F.A.Q</div>
+        <h2>What is staking?</h2>
+        <div class="faq-list svc-faq">
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">What is staking?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">Staking means locking your digital tokens on a proof-of-stake blockchain so they can be used to validate transactions. In return, the network pays you rewards.</div></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">How are staking rewards generated?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">The blockchain puts your tokens to work verifying blocks. The network chooses validators based on the size of their stake and the length of time they have held it, so the most invested participants are rewarded.</div></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">Is staking only possible on proof-of-stake chains?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">Yes. Staking requires a proof-of-stake consensus mechanism, which is the method used by certain blockchains to select honest participants and verify new blocks of data.</div></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">What are the different staking types?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">Clearwave supports locked staking, fixed staking and DeFi staking. Each has its own APY, duration and staking amount, listed in the tables above.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/newsletter') %>
+  </main>
+
+<%- include('partials/footer') %>

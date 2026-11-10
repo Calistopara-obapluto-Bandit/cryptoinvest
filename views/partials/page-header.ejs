@@ -1,0 +1,10 @@
+<section class="page-header">
+  <div class="container">
+    <h1 class="page-header-title"><%= title %></h1>
+    <nav class="page-header-crumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page"><%= typeof crumb !== 'undefined' ? crumb : title %></span>
+    </nav>
+  </div>
+</section>

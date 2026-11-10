@@ -173,6 +173,32 @@
       });
     });
 
+    /* ---------- 5b. Profit calculator ---------- */
+    Array.prototype.forEach.call(document.querySelectorAll('form[data-cw-calc]'), function (form) {
+      var plan = form.querySelector('select[name="plan"]');
+      var deposit = form.querySelector('input[name="deposit"]');
+      var profitOut = form.querySelector('[data-calc-profit]');
+      var totalOut = form.querySelector('[data-calc-total]');
+      if (!plan || !deposit) return;
+
+      var money = function (value) {
+        return '$' + value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      };
+
+      var update = function () {
+        var rate = parseFloat(plan.value) || 0;
+        var amount = parseFloat(deposit.value) || 0;
+        if (amount < 0) amount = 0;
+        var profit = amount * (rate / 100) * 30;
+        if (profitOut) profitOut.textContent = money(profit);
+        if (totalOut) totalOut.textContent = money(amount + profit);
+      };
+
+      plan.addEventListener('change', update);
+      deposit.addEventListener('input', update);
+      update();
+    });
+
     /* ---------- 6. In-page links close the menu before jumping ---------- */
     Array.prototype.forEach.call(document.querySelectorAll('a[href^="#"]'), function (link) {
       link.addEventListener('click', function () {

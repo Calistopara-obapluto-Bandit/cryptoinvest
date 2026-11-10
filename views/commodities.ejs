@@ -1,0 +1,182 @@
+<%- include('partials/head', { title: 'Commodities — Clearwave Crypto', description: 'Trade commodities with Clearwave: gold, silver, oil, gas and soft commodities with tight spreads and 24/5 access.' }) %>
+<%- include('partials/nav', { active: 'commodities' }) %>
+
+  <main class="page-main">
+    <%- include('partials/page-header', { title: 'Commodities', crumb: 'Commodities' }) %>
+
+    <section class="container section-pad">
+      <div class="split">
+        <div class="split-copy prose">
+          <h2>Trade Commodities with Clearwave</h2>
+          <p>Trading commodities CFDs (“contracts for difference”) is a great way to diversify your portfolio and hedge risks. Clearwave has carved a niche for itself in the commodity trading market, offering the optimal trading experience.</p>
+          <p>Choosing from an extensive portfolio of financial products, while benefiting from the latest real-time technology and available commodity prices. When you choose to trade commodity CFDs, you get access to commodity prices worldwide with high execution speeds, low slippage, deep liquidity and tight spreads.</p>
+          <p>Trade in CFDs on a wide range of universal commodities, including gold (XAU), silver (XAG) and oil (CL, WTI) with a regulated broker provider giving you access to different asset classes, sophisticated risk management and trading tools.</p>
+        </div>
+        <figure class="split-media">
+          <img src="/assets/images/site/video-poster.png" width="1280" height="720" loading="lazy" alt="Clearwave commodities trading platform" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <h2>What are the benefits of commodities trading?</h2>
+        <ul class="check-list">
+          <li>Leverage up to 30:1</li>
+          <li>Choose from a wide range of commodities, such as energy, metals and agricultural products</li>
+          <li>Enter and exit trades whenever you want to 24/5</li>
+          <li>Trade in any direction you think the markets will go. Sell and go short or buy to go long, maximizing trading opportunities and minimizing risks</li>
+          <li>No price manipulation and no requotes</li>
+          <li>Hedge your investment risks with high-value assets, like gold (XAU), silver (XAG), and Oil (WTI / CL)</li>
+          <li>Benefit from low margin, low-cost trading, without compromising execution</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <h2>The Top Ten Commodities to Trade</h2>
+        <p>Commodities are essentially the raw materials from which other goods are created; the basic building blocks of the global economy. Consequently, they often serve as an excellent investment vehicle. Commodities fall into two broad categories: hard commodities and soft commodities.</p>
+        <p>Hard commodities are those that are mined from the earth or extracted from natural resources. This category includes metals such as gold, silver and iron, and energies such as oil, natural gas and coal. Soft commodities are agricultural products such as livestock and crops.</p>
+        <p>The commodity markets are popular among traders. This is because they are highly volatile, a feature that provides traders with greater opportunities for success. What separates commodities from other goods is the fact they are interchangeable and standardised, with their values set by the relevant commodity exchange.</p>
+        <p>However, when it comes to commodities trading, not all commodities are equal. Some are better than others. With a wide range of commodities on the market, it’s important to know what makes a commodity good for trading.</p>
+      </div>
+      <div class="symbol-grid">
+        <% ['Crude Oil', 'Gold', 'Silver', 'Platinum and Palladium', 'Base Metals: Copper, Iron, Steel, Aluminium', 'Coffee', 'Natural Gas', 'Soya Beans', 'Corn', 'Wheat'].forEach(function (item, index) { %>
+          <div class="symbol-chip"><span class="symbol-index"><%= index + 1 %></span><%= item %></div>
+        <% }); %>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <h2>What Makes a Good Trading Commodity?</h2>
+        <p>When trading commodities, liquidity is the primary thing you should consider. This is because liquidity determines the ease with which you can sell or buy a commodity. A liquid market is generally associated with relatively lower risk as there will likely be someone willing to take the other side of a trading position. A good commodity will usually have a well-established market of buyers and sellers at any given time.</p>
+        <p>High liquidity also means that a commodity will have less risk of slippage. Slippage refers to the losses that occur when bid-offer spreads are wide and it’s a common occurrence among commodities that exhibit low degrees of liquidity. Liquidity differentiates the most-traded commodities from the rest of the flock.</p>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="split split--reverse">
+        <div class="split-copy prose">
+          <h2>What is the best platform to trade Commodities?</h2>
+          <h3>MetaTrader 4 — the world’s most popular trading platform</h3>
+          <p>Discover the benefits of commodities trading on one of the most powerful trading platforms available, MetaTrader 4 (MT4). Available across desktop and mobile devices.</p>
+          <ul class="check-list">
+            <li>Spreads from 0.0 pips &amp; leverage up to 30:1</li>
+            <li>Customisable interface, including colours of technical indicators</li>
+            <li>One-click trading</li>
+            <li>Live price streaming on all accounts, 128-bit encryption for secure trading</li>
+            <li>Expert Advisors (EAs)</li>
+            <li>Customisable alerts</li>
+          </ul>
+          <h3>Are there more platform options?</h3>
+          <p>We recommend MT4 for commodities but a range of products can also be traded on MT5 and Iress platforms.</p>
+        </div>
+        <aside class="split-aside">
+          <div class="aside-card">
+            <div class="aside-title">Clearwave trading desk</div>
+            <p>24/5 multilingual support, personal account managers and segregated client funds.</p>
+            <a href="/contact" class="btn-cta-primary">Talk to a specialist<span>→</span></a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">Why Clearwave</div>
+          <h2 class="section-title">6 reasons to choose <em>Clearwave</em></h2>
+        </div>
+        <div class="reason-grid">
+          <% [
+            { t: 'Globally Regulated', b: 'Segregated client funds and regulation in the United Kingdom.' },
+            { t: 'Tighter Spreads', b: 'Market leading spreads from 0.0 pips, 24/5.' },
+            { t: 'Faster Execution', b: 'Low latency execution under 40ms*.' },
+            { t: 'Advanced Platforms', b: 'MT4, MT5 &amp; WebTrader with a superior client portal.' },
+            { t: '24/5 Multilingual Support', b: 'Award-winning support and personal account managers.' },
+            { t: 'Established in 2005', b: '15+ years of trading experience.' }
+          ].forEach(function (item, index) { %>
+            <article class="reason-card">
+              <div class="reason-num"><%= index + 1 %></div>
+              <h3><%= item.t %></h3>
+              <p><%- item.b %></p>
+            </article>
+          <% }); %>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <h2>What is Commodities Trading?</h2>
+        <p>Commodities trading represents the buying and selling of quantity sets of homogeneous and near-homogeneous assets. Popular commodities include the West Texas Intermediate (WTI), Brent Crude Oil (XTI), Gold (XAU) and other precious metals, and soft commodities such as Wheat, Coffee, Cocoa, Soya etc. Price movements in commodities are relatively slow and are usually seen as bellwethers and market indicators for the overall health of the industry that produces and consumes them.</p>
+        <p>Commodity prices can be impacted by various factors, including adverse weather and seasonal availability, natural disasters, severe climate changes and other non-market factors generally found in other financial instruments. Typically, trading in commodities can be either speculative or for hedging purposes.</p>
+        <p>Traders can trade commodity markets to express their outlook on certain industries, or to hedge their trading portfolio by taking an opposite position in a commodity to offset potential losses. Hedging as a risk management strategy has its purpose to minimize potential losses but could also result in reduced returns.</p>
+        <p>Through careful analysis, CFD traders speculate on the direction of commodities prices and attempt to capture potential profits based on price fluctuations and volatility. The market is open 24 hours a day, 5 days a week, from 5pm EST on Sunday to 4pm EST on Friday.</p>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="table-block">
+        <h2 class="table-title">CFD Commodities (MT4/MT5)</h2>
+        <div class="svc-table-wrap">
+          <table class="svc-table">
+            <thead><tr><th scope="col">Symbol</th><th scope="col">Product</th><th scope="col">Standard A/c Min</th><th scope="col">Avg</th></tr></thead>
+            <tbody>
+              <% [
+                ['WTI', 'West Texas Intermediate Crude Oil vs US Dollar Future', '0.04', '0.04'],
+                ['XBRUSD', 'Brent Crude Oil vs US Dollar Cash', '0.21', '0.27'],
+                ['XNGUSD', 'Natural Gas vs US Dollar Cash', '0.04', '0.05'],
+                ['XPDUSD', 'Palladium vs US Dollar Cash', '10.11', '19.76'],
+                ['XPTUSD', 'Platinum vs US Dollar Cash', '2.98', '5.00'],
+                ['XTIUSD', 'West Texas Intermediate Crude Oil vs US Dollar Cash', '0.21', '0.28']
+              ].forEach(function (row) { %>
+                <tr><th scope="row"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td><td><%= row[3] %></td></tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="table-block">
+        <h2 class="table-title">Soft Commodities (MT4/MT5)</h2>
+        <div class="svc-table-wrap">
+          <table class="svc-table">
+            <thead><tr><th scope="col">Symbol</th><th scope="col">Product</th><th scope="col">Standard A/c Min</th><th scope="col">Avg</th></tr></thead>
+            <tbody>
+              <% [
+                ['COCOA', 'Cocoa vs US Dollar Cash', '1.07', '2.51'],
+                ['COFFEE', 'US Coffee vs US Dollar Future', '2.25', '2.36'],
+                ['CORN', 'Corn vs US Dollar Cash', '1.73', '2.09'],
+                ['SOYBEANS', 'Soybeans vs US Dollar Cash', '1.58', '2.10'],
+                ['WHEAT', 'Wheat vs US Dollar Cash', '1.32', '2.11']
+              ].forEach(function (row) { %>
+                <tr><th scope="row"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td><td><%= row[3] %></td></tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <h2>Introduction to commodities markets</h2>
+        <h3>Gold markets</h3>
+        <p>Throughout history, gold has always been seen as a valuable commodity, and for good reason. In addition to being an in-demand precious metal in many industries, gold is an ideal hedge for financial market risks, especially during periods of macroeconomic and geopolitical uncertainty. There is generally strong global market demand for gold making it one of the most actively traded commodities in the world.</p>
+        <p>If you want to trade gold, there are several options open to you. You can directly invest in physical gold by purchasing gold bullion from bullion dealers or through gold exchange-traded funds (ETFs) that hold the commodity. Alternatively, you can trade gold through ETFs that track the movements of the commodity or purchase gold CFDs which track the asset’s underlying price.</p>
+        <h3>Wheat markets</h3>
+        <p>Wheat is one of the most important food components and is cultivated globally. This grain has always piqued investors’ interests because it allows them to participate in the agricultural markets by trading wheat CFDs without holding actual tons of it. Wheat commodity trading can take place on several exchanges but there are two main that are listed in wheat futures: Chicago Board of Trade and NYSE Euronext.</p>
+        <h3>Coffee markets</h3>
+        <p>Coffee has become one of the world’s most profitable commodities. Arabica and Robusta are two different coffee varieties. Arabica is considered a more flavourful bean, with less caffeine and is premium attracting a higher market price. Robusta contains more caffeine and has a bitter taste. Trend followers like to trade Robusta due to its volatility, and traders who prefer more stability choose Arabica.</p>
+        <h3>Oil markets</h3>
+        <p>Crude oil is made of hydrocarbons, organic compounds, and tiny amounts of metal. There are many types of crude produced around the world, and the quality of each is reflected in the value. One of its quality characteristics is the sulfur content, which can be defined as sweet or sour, and density ranges from heavy to light. Brent Crude and WTI serve as the oil benchmarks in the global markets.</p>
+      </div>
+    </section>
+
+    <%- include('partials/newsletter') %>
+  </main>
+
+<%- include('partials/footer') %>

@@ -1,84 +1,37 @@
-<%- include('partials/head', { title: 'Contact — Clearwave Crypto', description: 'Contact Clearwave Crypto — talk to a rep, get started, or learn about paper trading.' }) %>
+<%- include('partials/head', { title: 'Contact Us — Clearwave Crypto', description: 'Get in touch with Clearwave: email, office address and a direct line to our investment representatives.' }) %>
 <%- include('partials/nav', { active: 'contact' }) %>
 
   <main class="page-main">
-    <section class="container">
-      <div class="page-head">
-        <div class="section-label">Contact</div>
-        <h1>Get in touch <em>with a Clearwave rep</em></h1>
-        <p>Ask about plans, risk controls, or how to set up your first simulated portfolio.</p>
-      </div>
-    </section>
+    <%- include('partials/page-header', { title: 'Contact Us', crumb: 'Contact' }) %>
 
-    <section class="faq-section">
-      <div class="container">
-        <div class="faq-inner">
-          <div class="faq-sidebar">
-            <div class="section-label">Common questions</div>
-            <h2 class="section-title">Answers before <em>you ask</em></h2>
-            <p class="section-sub">The four things new members ask us most often.</p>
+    <section class="container section-pad">
+      <div class="contact-split">
+        <div class="contact-copy">
+          <h2 class="section-title">Get in touch <em>with us</em></h2>
+          <p class="section-sub">Have questions about investments or need assistance? Our dedicated team is here to help you 24/7.</p>
+          <div class="contact-detail">
+            <span class="contact-detail-label">Email</span>
+            <a href="mailto:contact@clearwavecrypto.com" class="contact-detail-value">contact@clearwavecrypto.com</a>
           </div>
-          <div class="faq-list">
-            <div class="faq-item">
-              <div class="faq-question" tabindex="0" role="button" aria-expanded="false">Which plans include demo cash?<div class="faq-icon">+</div></div>
-              <div class="faq-answer"><div class="faq-answer-inner">Every plan starts with $100–$100,000 of demo cash. Golden includes an extra $500 welcome top-up.</div></div>
-            </div>
-            <div class="faq-item">
-              <div class="faq-question" tabindex="0" role="button" aria-expanded="false">How do I withdraw my profit?<div class="faq-icon">+</div></div>
-              <div class="faq-answer"><div class="faq-answer-inner">Cash out to your bank via the demo dashboard. Withdrawals settle in 1–3 business days for paper funds.</div></div>
-            </div>
-            <div class="faq-item">
-              <div class="faq-question" tabindex="0" role="button" aria-expanded="false">What assets can I trade?<div class="faq-icon">+</div></div>
-              <div class="faq-answer"><div class="faq-answer-inner">BTC, ETH, SOL, and additional demo markets scale up as you move to higher plans.</div></div>
-            </div>
-            <div class="faq-item">
-              <div class="faq-question" tabindex="0" role="button" aria-expanded="false">Is there a time limit on demo accounts?<div class="faq-icon">+</div></div>
-              <div class="faq-answer"><div class="faq-answer-inner">Demo cash stays active as long as you hold an active plan. Pause the plan and balances pause too.</div></div>
-            </div>
+          <div class="contact-detail">
+            <span class="contact-detail-label">Address</span>
+            <span class="contact-detail-value">109 Manly Street, Paraparaumu Beach<br />New Zealand</span>
           </div>
+          <img class="contact-photo" src="/assets/images/site/company-1.jpg" width="1280" height="720" loading="lazy" alt="Clearwave office" />
         </div>
+
+        <form class="contact-form" data-cw-form>
+          <label class="form-field"><span>Name</span><input type="text" name="name" required /></label>
+          <label class="form-field"><span>Email</span><input type="email" name="email" required /></label>
+          <label class="form-field"><span>Phone</span><input type="tel" name="phone" /></label>
+          <label class="form-field"><span>Message</span><textarea name="message" rows="5" required></textarea></label>
+          <button class="btn-primary-lg" type="submit">Contact us now<span class="btn-arrow">→</span></button>
+          <span class="form-status" data-form-status aria-live="polite"></span>
+        </form>
       </div>
     </section>
 
-    <section class="contacts">
-      <div class="container">
-        <div class="contact-grid">
-          <div class="contact-box">
-            <div class="contact-label">Representative</div>
-            <div class="contact-name">Elena Voss</div>
-            <div class="contact-role">Head of Trader Education</div>
-            <div class="contact-value"><span>Email</span> elena@clearwavecrypto.example</div>
-            <div class="contact-value"><span>Phone</span> +1 (555) 019-2847</div>
-            <div class="contact-value"><span>Office</span> 9:00 AM – 6:00 PM UTC</div>
-          </div>
-          <div class="contact-box">
-            <div class="contact-label">Sales</div>
-            <div class="contact-name">Clearwave Sales</div>
-            <div class="contact-role">Plan &amp; Account Support</div>
-            <div class="contact-value"><span>Email</span> sales@clearwavecrypto.example</div>
-            <div class="contact-value"><span>Live chat</span> Chat opens in &lt;30s</div>
-            <div class="contact-value"><span>Support hours</span> 24/7 for Gold+</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="newsletter">
-      <div class="newsletter-text">
-        <div class="newsletter-title">Trade with the market, not against it</div>
-        <div class="newsletter-sub">Get one lesson a week on paper trading, risk control, and live crypto moves — before it changes your real portfolio.</div>
-      </div>
-      <form class="newsletter-form" data-cw-form>
-        <input class="newsletter-input" type="email" placeholder="Enter your email" aria-label="Email address" required />
-        <button class="newsletter-btn" type="submit">Subscribe</button>
-        <span data-form-status aria-live="polite"></span>
-      </form>
-    </section>
-
-    <section class="svc-cta" style="padding-top:0;">
-      <a href="/services" class="btn-cta-primary">Choose a plan<span>→</span></a>
-      <a href="/about" class="btn-cta-ghost">About Clearwave</a>
-    </section>
+    <%- include('partials/newsletter') %>
   </main>
 
 <%- include('partials/footer') %>

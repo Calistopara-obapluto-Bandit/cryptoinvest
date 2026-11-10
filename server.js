@@ -122,65 +122,65 @@ app.get('/api/overview', async (req, res, next) => {
 // ---- PAGE ROUTES (EJS) ----
 // One definition per page. Every view renders through the shared head/nav/footer
 // partials so navigation and layout never drift between pages.
-const servicePages = {
-  '/services/commodities-gold': { view: 'services/commodities-gold', title: 'Commodities & Gold — Clearwave Crypto', description: 'Simulate spot gold, silver, and energy markets with the same paper simulator used for crypto.' },
-  '/services/cryptocurrency': { view: 'services/cryptocurrency', title: 'Cryptocurrency — Clearwave Crypto', description: 'Trade BTC, ETH, SOL, and more with paper funds.' },
-  '/services/real-estate': { view: 'services/real-estate', title: 'Real Estate — Clearwave Crypto', description: 'Simulate residential, commercial, and mixed-use property deals with demo cash.' },
-  '/services/stock-etfs': { view: 'services/stock-etfs', title: 'Stock & ETFs — Clearwave Crypto', description: 'Trade individual stocks, broad market ETFs, and index funds with the same leveled demo portfolio.' },
-  '/services/loan': { view: 'services/loan', title: 'Loan — Clearwave Crypto', description: 'Practice borrowing, amortization, and debt service with paper cash.' },
-  '/services/card': { view: 'services/card', title: 'Card — Clearwave Crypto', description: 'Simulate a premium credit card with grace periods, APR, rewards, and balance management.' },
-  '/services/membership': { view: 'services/membership', title: 'Membership ID — Clearwave Crypto', description: 'Your unified access key. One Membership ID covers every market.' },
-  '/services/staking': { view: 'services/staking', title: 'Staking — Clearwave Crypto', description: 'Earn demo yields on BTC, ETH, SOL, and more.' }
+const pageRoutes = {
+  '/': 'index',
+  '/commodities': 'commodities',
+  '/cryptocurrency': 'cryptocurrency',
+  '/real-estate': 'real-estate',
+  '/staking': 'staking',
+  '/stocks': 'stocks',
+  '/company': 'company',
+  '/plan': 'plan',
+  '/faq': 'faq',
+  '/contact': 'contact'
 };
-
-app.get('/', (req, res) => { res.render('index'); });
-app.get('/services', (req, res) => {
-  res.render('services', {
-    title: 'Services — Clearwave Crypto',
-    description: 'Explore Clearwave Crypto services — commodities & gold, cryptocurrency, real estate, stock & ETFs, loan, card, membership ID, and staking.'
-  });
-});
-Object.keys(servicePages).forEach((route) => {
-  const page = servicePages[route];
+Object.keys(pageRoutes).forEach((route) => {
   app.get(route, (req, res) => {
-    res.render(page.view, { title: page.title, description: page.description });
+    res.render(pageRoutes[route]);
   });
 });
 
-// The old standalone real-estate page now lives under /services.
-app.get('/real-estate', (req, res) => res.redirect(301, '/services/real-estate'));
-
-app.get('/about', (req, res) => res.render('about'));
-app.get('/contact', (req, res) => res.render('contact'));
-
-app.get('/testimonials', (req, res) => {
-  res.render('testimonials', {
-    title: 'Reviews — Clearwave Crypto',
-    description: 'What traders say about using Clearwave Crypto paper trading to build discipline before going live.'
-  });
+// URLs from the previous site structure point at the closest current page so
+// old links and bookmarks keep working after the rewrite.
+const legacyRedirects = {
+  '/services': '/plan',
+  '/services/commodities-gold': '/commodities',
+  '/services/cryptocurrency': '/cryptocurrency',
+  '/services/real-estate': '/real-estate',
+  '/services/stock-etfs': '/stocks',
+  '/services/staking': '/staking',
+  '/services/loan': '/plan',
+  '/services/card': '/plan',
+  '/services/membership': '/company',
+  '/about': '/company',
+  '/testimonials': '/#testimonials'
+};
+Object.keys(legacyRedirects).forEach((route) => {
+  app.get(route, (req, res) => res.redirect(301, legacyRedirects[route]));
 });
 
 const legalPages = {
   '/privacy': {
     title: 'Privacy Policy — Clearwave Crypto',
-    description: 'How Clearwave Crypto handles information on the paper trading demo.',
+    description: 'How Clearwave Crypto handles the information you share with us.',
     heading: 'Privacy Policy',
     sections: [
-      { h: 'What this demo collects', p: 'The paper trading demo stores a single simulated account record on the server: a demo cash balance, demo holdings, and a trade ledger. No real money, payment details, or brokerage credentials are collected.' },
+      { h: 'What we collect', p: 'When you contact us through the site we receive the name, email address, phone number and message you submit. Newsletter subscriptions store the email address you provide. We do not collect payment card details through this website.' },
       { h: 'Market data', p: 'Live price quotes are requested from a public market data provider. Those requests contain asset identifiers only — never your account details.' },
-      { h: 'Cookies and analytics', p: 'The demo does not set advertising cookies and does not run third-party tracking scripts. Session state lives on the server, not in your browser.' },
-      { h: 'Contact', p: 'Questions about this policy can go to sales@clearwavecrypto.example and will be answered by the Clearwave Sales desk.' }
+      { h: 'Cookies and analytics', p: 'The site does not set advertising cookies and does not run third-party tracking scripts. Your light or dark theme preference is stored in your browser’s local storage.' },
+      { h: 'Contact', p: 'Questions about this policy can go to contact@clearwavecrypto.com and will be answered by the Clearwave support desk.' }
     ]
   },
   '/terms': {
     title: 'Terms of Service — Clearwave Crypto',
-    description: 'Terms for using the Clearwave Crypto paper trading demo.',
+    description: 'Terms for using the Clearwave Crypto investment platform and website.',
     heading: 'Terms of Service',
     sections: [
-      { h: 'Simulation only', p: 'Clearwave Crypto is a paper trading demonstration. All balances, orders, positions, and returns shown are simulated. Nothing on this site is an offer to buy or sell a financial instrument.' },
-      { h: 'No financial advice', p: 'Plan tiers, yields, and property figures describe the simulator only. They are not investment advice and must not be relied on as a forecast of real returns.' },
-      { h: 'Acceptable use', p: 'Do not use the demo to attempt to disrupt the service, probe systems you are not authorised to access, or present simulated results as real trading performance.' },
-      { h: 'Changes', p: 'The demo, its plans, and these terms may change as the simulator evolves. Continued use after a change means you accept the updated terms.' }
+      { h: 'Eligibility', p: 'You must be at least 18 years old to open an account. By registering you confirm that the information you provide is accurate and that you are acting on your own behalf.' },
+      { h: 'Plans and figures', p: 'Plan rates, durations, referral bonuses and property values describe the products offered on this site. They are illustrative of the plan terms and do not constitute a guarantee of future performance. Investing carries risk, including the risk of losing capital.' },
+      { h: 'No financial advice', p: 'Nothing on this site is investment, tax or legal advice. Decide whether a plan suits you based on your own circumstances, or seek independent professional advice.' },
+      { h: 'Acceptable use', p: 'Do not use this site to attempt to disrupt the service, probe systems you are not authorised to access, or present results as anything other than what they are.' },
+      { h: 'Changes', p: 'The platform, its plans and these terms may change as the service evolves. Continued use after a change means you accept the updated terms.' }
     ]
   }
 };

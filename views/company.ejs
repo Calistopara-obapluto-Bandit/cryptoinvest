@@ -1,0 +1,58 @@
+<%- include('partials/head', { title: 'About — Clearwave Crypto', description: 'Meet Clearwave: our story, our team and the managing director behind the investment platform.' }) %>
+<%- include('partials/nav', { active: 'company' }) %>
+
+  <main class="page-main">
+    <%- include('partials/page-header', { title: 'About Us', crumb: 'About' }) %>
+
+    <section class="about-section">
+      <div class="container">
+        <div class="about-inner">
+          <div class="about-media">
+            <img class="about-photo" src="/assets/images/site/company-1.jpg" width="1280" height="900" loading="lazy" alt="Clearwave office" />
+            <img class="about-accent" src="/assets/images/site/company-2.png" width="60" height="69" alt="" aria-hidden="true" />
+            <div class="about-stats">
+              <div class="about-stat">
+                <div class="about-stat-value">7</div>
+                <div class="about-stat-label">Years Experience</div>
+              </div>
+              <div class="about-stat">
+                <div class="about-stat-value">5K</div>
+                <div class="about-stat-label">Satisfied Customers</div>
+              </div>
+            </div>
+          </div>
+          <div class="about-copy">
+            <div class="section-label">Learn More About our company</div>
+            <h2 class="section-title">Innovative solutions, <em>top-notch services</em></h2>
+            <p class="section-sub">Clearwave offers its clients the opportunity to earn income that far exceeds even the most ambitious banking deposit offers. For investors, we provide a simple and convenient system for managing their investments: a wide selection of professional fund managers and capital management strategies, allowing everyone to choose comfortable ways to generate profits.</p>
+            <p class="section-sub">Our company is all about creating innovative solutions and providing top-notch services to our clients. From start to finish, we’re dedicated to delivering results that exceed expectations.</p>
+            <a href="/plan" class="btn-outline-lg">Explore More <span>→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">Team</div>
+          <h2 class="section-title">Meet our <em>MD</em></h2>
+        </div>
+        <div class="team-inner">
+          <figure class="team-media">
+            <img src="/assets/images/site/team-md.jpg" width="1280" height="900" loading="lazy" alt="David Griffiths, Managing Director" />
+          </figure>
+          <div class="team-copy">
+            <p class="section-sub">Clearwave Capital was formed in 2017 by Managing Director, David Griffiths.</p>
+            <p class="section-sub">David is a qualified chartered accountant having experience in acquisitions and buyouts within national accountancy practices. David takes the lead advisory role in corporate finance transactions and is assisted by colleagues with accountancy and banking backgrounds.</p>
+            <div class="team-name">David Griffiths</div>
+            <div class="team-role">Managing Director</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/newsletter') %>
+  </main>
+
+<%- include('partials/footer') %>

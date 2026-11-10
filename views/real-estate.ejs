@@ -1,0 +1,89 @@
+<%
+  var deals = [
+    { name: 'The Skylight Manor',     roi: '22%', min: '$200,000', value: '$1,200,000', img: 'property-1.jpg' },
+    { name: 'Cedarstone Residence',   roi: '18%', min: '$100,000', value: '$750,000',   img: 'property-2.jpg' },
+    { name: 'The Haven at Montclair', roi: '15%', min: '$50,000',  value: '$500,000',   img: 'property-3.jpg' }
+  ];
+%>
+<%- include('partials/head', { title: 'Real Estate — Clearwave Crypto', description: 'Real estate investing with Clearwave: funded residential and commercial deals with monthly returns and one-month terms.' }) %>
+<%- include('partials/nav', { active: 'real-estate' }) %>
+
+  <main class="page-main">
+    <%- include('partials/page-header', { title: 'Real Estate Investing', crumb: 'Real Estate' }) %>
+
+    <section class="container section-pad">
+      <div class="split">
+        <div class="split-copy prose">
+          <h2>Real Estate Investing</h2>
+          <p>Buying real estate is about more than just finding a place to call home. Investing in real estate has become increasingly popular over the last 50 years and has become a common investment vehicle.</p>
+          <p>Although the real estate market has plenty of opportunities for making big gains, buying and owning real estate is a lot more complicated than investing in stocks and bonds.</p>
+          <p>Perhaps the biggest difference between a rental property and other investments is the amount of time and work you have to devote to maintaining your investment.</p>
+          <a href="/contact" class="btn-cta-primary">Join for Free<span>→</span></a>
+        </div>
+        <figure class="split-media">
+          <img src="/assets/images/site/company-1.jpg" width="1280" height="720" loading="lazy" alt="Real estate investment opportunity" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="value-grid">
+        <article class="value-card">
+          <h3>Integrity</h3>
+          <p>Our reputation precedes us as we seek to build trusting relationships by keeping our promises and in most times exceeding our client’s expectations by raising the bar and thereby transforming the way business is done.</p>
+        </article>
+        <article class="value-card">
+          <h3>Team work</h3>
+          <p>With a team of dedicated staff all trying their best in every circumstance to collaborate using their individual skills to achieve the company’s goals.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">Real Estate Market</div>
+          <h2 class="section-title">Funded deals, <em>monthly returns</em></h2>
+        </div>
+        <div class="real-estate-grid">
+          <% deals.forEach(function (deal) { %>
+            <div class="prop-card">
+              <div class="prop-img">
+                <img class="prop-photo" src="/assets/images/site/<%= deal.img %>" width="1920" height="1280" loading="lazy" alt="<%= deal.name %>" />
+                <div class="prop-body">
+                  <div class="prop-roi"><%= deal.roi %> ROI</div>
+                  <div class="prop-price"><%= deal.value %></div>
+                  <div class="prop-meta"><span>Min <%= deal.min %></span><span>1 Month</span><span>Monthly returns</span></div>
+                  <a href="/contact" class="prop-cta">Invest Now</a>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="value-grid value-grid--3">
+        <article class="value-card">
+          <h3>Today’s mortgage rates</h3>
+          <p>Track the latest mortgage rate benchmarks before you commit capital to a property deal.</p>
+          <a href="/contact" class="text-link">View More →</a>
+        </article>
+        <article class="value-card">
+          <h3>Mortgage rates</h3>
+          <p>Compare fixed and variable structures and see how rate changes move your monthly returns.</p>
+          <a href="/contact" class="text-link">View More →</a>
+        </article>
+        <article class="value-card">
+          <h3>Mortgage and real estate news</h3>
+          <p>Market commentary, supply data and what it means for the deals currently open on Clearwave.</p>
+          <a href="/contact" class="text-link">View →</a>
+        </article>
+      </div>
+    </section>
+
+    <%- include('partials/newsletter') %>
+  </main>
+
+<%- include('partials/footer') %>

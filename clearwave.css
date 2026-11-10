@@ -993,3 +993,240 @@ a.svc-card { text-decoration: none; color: inherit; }
   .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
   .footer-legal { flex-wrap: wrap; justify-content: center; }
 }
+
+/* ============================================================
+   9. THEME — light (default) / dark
+   `data-theme="dark"` is set on <html> by the inline init script
+   in partials/head.ejs and toggled by clearwave.js. Only tokens are
+   redefined here; every component already reads them.
+   ============================================================ */
+:root {
+  --accent-solid: #1A7A6E;      /* fill for solid accent buttons */
+  --accent-solid-hover: #2A9D8F;
+  --ink: #0D1E1C;               /* deepest banner / footer surface */
+}
+html { color-scheme: light; }
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:            #07110F;
+  --bg-alt:        #0C1B18;
+  --surface:       #0A1714;
+  --surface-2:     #0F1F1B;
+  --accent:        #3ECFBC;
+  --accent-mid:    #5FDCCA;
+  --accent-light:  #7FE3D8;
+  --accent-ghost:  rgba(62, 207, 188, 0.10);
+  --accent-border: rgba(62, 207, 188, 0.24);
+  --accent-solid:  #0F7C6F;
+  --accent-solid-hover: #139485;
+  --text-1:        #EAF7F5;
+  --text-2:        #A9C6C1;
+  --text-3:        #7E9C97;
+  --border:        rgba(255, 255, 255, 0.09);
+  --shadow-sm:     0 2px 12px rgba(0, 0, 0, 0.35);
+  --shadow-md:     0 8px 32px rgba(0, 0, 0, 0.45);
+  --shadow-lg:     0 24px 64px rgba(0, 0, 0, 0.55);
+  --ink:           #051210;
+}
+body { transition: background-color 0.35s ease, color 0.35s ease; }
+
+/* Surfaces that are hard-coded to the light palette */
+html[data-theme="dark"] .nav { background: rgba(7, 17, 15, 0.82); }
+html[data-theme="dark"] .nav.scrolled {
+  background: rgba(7, 17, 15, 0.95);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+}
+html[data-theme="dark"] .cta-inner {
+  background: var(--ink);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+html[data-theme="dark"] .footer {
+  background: var(--ink);
+  border-top-color: rgba(255, 255, 255, 0.07);
+}
+html[data-theme="dark"] .pricing-card.featured {
+  background: #081915;
+  border-color: var(--accent-border);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+html[data-theme="dark"] .pricing-card.featured:hover { box-shadow: 0 28px 80px rgba(0, 0, 0, 0.6); }
+html[data-theme="dark"] .phone-shell {
+  background: #1B2B28;
+  box-shadow:
+    0 0 0 1px rgba(62, 207, 188, 0.12),
+    0 24px 56px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Deep teal banners keep white type legible on a dark page */
+html[data-theme="dark"] .svc-hero,
+html[data-theme="dark"] .cw-video,
+html[data-theme="dark"] .newsletter {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(62, 207, 188, 0.20) 0%, transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(15, 124, 111, 0.32) 0%, transparent 50%),
+    linear-gradient(135deg, #061B17 0%, #0B352F 55%, #04100E 100%);
+}
+html[data-theme="dark"] .prop-img {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(62, 207, 188, 0.18) 0%, transparent 60%),
+    linear-gradient(140deg, #061B17 0%, #0B352F 70%, #04100E 100%);
+}
+
+/* Filled accents: brighter teal reads as text, deeper teal carries white type */
+html[data-theme="dark"] .btn-primary,
+html[data-theme="dark"] .btn-primary-lg,
+html[data-theme="dark"] .btn-cta-primary,
+html[data-theme="dark"] .mm-cta,
+html[data-theme="dark"] .mobile-menu .mobile-cta,
+html[data-theme="dark"] .hero-badge-dot,
+html[data-theme="dark"] .float-badge-icon,
+html[data-theme="dark"] .hero-float-badge-2,
+html[data-theme="dark"] .step-num,
+html[data-theme="dark"] .svc-step-num,
+html[data-theme="dark"] .pricing-badge,
+html[data-theme="dark"] .toggle-switch,
+html[data-theme="dark"] .faq-item.open .faq-icon,
+html[data-theme="dark"] .carousel-btn:hover,
+html[data-theme="dark"] .zoom-btn:hover:not(:disabled),
+html[data-theme="dark"] .pricing-card.featured .pricing-cta { background-color: var(--accent-solid); }
+
+html[data-theme="dark"] .btn-primary:hover,
+html[data-theme="dark"] .btn-primary-lg:hover,
+html[data-theme="dark"] .btn-cta-primary:hover,
+html[data-theme="dark"] .mobile-menu .mobile-cta:hover,
+html[data-theme="dark"] .pricing-card.featured .pricing-cta:hover { background-color: var(--accent-solid-hover); }
+
+html[data-theme="dark"] .newsletter-btn,
+html[data-theme="dark"] .prop-cta { color: #0B3A35; }
+
+/* ============================================================
+   10. THEME TOGGLE
+   ============================================================ */
+.theme-toggle {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--accent-border);
+  background: var(--surface-2);
+  color: var(--accent);
+  box-shadow: var(--shadow-sm);
+  transition: background 0.3s var(--silk), border-color 0.3s var(--silk), transform 0.3s var(--silk);
+}
+.theme-toggle:hover {
+  background: var(--accent-ghost);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.theme-toggle svg { width: 17px; height: 17px; display: block; }
+.theme-toggle .icon-sun { display: none; }
+html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+@media (max-width: 768px) {
+  .theme-toggle { width: 38px; height: 38px; margin-left: auto; }
+}
+
+/* ============================================================
+   11. PRODUCT IMAGERY
+   Self-contained SVG illustrations; the dark app panels match in
+   both themes, so no per-theme swapping is needed.
+   ============================================================ */
+.hero-shot {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  margin: 0;
+  padding: 8px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--silk-dur) var(--silk);
+}
+.hero-shot:hover { transform: translateY(-3px); }
+.hero-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--radius-lg) - 8px);
+}
+.hero-shot-caption {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 100px;
+  background: rgba(7, 20, 17, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #DDF3EC;
+}
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3ECFBC;
+  box-shadow: 0 0 0 3px rgba(62, 207, 188, 0.2);
+}
+
+.how-figure { max-width: 1040px; margin: 0 auto 42px; }
+.how-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+.how-figure figcaption {
+  max-width: 680px;
+  margin: 14px auto 0;
+  text-align: center;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--text-3);
+}
+@media (max-width: 768px) {
+  .hero-shot { max-width: 100%; }
+  .hero-shot-caption { left: 14px; bottom: 14px; font-size: 0.66rem; }
+  .how-figure { margin-bottom: 30px; }
+}
+
+/* Property photography sits under a scrim so the deal figures stay legible */
+.prop-img {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+.prop-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--silk);
+}
+.prop-img::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(4, 14, 12, 0.22) 0%, rgba(4, 14, 12, 0.45) 42%, rgba(4, 14, 12, 0.93) 100%);
+}
+.prop-tag,
+.prop-body { position: relative; z-index: 2; }
+.prop-card:hover .prop-photo { transform: scale(1.05); }
+@media (max-width: 480px) {
+  .prop-img { min-height: 290px; }
+}

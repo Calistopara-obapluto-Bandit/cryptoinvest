@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600" role="img" aria-labelledby="cwDashTitle cwDashDesc" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">
+  <title id="cwDashTitle">Clearwave Crypto paper trading dashboard</title>
+  <desc id="cwDashDesc">A simulated trading dashboard with a $28,412.65 demo portfolio, a seven-day balance chart, live BTC, ETH and SOL quotes, and a buy order ticket for $1,000.</desc>
+
+  <defs>
+    <linearGradient id="cwBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B1D19" />
+      <stop offset="1" stop-color="#050E0C" />
+    </linearGradient>
+    <linearGradient id="cwArea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3ECFBC" stop-opacity="0.40" />
+      <stop offset="1" stop-color="#3ECFBC" stop-opacity="0" />
+    </linearGradient>
+    <radialGradient id="cwGlow" cx="0.82" cy="0.06" r="0.72">
+      <stop offset="0" stop-color="#2AB7A4" stop-opacity="0.26" />
+      <stop offset="1" stop-color="#2AB7A4" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="cwGlow2" cx="0.06" cy="0.95" r="0.6">
+      <stop offset="0" stop-color="#1A7A6E" stop-opacity="0.30" />
+      <stop offset="1" stop-color="#1A7A6E" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="900" height="600" rx="26" fill="url(#cwBg)" />
+  <rect width="900" height="600" rx="26" fill="url(#cwGlow)" />
+  <rect width="900" height="600" rx="26" fill="url(#cwGlow2)" />
+  <rect x="0.75" y="0.75" width="898.5" height="598.5" rx="25.5" fill="none" stroke="#1E3733" stroke-width="1.5" />
+
+  <!-- window chrome -->
+  <path d="M0 62H900" stroke="#1B302C" stroke-width="1.5" />
+  <circle cx="30" cy="31" r="5.5" fill="#FF5F57" />
+  <circle cx="50" cy="31" r="5.5" fill="#FFBD2E" />
+  <circle cx="70" cy="31" r="5.5" fill="#28CA41" />
+  <text x="94" y="36" font-size="16.5" font-weight="700" letter-spacing="-0.3" fill="#E8F6F3">Clearwave</text>
+  <text x="188" y="36" font-size="15" fill="#8FB3AD">Crypto</text>
+  <text x="246" y="36" font-size="13.5" fill="#4E6B66">/ paper account</text>
+  <rect x="734" y="17" width="134" height="28" rx="14" fill="#0F2A25" stroke="#234B44" />
+  <circle cx="753" cy="31" r="4" fill="#3ECFBC" />
+  <text x="765" y="35.5" font-size="11" font-weight="700" letter-spacing="1.3" fill="#55DCC8">SIMULATED</text>
+
+  <!-- portfolio summary -->
+  <text x="36" y="108" font-size="11.5" font-weight="700" letter-spacing="1.8" fill="#6E8C87">PORTFOLIO VALUE</text>
+  <text x="34" y="156" font-size="44" font-weight="700" letter-spacing="-1.6" fill="#F2FBFA">$28,412<tspan font-size="29" fill="#9EC0BA">.65</tspan></text>
+  <rect x="36" y="170" width="126" height="28" rx="14" fill="#0F2A25" stroke="#234B44" />
+  <path d="M51 187l5-6 5 6z" fill="#55DCC8" />
+  <text x="67" y="189" font-size="12.5" font-weight="700" fill="#55DCC8">4.82%</text>
+  <text x="176" y="189" font-size="12.5" fill="#5F7C77">vs. yesterday</text>
+
+  <!-- balance chart -->
+  <rect x="36" y="216" width="520" height="200" rx="18" fill="#0A1714" stroke="#1B302C" />
+  <text x="56" y="243" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#4E6B66">7-DAY BALANCE</text>
+  <rect x="452" y="228" width="30" height="22" rx="11" fill="#12302B" stroke="#235049" />
+  <text x="467" y="243" font-size="10" font-weight="700" fill="#55DCC8" text-anchor="middle">1W</text>
+  <text x="502" y="243" font-size="10" font-weight="600" fill="#4E6B66" text-anchor="middle">1M</text>
+  <text x="534" y="243" font-size="10" font-weight="600" fill="#4E6B66" text-anchor="end">3M</text>
+  <g stroke="#142723" stroke-width="1">
+    <path d="M56 276H536" />
+    <path d="M56 320H536" />
+    <path d="M56 364H536" />
+  </g>
+  <path d="M56 382 L100 358 L144 368 L188 338 L232 350 L276 316 L320 330 L364 290 L408 304 L452 274 L496 286 L536 256 L536 396 L56 396 Z" fill="url(#cwArea)" />
+  <path d="M56 382 L100 358 L144 368 L188 338 L232 350 L276 316 L320 330 L364 290 L408 304 L452 274 L496 286 L536 256" fill="none" stroke="#3ECFBC" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+  <circle cx="536" cy="256" r="9" fill="#3ECFBC" opacity="0.16" />
+  <circle cx="536" cy="256" r="4.5" fill="#3ECFBC" />
+  <text x="56" y="404" font-size="10" fill="#3F5C57">MON</text>
+  <text x="228" y="404" font-size="10" fill="#3F5C57">WED</text>
+  <text x="398" y="404" font-size="10" fill="#3F5C57">FRI</text>
+  <text x="536" y="404" font-size="10" fill="#3F5C57" text-anchor="end">SUN</text>
+
+  <!-- live market strip -->
+  <g>
+    <rect x="36" y="436" width="164" height="84" rx="14" fill="#0A1714" stroke="#1B302C" />
+    <circle cx="62" cy="462" r="14" fill="#F7931A" fill-opacity="0.16" stroke="#F7931A" stroke-opacity="0.5" />
+    <text x="62" y="467" font-size="13" font-weight="700" fill="#F7931A" text-anchor="middle">B</text>
+    <text x="86" y="461" font-size="11" font-weight="700" letter-spacing="0.8" fill="#8FAFAA">BTC</text>
+    <text x="86" y="481" font-size="15.5" font-weight="700" fill="#EFF9F7">$68,420</text>
+    <text x="184" y="505" font-size="11.5" font-weight="700" fill="#55DCC8" text-anchor="end">+2.48%</text>
+
+    <rect x="214" y="436" width="164" height="84" rx="14" fill="#0A1714" stroke="#1B302C" />
+    <circle cx="240" cy="462" r="14" fill="#627EEA" fill-opacity="0.16" stroke="#627EEA" stroke-opacity="0.5" />
+    <text x="240" y="467" font-size="13" font-weight="700" fill="#8FA6FF" text-anchor="middle">E</text>
+    <text x="264" y="461" font-size="11" font-weight="700" letter-spacing="0.8" fill="#8FAFAA">ETH</text>
+    <text x="264" y="481" font-size="15.5" font-weight="700" fill="#EFF9F7">$3,528</text>
+    <text x="362" y="505" font-size="11.5" font-weight="700" fill="#55DCC8" text-anchor="end">+1.16%</text>
+
+    <rect x="392" y="436" width="164" height="84" rx="14" fill="#0A1714" stroke="#1B302C" />
+    <circle cx="418" cy="462" r="14" fill="#7C67F7" fill-opacity="0.16" stroke="#7C67F7" stroke-opacity="0.5" />
+    <text x="418" y="467" font-size="13" font-weight="700" fill="#A99BFF" text-anchor="middle">S</text>
+    <text x="442" y="461" font-size="11" font-weight="700" letter-spacing="0.8" fill="#8FAFAA">SOL</text>
+    <text x="442" y="481" font-size="15.5" font-weight="700" fill="#EFF9F7">$162.84</text>
+    <text x="540" y="505" font-size="11.5" font-weight="700" fill="#F08A8A" text-anchor="end">-0.82%</text>
+  </g>
+  <text x="36" y="556" font-size="11.5" fill="#4E6B66">Live quotes refresh every 30 seconds · demo funds only</text>
+
+  <!-- order ticket -->
+  <rect x="584" y="100" width="280" height="460" rx="20" fill="#0B1A17" stroke="#1E3733" />
+  <text x="608" y="132" font-size="16" font-weight="700" letter-spacing="-0.3" fill="#EFF9F7">Order ticket</text>
+
+  <rect x="608" y="146" width="232" height="38" rx="19" fill="#08110F" stroke="#1B302C" />
+  <rect x="610" y="148" width="114" height="34" rx="17" fill="#12897C" />
+  <text x="667" y="170" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">Buy</text>
+  <text x="783" y="170" font-size="13" font-weight="600" fill="#7B9994" text-anchor="middle">Sell</text>
+
+  <text x="608" y="212" font-size="10" font-weight="700" letter-spacing="1.5" fill="#5F7C77">ASSET</text>
+  <rect x="608" y="220" width="232" height="46" rx="12" fill="#08110F" stroke="#1B302C" />
+  <circle cx="632" cy="243" r="12" fill="#F7931A" fill-opacity="0.18" stroke="#F7931A" stroke-opacity="0.5" />
+  <text x="632" y="248" font-size="12" font-weight="700" fill="#F7931A" text-anchor="middle">B</text>
+  <text x="652" y="240" font-size="12.5" font-weight="700" fill="#EFF9F7">BTC · Bitcoin</text>
+  <text x="652" y="256" font-size="10.5" fill="#6E8C87">Live price $68,420.55</text>
+  <path d="M814 241l6 6 6-6" fill="none" stroke="#5F7C77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+
+  <text x="608" y="292" font-size="10" font-weight="700" letter-spacing="1.5" fill="#5F7C77">AMOUNT (USD)</text>
+  <rect x="608" y="300" width="232" height="52" rx="12" fill="#08110F" stroke="#1B302C" />
+  <text x="624" y="334" font-size="23" font-weight="700" letter-spacing="-0.6" fill="#F2FBFA">$1,000.00</text>
+  <text x="824" y="332" font-size="10.5" font-weight="600" fill="#4E6B66" text-anchor="end">USD</text>
+
+  <rect x="608" y="366" width="72" height="28" rx="14" fill="#0F2A25" stroke="#234B44" />
+  <text x="644" y="384" font-size="10.5" font-weight="600" fill="#8FAFAA" text-anchor="middle">25%</text>
+  <rect x="688" y="366" width="72" height="28" rx="14" fill="#0F2A25" stroke="#234B44" />
+  <text x="724" y="384" font-size="10.5" font-weight="600" fill="#8FAFAA" text-anchor="middle">50%</text>
+  <rect x="768" y="366" width="72" height="28" rx="14" fill="#0F2A25" stroke="#234B44" />
+  <text x="804" y="384" font-size="10.5" font-weight="600" fill="#8FAFAA" text-anchor="middle">Max</text>
+
+  <path d="M608 414H840" stroke="#1B302C" stroke-dasharray="4 4" />
+  <text x="608" y="438" font-size="12" fill="#8FAFAA">Est. quantity</text>
+  <text x="840" y="438" font-size="12" font-weight="600" fill="#EFF9F7" text-anchor="end">0.01462 BTC</text>
+  <text x="608" y="460" font-size="12" fill="#8FAFAA">Paper fee (0.10%)</text>
+  <text x="840" y="460" font-size="12" font-weight="600" fill="#EFF9F7" text-anchor="end">$1.00</text>
+  <path d="M608 472H840" stroke="#1B302C" />
+  <text x="608" y="494" font-size="12.5" font-weight="600" fill="#C6E3DD">Total debit</text>
+  <text x="840" y="494" font-size="12.5" font-weight="700" fill="#55DCC8" text-anchor="end">$1,001.00</text>
+
+  <rect x="608" y="506" width="232" height="40" rx="20" fill="#12897C" />
+  <text x="724" y="531" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">Place paper order</text>
+  <text x="724" y="556" font-size="9.5" fill="#4E6B66" text-anchor="middle">No real money at risk</text>
+</svg>

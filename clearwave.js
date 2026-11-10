@@ -179,5 +179,38 @@
         if (document.body.classList.contains('menu-open')) setMenu(false);
       });
     });
+
+    /* ---------- 7. Light / dark theme ---------- */
+    // The inline script in the head sets the saved theme before paint; from
+    // here we keep the buttons' state in sync and persist each change.
+    var themeButtons = Array.prototype.slice.call(document.querySelectorAll('[data-theme-toggle]'));
+
+    function activeTheme() {
+      return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    }
+
+    function applyTheme(theme) {
+      var isDark = theme === 'dark';
+      var label = isDark ? 'Switch to light theme' : 'Switch to dark theme';
+      document.documentElement.setAttribute('data-theme', theme);
+      themeButtons.forEach(function (button) {
+        button.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+        button.setAttribute('aria-label', label);
+        button.setAttribute('title', label);
+      });
+      try {
+        localStorage.setItem('cw-theme', theme);
+      } catch (error) {
+        // Storage blocked — the theme still applies for this page view.
+      }
+    }
+
+    themeButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        applyTheme(activeTheme() === 'dark' ? 'light' : 'dark');
+      });
+    });
+
+    applyTheme(activeTheme());
   });
 })();

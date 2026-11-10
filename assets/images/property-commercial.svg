@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" width="600" height="420" role="img" aria-labelledby="cwComTitle cwComDesc">
+  <title id="cwComTitle">Commercial office towers at dusk</title>
+  <desc id="cwComDesc">Illustration of glass office towers and a lit retail podium, representing the commercial demo property portfolio.</desc>
+
+  <defs>
+    <linearGradient id="comSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#051613" />
+      <stop offset="0.6" stop-color="#0B2E28" />
+      <stop offset="1" stop-color="#164A3F" />
+    </linearGradient>
+    <linearGradient id="comGlass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#14544A" />
+      <stop offset="0.45" stop-color="#0C312B" />
+      <stop offset="1" stop-color="#08221E" />
+    </linearGradient>
+    <linearGradient id="comPodium" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7C778" stop-opacity="0.85" />
+      <stop offset="1" stop-color="#F2B65A" stop-opacity="0.35" />
+    </linearGradient>
+    <radialGradient id="comGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#3ECFBC" stop-opacity="0.28" />
+      <stop offset="1" stop-color="#3ECFBC" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="comWin" width="24" height="26" patternUnits="userSpaceOnUse">
+      <rect x="4" y="6" width="15" height="13" rx="1.5" fill="#7FE3D8" opacity="0.28" />
+    </pattern>
+    <pattern id="comWinLit" width="24" height="26" patternUnits="userSpaceOnUse">
+      <rect x="4" y="6" width="15" height="13" rx="1.5" fill="#9BEDE0" opacity="0.55" />
+    </pattern>
+    <pattern id="comWinAmber" width="24" height="26" patternUnits="userSpaceOnUse">
+      <rect x="4" y="6" width="15" height="13" rx="1.5" fill="#F2B65A" opacity="0.55" />
+    </pattern>
+  </defs>
+
+  <rect width="600" height="420" fill="url(#comSky)" />
+  <circle cx="452" cy="86" r="90" fill="url(#comGlow)" />
+  <g fill="#CFEAE2" opacity="0.45">
+    <circle cx="58" cy="44" r="1.4" />
+    <circle cx="128" cy="70" r="1.2" />
+    <circle cx="212" cy="32" r="1.3" />
+    <circle cx="536" cy="50" r="1.5" />
+    <circle cx="572" cy="118" r="1.2" />
+  </g>
+
+  <!-- background tower -->
+  <rect x="44" y="126" width="112" height="224" fill="#0A241F" stroke="#163F38" stroke-width="2" />
+  <rect x="58" y="146" width="84" height="150" fill="url(#comWin)" />
+  <rect x="58" y="146" width="84" height="150" fill="url(#comWinLit)" opacity="0.5" />
+  <path d="M56 126h88" stroke="#1B4A42" stroke-width="4" />
+
+  <!-- main tower -->
+  <rect x="176" y="60" width="196" height="290" fill="url(#comGlass)" stroke="#1E5148" stroke-width="2" />
+  <rect x="192" y="80" width="164" height="228" fill="url(#comWin)" />
+  <rect x="192" y="80" width="164" height="228" fill="url(#comWinLit)" />
+  <rect x="192" y="80" width="164" height="60" fill="url(#comWinAmber)" opacity="0.5" />
+  <path d="M176 120h196M176 160h196M176 200h196M176 240h196M176 280h196M176 320h196" stroke="#16463E" stroke-width="1.5" />
+  <path d="M274 60V32" stroke="#2A5A53" stroke-width="3" stroke-linecap="round" />
+  <circle cx="274" cy="28" r="4" fill="#F2B65A" />
+  <rect x="176" y="60" width="196" height="6" fill="#27695E" />
+
+  <!-- right tower -->
+  <rect x="396" y="138" width="136" height="212" fill="#0B2822" stroke="#1B4A42" stroke-width="2" />
+  <rect x="410" y="156" width="108" height="176" fill="url(#comWinLit)" />
+  <rect x="410" y="156" width="108" height="60" fill="url(#comWinAmber)" opacity="0.4" />
+  <path d="M396 198h136M396 238h136M396 278h136" stroke="#16463E" stroke-width="1.5" />
+
+  <!-- retail podium -->
+  <rect x="26" y="300" width="548" height="62" fill="#0B2621" stroke="#1B4A42" stroke-width="2" />
+  <rect x="44" y="314" width="512" height="34" rx="4" fill="url(#comPodium)" opacity="0.8" />
+  <g stroke="#0B2621" stroke-width="8">
+    <path d="M150 314v34M256 314v34M362 314v34M468 314v34" />
+  </g>
+  <rect x="26" y="300" width="548" height="5" fill="#2A5A53" />
+
+  <!-- plaza -->
+  <rect y="362" width="600" height="58" fill="#071915" />
+  <path d="M0 366H600" stroke="#1B463E" stroke-width="3" />
+  <g fill="#0C352C">
+    <ellipse cx="76" cy="392" rx="30" ry="16" />
+    <ellipse cx="524" cy="392" rx="30" ry="16" />
+  </g>
+  <g fill="#123F38">
+    <circle cx="76" cy="380" r="17" />
+    <circle cx="524" cy="380" r="17" />
+  </g>
+  <g fill="#1B463E">
+    <rect x="118" y="404" width="70" height="5" rx="2.5" />
+    <rect x="414" y="404" width="70" height="5" rx="2.5" />
+  </g>
+  <rect y="410" width="600" height="10" fill="#051210" />
+</svg>

@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" width="1200" height="480" role="img" aria-labelledby="cwFlowTitle cwFlowDesc" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">
+  <title id="cwFlowTitle">How Clearwave paper trading works</title>
+  <desc id="cwFlowDesc">Four numbered steps: pick a plan, fund the demo account with pretend cash, trade live market prices, then review the trade ledger and repeat.</desc>
+
+  <defs>
+    <linearGradient id="cwFlowBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B1D19" />
+      <stop offset="1" stop-color="#050E0C" />
+    </linearGradient>
+    <radialGradient id="cwFlowGlow" cx="0.5" cy="-0.15" r="0.85">
+      <stop offset="0" stop-color="#2AB7A4" stop-opacity="0.22" />
+      <stop offset="1" stop-color="#2AB7A4" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="480" rx="26" fill="url(#cwFlowBg)" />
+  <rect width="1200" height="480" rx="26" fill="url(#cwFlowGlow)" />
+  <rect x="0.75" y="0.75" width="1198.5" height="478.5" rx="25.5" fill="none" stroke="#1E3733" stroke-width="1.5" />
+
+  <text x="48" y="56" font-size="11.5" font-weight="700" letter-spacing="2" fill="#5F7C77">HOW IT WORKS</text>
+  <text x="48" y="92" font-size="22" font-weight="700" letter-spacing="-0.4" fill="#EFF9F7">From demo cash to a reviewed trade journal</text>
+  <text x="1152" y="56" font-size="11.5" font-weight="600" letter-spacing="1.2" fill="#3F5C57" text-anchor="end">LIVE QUOTES · PAPER FUNDS</text>
+
+  <!-- step 1 -->
+  <rect x="44" y="132" width="252" height="268" rx="20" fill="#0B1A17" stroke="#1E3733" />
+  <circle cx="78" cy="172" r="17" fill="#0F2A25" stroke="#2A5A53" />
+  <text x="78" y="178" font-size="13" font-weight="700" fill="#55DCC8" text-anchor="middle">1</text>
+  <text x="106" y="177" font-size="10" font-weight="700" letter-spacing="1.6" fill="#5F7C77">STEP ONE</text>
+  <g transform="translate(170 236)">
+    <rect x="-48" y="-30" width="64" height="54" rx="8" fill="#0F2A25" stroke="#2A5A53" transform="rotate(-12)" />
+    <rect x="-38" y="-24" width="64" height="54" rx="8" fill="#12302B" stroke="#2A5A53" transform="rotate(-4)" />
+    <rect x="-28" y="-18" width="64" height="54" rx="8" fill="#0E2420" stroke="#3ECFBC" stroke-width="1.8" />
+    <circle cx="-14" cy="-4" r="3.5" fill="#3ECFBC" />
+    <path d="M-6 -4H26" stroke="#3ECFBC" stroke-width="2" stroke-linecap="round" />
+    <path d="M-12 8H22" stroke="#3D6A63" stroke-width="2" stroke-linecap="round" />
+    <path d="M-12 18H12" stroke="#3D6A63" stroke-width="2" stroke-linecap="round" />
+  </g>
+  <text x="170" y="318" font-size="17" font-weight="700" letter-spacing="-0.3" fill="#EFF9F7" text-anchor="middle">Pick a plan</text>
+  <text x="170" y="343" font-size="12" fill="#7B9994" text-anchor="middle">Starter to Premium —</text>
+  <text x="170" y="361" font-size="12" fill="#7B9994" text-anchor="middle">every market unlocked.</text>
+
+  <!-- step 2 -->
+  <rect x="332" y="132" width="252" height="268" rx="20" fill="#0B1A17" stroke="#1E3733" />
+  <circle cx="366" cy="172" r="17" fill="#0F2A25" stroke="#2A5A53" />
+  <text x="366" y="178" font-size="13" font-weight="700" fill="#55DCC8" text-anchor="middle">2</text>
+  <text x="394" y="177" font-size="10" font-weight="700" letter-spacing="1.6" fill="#5F7C77">STEP TWO</text>
+  <g transform="translate(458 236)">
+    <circle cx="0" cy="-34" r="11" fill="#F2B65A" fill-opacity="0.16" stroke="#F2B65A" stroke-width="1.6" />
+    <text x="0" y="-30" font-size="11.5" font-weight="700" fill="#F2B65A" text-anchor="middle">$</text>
+    <rect x="-36" y="-18" width="72" height="52" rx="10" fill="#0E2420" stroke="#3ECFBC" stroke-width="1.8" />
+    <path d="M-36 -2h72" stroke="#3ECFBC" stroke-width="1.8" />
+    <rect x="6" y="4" width="36" height="22" rx="7" fill="#0F2A25" stroke="#2A5A53" />
+    <circle cx="24" cy="15" r="4" fill="#F2B65A" />
+    <path d="M-20 12h14" stroke="#3D6A63" stroke-width="2" stroke-linecap="round" />
+  </g>
+  <text x="458" y="318" font-size="17" font-weight="700" letter-spacing="-0.3" fill="#EFF9F7" text-anchor="middle">Fund demo cash</text>
+  <text x="458" y="343" font-size="12" fill="#7B9994" text-anchor="middle">Add $100 – $100,000</text>
+  <text x="458" y="361" font-size="12" fill="#7B9994" text-anchor="middle">of pretend capital.</text>
+
+  <!-- step 3 -->
+  <rect x="620" y="132" width="252" height="268" rx="20" fill="#0B1A17" stroke="#1E3733" />
+  <circle cx="654" cy="172" r="17" fill="#0F2A25" stroke="#2A5A53" />
+  <text x="654" y="178" font-size="13" font-weight="700" fill="#55DCC8" text-anchor="middle">3</text>
+  <text x="682" y="177" font-size="10" font-weight="700" letter-spacing="1.6" fill="#5F7C77">STEP THREE</text>
+  <g transform="translate(746 236)">
+    <path d="M-42 26H42" stroke="#2A5A53" stroke-width="1.5" />
+    <path d="M-26 2v26" stroke="#3ECFBC" stroke-width="1.6" stroke-linecap="round" />
+    <rect x="-31" y="8" width="10" height="14" rx="2" fill="#3ECFBC" />
+    <path d="M-8 -8v30" stroke="#3ECFBC" stroke-width="1.6" stroke-linecap="round" />
+    <rect x="-13" y="-4" width="10" height="18" rx="2" fill="#12302B" stroke="#3ECFBC" />
+    <path d="M12 -18v28" stroke="#F2B65A" stroke-width="1.6" stroke-linecap="round" />
+    <rect x="7" y="-14" width="10" height="16" rx="2" fill="#F2B65A" />
+    <path d="M-38 -18 L-18 -26 L2 -12 L22 -34 L38 -42" fill="none" stroke="#7FE3D8" stroke-width="2" stroke-dasharray="3 4" stroke-linecap="round" />
+  </g>
+  <text x="746" y="318" font-size="17" font-weight="700" letter-spacing="-0.3" fill="#EFF9F7" text-anchor="middle">Trade live quotes</text>
+  <text x="746" y="343" font-size="12" fill="#7B9994" text-anchor="middle">Buy and sell BTC, ETH</text>
+  <text x="746" y="361" font-size="12" fill="#7B9994" text-anchor="middle">and SOL at market prices.</text>
+
+  <!-- step 4 -->
+  <rect x="908" y="132" width="252" height="268" rx="20" fill="#0B1A17" stroke="#1E3733" />
+  <circle cx="942" cy="172" r="17" fill="#0F2A25" stroke="#2A5A53" />
+  <text x="942" y="178" font-size="13" font-weight="700" fill="#55DCC8" text-anchor="middle">4</text>
+  <text x="970" y="177" font-size="10" font-weight="700" letter-spacing="1.6" fill="#5F7C77">STEP FOUR</text>
+  <g transform="translate(1034 236)">
+    <rect x="-28" y="-34" width="54" height="68" rx="8" fill="#0E2420" stroke="#3ECFBC" stroke-width="1.8" />
+    <rect x="-12" y="-40" width="22" height="13" rx="4" fill="#12302B" stroke="#3ECFBC" stroke-width="1.5" />
+    <path d="M-16 -12H14M-16 0H14M-16 12H2" stroke="#3D6A63" stroke-width="2" stroke-linecap="round" />
+    <circle cx="32" cy="24" r="14" fill="#0F2A25" stroke="#F2B65A" stroke-width="1.6" />
+    <path d="M26 24l4 4 8-8" fill="none" stroke="#F2B65A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <text x="1034" y="318" font-size="17" font-weight="700" letter-spacing="-0.3" fill="#EFF9F7" text-anchor="middle">Review and repeat</text>
+  <text x="1034" y="343" font-size="12" fill="#7B9994" text-anchor="middle">Read the ledger, refine</text>
+  <text x="1034" y="361" font-size="12" fill="#7B9994" text-anchor="middle">the strategy, scale up.</text>
+
+  <!-- connectors -->
+  <g stroke="#2A5A53" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M302 266h22" stroke-dasharray="4 4" />
+    <path d="M318 260l6 6-6 6" />
+    <path d="M590 266h22" stroke-dasharray="4 4" />
+    <path d="M606 260l6 6-6 6" />
+    <path d="M878 266h22" stroke-dasharray="4 4" />
+    <path d="M894 260l6 6-6 6" />
+  </g>
+
+  <path d="M44 424H1156" stroke="#162924" />
+  <text x="600" y="455" font-size="12" font-weight="600" letter-spacing="0.6" fill="#5F7C77" text-anchor="middle">Pick a plan · Fund demo cash · Trade live quotes · Review the ledger</text>
+</svg>

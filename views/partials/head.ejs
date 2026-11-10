@@ -3,6 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // Apply the saved theme before first paint so dark mode never flashes light.
+    (function () {
+      try {
+        var saved = localStorage.getItem('cw-theme');
+        if (saved === 'dark' || saved === 'light') {
+          document.documentElement.setAttribute('data-theme', saved);
+        }
+      } catch (error) {
+        // Storage blocked — fall back to the light theme.
+      }
+    })();
+  </script>
   <meta name="description" content="<%= typeof description !== 'undefined' && description ? description : 'Clearwave Crypto — paper trading demo with live crypto markets. Practice before you commit real capital.' %>" />
   <title><%= typeof title !== 'undefined' && title ? title : 'Clearwave Crypto — Paper Trading Demo' %></title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />

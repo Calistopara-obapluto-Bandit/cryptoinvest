@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" width="600" height="420" role="img" aria-labelledby="cwMixTitle cwMixDesc">
+  <title id="cwMixTitle">Mixed-use building with shops and apartments</title>
+  <desc id="cwMixDesc">Illustration of a mixed-use block with ground-floor shopfronts under apartment floors, representing the mixed-use demo property portfolio.</desc>
+
+  <defs>
+    <linearGradient id="mixSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#061814" />
+      <stop offset="0.55" stop-color="#0C312B" />
+      <stop offset="1" stop-color="#185446" />
+    </linearGradient>
+    <linearGradient id="mixShop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F9D08A" stop-opacity="0.9" />
+      <stop offset="1" stop-color="#F2B65A" stop-opacity="0.4" />
+    </linearGradient>
+    <radialGradient id="mixGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#F2B65A" stop-opacity="0.28" />
+      <stop offset="1" stop-color="#F2B65A" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="mixWin" width="26" height="28" patternUnits="userSpaceOnUse">
+      <rect x="5" y="7" width="15" height="15" rx="2" fill="#F7C778" opacity="0.8" />
+    </pattern>
+    <pattern id="mixWinDim" width="26" height="28" patternUnits="userSpaceOnUse">
+      <rect x="5" y="7" width="15" height="15" rx="2" fill="#8FD9CA" opacity="0.3" />
+    </pattern>
+  </defs>
+
+  <rect width="600" height="420" fill="url(#mixSky)" />
+  <circle cx="108" cy="78" r="26" fill="#E8F7F1" opacity="0.9" />
+  <circle cx="102" cy="74" r="5" fill="#CFEAE2" opacity="0.45" />
+  <g fill="#CFEAE2" opacity="0.45">
+    <circle cx="42" cy="40" r="1.4" />
+    <circle cx="196" cy="52" r="1.2" />
+    <circle cx="298" cy="34" r="1.3" />
+    <circle cx="392" cy="66" r="1.1" />
+    <circle cx="512" cy="42" r="1.4" />
+  </g>
+
+  <!-- rear building -->
+  <rect x="430" y="176" width="146" height="180" fill="#0A241F" stroke="#17433B" stroke-width="2" />
+  <rect x="446" y="196" width="114" height="120" fill="url(#mixWinDim)" />
+  <rect x="446" y="196" width="114" height="46" fill="url(#mixWin)" opacity="0.55" />
+  <path d="M430 230h146M430 264h146M430 298h146" stroke="#143C35" stroke-width="1.5" />
+
+  <!-- main mixed-use block -->
+  <rect x="52" y="126" width="272" height="234" fill="#0E2C27" stroke="#245B51" stroke-width="2" />
+  <rect x="52" y="126" width="272" height="8" fill="#2A6A5E" />
+  <rect x="68" y="150" width="94" height="46" fill="url(#mixWinDim)" />
+  <rect x="176" y="150" width="94" height="46" fill="url(#mixWin)" />
+  <rect x="68" y="206" width="94" height="46" fill="url(#mixWin)" />
+  <rect x="176" y="206" width="94" height="46" fill="url(#mixWinDim)" />
+  <rect x="294" y="150" width="14" height="102" fill="#0A241F" />
+  <path d="M68 150v46M114 150v46M176 150v46M222 150v46M68 206v46M114 206v46M176 206v46M222 206v46" stroke="#143C35" stroke-width="1.5" />
+
+  <!-- balcony rail on the top floor -->
+  <g stroke="#245B51" stroke-width="2">
+    <path d="M60 200h122" />
+    <path d="M144 200v-12h8v12" fill="#0E2C27" />
+  </g>
+
+  <!-- shop level -->
+  <rect x="52" y="262" width="272" height="98" fill="#0A241F" />
+  <rect x="64" y="288" width="108" height="58" rx="3" fill="url(#mixShop)" />
+  <rect x="184" y="288" width="128" height="58" rx="3" fill="url(#mixShop)" opacity="0.75" />
+  <g stroke="#0A241F" stroke-width="6">
+    <path d="M118 288v58M248 288v58" />
+  </g>
+  <path d="M64 300H172M184 300H312" stroke="#FDF0D6" stroke-width="4" opacity="0.5" />
+
+  <!-- striped awning -->
+  <path d="M60 286H316L304 268H72Z" fill="#123F38" stroke="#2A6A5E" stroke-width="1.5" />
+  <g fill="#9BEDE0" opacity="0.55">
+    <path d="M94 268l-4 18h22l4-18z" />
+    <path d="M150 268l-4 18h22l4-18z" />
+    <path d="M206 268l-4 18h22l4-18z" />
+    <path d="M262 268l-4 18h22l4-18z" />
+  </g>
+  <rect x="140" y="352" width="96" height="8" rx="2" fill="#2A6A5E" opacity="0.6" />
+
+  <!-- storefront sign -->
+  <rect x="100" y="268" width="86" height="14" rx="4" fill="#0A241F" />
+  <path d="M112 275h60" stroke="#F7C778" stroke-width="3" stroke-linecap="round" />
+
+  <!-- street lamp -->
+  <circle cx="352" cy="318" r="58" fill="url(#mixGlow)" />
+  <rect x="349" y="286" width="5" height="88" fill="#1B463E" />
+  <path d="M351 286h24l-8 12h-16z" fill="#1B463E" />
+  <circle cx="369" cy="302" r="6" fill="#F7C778" />
+
+  <!-- tree -->
+  <g>
+    <rect x="20" y="312" width="7" height="62" fill="#0A231F" />
+    <circle cx="24" cy="294" r="28" fill="#0C352C" />
+    <circle cx="40" cy="312" r="18" fill="#0F3B32" />
+    <circle cx="8" cy="314" r="16" fill="#0A2C25" />
+  </g>
+
+  <!-- street -->
+  <rect y="360" width="600" height="60" fill="#071915" />
+  <path d="M0 364H600" stroke="#1B463E" stroke-width="3" />
+  <g stroke="#254F46" stroke-width="3" stroke-linecap="round" stroke-dasharray="24 20">
+    <path d="M20 396H580" />
+  </g>
+  <rect y="410" width="600" height="10" fill="#051210" />
+</svg>

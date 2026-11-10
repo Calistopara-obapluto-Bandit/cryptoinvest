@@ -269,5 +269,5 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log('Clearwave Crypto paper trading service listening on http://localhost:' + port);
+  console.log('Clearwave Crypto site listening on http://localhost:' + port);
 });

@@ -158,15 +158,20 @@
     Array.prototype.forEach.call(document.querySelectorAll('form[data-cw-form]'), function (form) {
       form.addEventListener('submit', function (event) {
         event.preventDefault();
-        var field = form.querySelector('input[type="email"], input[type="text"]');
         var status = form.querySelector('[data-form-status]');
-        if (field && !field.checkValidity()) {
-          if (status) status.textContent = 'Enter a valid email address to continue.';
-          field.focus();
+        // Let the browser enforce every required field, not just the first one.
+        if (!form.checkValidity()) {
+          if (status) status.textContent = '';
+          form.reportValidity();
           return;
         }
+        var email = form.querySelector('input[type="email"]');
         if (status) {
-          status.textContent = 'Thanks — your request is queued for a Clearwave rep.';
+          status.textContent = form.classList.contains('newsletter-form')
+            ? 'Thanks — you are subscribed. Watch your inbox for Clearwave updates.'
+            : (email && email.value
+              ? 'Thanks — we will be in touch at ' + email.value + '.'
+              : 'Thanks — your message is on its way to a Clearwave rep.');
           status.classList.add('is-ok');
         }
         form.reset();

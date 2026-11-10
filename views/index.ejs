@@ -32,7 +32,7 @@
     { quote: 'I have never trusted any investment platform ever before, but this changed everything. They manage my assets, funds and everything in-between.', name: 'Belal Liam', role: 'New Zealand', img: 'testimonial-3.png' }
   ];
 %>
-<%- include('partials/head', { title: 'Clearwave Crypto — Investment Platform', description: 'Clearwave helps to grow your financial portfolio with commodities, cryptocurrency, real estate, staking and stock & ETFS investment plans.' }) %>
+<%- include('partials/head', { title: 'Clearwave Crypto — Investment Platform', description: 'Clearwave helps to grow your financial portfolio with commodities, cryptocurrency, real estate, staking and stock & ETFs investment plans.' }) %>
 <%- include('partials/nav', { active: 'home' }) %>
 
   <main>
@@ -45,7 +45,7 @@
             <p class="hero-sub">As industry leaders, we pride ourselves on attracting and retaining the brightest minds in the business.</p>
             <div class="hero-actions">
               <a href="/contact" class="btn-primary-lg">Get Started<span class="btn-arrow">→</span></a>
-              <a href="#video" class="btn-outline-lg"><span>▶</span> Watch Video</a>
+              <a href="#platform" class="btn-outline-lg">See the platform<span>→</span></a>
             </div>
           </div>
           <div class="hero-visual">
@@ -57,27 +57,62 @@
       </div>
     </section>
 
-    <!-- VIDEO -->
-    <section class="video-section" id="video">
+    <!-- PLATFORM SHOWCASE -->
+    <section class="showcase-section" id="platform">
       <div class="container">
         <div class="features-header">
-          <h2 class="section-title">Watch how <em>we work</em></h2>
-          <p class="section-sub">Discover our investment strategies and success stories through our comprehensive video presentation</p>
+          <h2 class="section-title">A look <em>inside the platform</em></h2>
+          <p class="section-sub">The same site you are browsing — live market coverage, clear plan terms and a payout schedule you can follow.</p>
         </div>
-        <div class="video-frame">
-          <video class="video-player" controls preload="none" poster="/assets/images/site/video-poster.png">
-            <source src="https://globalmassfunds.com/assets/templates/new_template/video/globalmassfunds.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-        <div class="video-features">
-          <div class="video-feature">
+
+        <figure class="showcase-frame">
+          <div class="showcase-bar">
+            <span class="showcase-dot"></span>
+            <span class="showcase-dot"></span>
+            <span class="showcase-dot"></span>
+            <em>clearwavecrypto.com</em>
+          </div>
+          <div class="showcase-body" aria-hidden="true">
+            <div class="sc-nav">
+              <span class="sc-logo">Clear<span>wave</span></span>
+              <span class="sc-links"><i>Home</i><i>Services</i><i>About</i><i>Plans</i><i>Contact</i></span>
+              <span class="sc-cta">Get Started</span>
+            </div>
+            <div class="sc-hero">
+              <div class="sc-copy">
+                <span class="sc-badge">15K+ investors</span>
+                <strong class="sc-title">We help to grow your financial portfolio</strong>
+                <span class="sc-line"></span>
+                <span class="sc-line sc-line--short"></span>
+                <span class="sc-actions"><i class="sc-btn">Get Started</i><i class="sc-btn sc-btn--ghost">View Plans</i></span>
+              </div>
+              <div class="sc-chart">
+                <span style="--h: 42%"></span>
+                <span style="--h: 58%"></span>
+                <span style="--h: 36%"></span>
+                <span style="--h: 74%"></span>
+                <span style="--h: 63%"></span>
+                <span style="--h: 88%"></span>
+                <span style="--h: 100%"></span>
+              </div>
+            </div>
+            <div class="sc-plans">
+              <div class="sc-plan"><span>Starter</span><strong>1.5%</strong></div>
+              <div class="sc-plan"><span>Golden</span><strong>2.5%</strong></div>
+              <div class="sc-plan"><span>VIP</span><strong>6.6%</strong></div>
+            </div>
+          </div>
+          <figcaption class="showcase-caption">A preview of the Clearwave Crypto homepage.</figcaption>
+        </figure>
+
+        <div class="showcase-points">
+          <div class="showcase-point">
             <h3>Secure Investment Platform</h3>
             <p>Learn about our advanced security measures and investment protection strategies.</p>
           </div>
-          <div class="video-feature">
+          <div class="showcase-point">
             <h3>Expert Guidance</h3>
-            <p>Watch how our team of experts helps you maximize your investment returns.</p>
+            <p>Our team of experts helps you pick a plan that matches your deposit and timeline.</p>
           </div>
         </div>
       </div>
@@ -206,16 +241,12 @@
           <label class="calc-field">
             <span>Choose your plan</span>
             <select name="plan">
-              <option value="1.5" selected>BASIC — 1.5% daily</option>
-              <option value="2.5">SILVER — 2.5% daily</option>
-              <option value="3.5">GOLD — 3.5% daily</option>
-              <option value="4.5">PREMIUM — 4.5% daily</option>
-              <option value="5.5">SPECIAL SILVER — 5.5% daily</option>
-              <option value="6.6">SPECIAL GOLD — 6.6% daily</option>
-              <option value="15">GOLD STARTER — 15% daily</option>
-              <option value="18">GOLD SILVER — 18% daily</option>
-              <option value="22">GOLD PREMIUM — 22% daily</option>
-              <option value="22">SPECIAL PREMIUM — 22% daily</option>
+              <option value="1.5" selected>Starter — 1.5% daily</option>
+              <option value="2.5">Golden — 2.5% daily</option>
+              <option value="3.5">Ultimate — 3.5% daily</option>
+              <option value="4.5">Premium — 4.5% daily</option>
+              <option value="5.5">Index — 5.5% daily</option>
+              <option value="6.6">VIP — 6.6% daily</option>
             </select>
           </label>
           <label class="calc-field">

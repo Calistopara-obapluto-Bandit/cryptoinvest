@@ -311,37 +311,66 @@ app.use((req, res) => {
     status: 404
   });
 });
-app.use((error, req, res, next) => {
-  if (res.headersSent) return next(error);
+
+function render500(req, res, error, extraBody) {
+  if (res.headersSent) return;
   console.error(error);
-  if (req.path.startsWith('/api/')) {
+  const isApi = req.path.startsWith('/api/');
+  if (isApi) {
     return res.status(500).json({ error: 'The service could not complete that request.' });
   }
+  const body = extraBody || 'That request could not be completed. Try again, or contact support if it keeps happening.';
   res.status(500).render('message', {
     title: 'Something went wrong — Clearwave Crypto',
     description: 'The request could not be completed.',
     active: '',
     heading: 'Something went wrong',
-    body: 'That request could not be completed. Try again, or contact support if it keeps happening.',
+    body,
     status: 500
   });
+}
+
+app.use((error, req, res, next) => {
+  render500(req, res, error);
 });
 
-app.listen(port, () => {
-  console.log('Clearwave Crypto site listening on http://localhost:' + port);
-  // Prove the connection at startup: a wrong URL then shows up in the host's
-  // log immediately instead of as a failed first registration.
+process.on('uncaughtException', (error) => {
+  console.error('[fatal] uncaught exception:', error && (error.stack || error.message || error));
+  try {
+    appServer.close(() => process.exit(1));
+  } catch (closeError) {
+    process.exit(1);
+  }
+});
+
+const bootDatabase = () =>
   db.ping().then((state) => {
     const where = state.mode === 'local' ? 'embedded Postgres (.pglite/, set DATABASE_URL for Neon)' : 'DATABASE_URL';
     if (state.ok) {
       console.log('[db] ' + where + ' — ' + state.members + ' member(s), ready in ' + state.ms + 'ms');
-    } else {
-      console.error('[db] ' + where + ' connection failed:', state.error.message);
+      return state;
     }
+    console.error('[db] ' + where + ' connection failed:', state.error.message);
+    return state;
   });
 
-  // A fresh database gets its administrator from the environment, if one is
-  // configured. Failures here must never stop the site from serving.
+// Bind the listener first, then establish the database in the background.
+// The site must never block startup on the database, because a slow provider
+// health check or a cold database should not turn the public site into a 502/503.
+// Requests that touch the database before it is ready instead render a clear
+// "we are connecting to the database" page rather than a raw 500.
+let databaseBootPromise = null;
+let databaseBootState = null;
+
+const appServer = app.listen(port, async () => {
+  console.log('Clearwave Crypto site listening on http://localhost:' + port);
+  databaseBootPromise = bootDatabase();
+  try {
+    databaseBootState = await databaseBootPromise;
+  } catch (error) {
+    databaseBootState = { mode: db.usesLocalDatabase() ? 'local' : 'remote', ok: false, error };
+    console.error('[db] unexpected failure during startup connection:', error && error.message);
+  }
   auth.ensureEnvAdmin()
     .then((admin) => {
       if (!admin) return;
@@ -353,4 +382,36 @@ app.listen(port, () => {
       console.log('[auth] admin ready: ' + admin.email + (admin.promoted ? ' (promoted to admin)' : ''));
     })
     .catch((error) => console.error('[auth] could not prepare the admin account:', error.message));
+});
+
+app.use((req, res, next) => {
+  if (databaseBootState === null) {
+    return res.status(503).render('message', {
+      title: 'Connecting to the database — Clearwave Crypto',
+      description: 'Clearwave is establishing a connection to the database.',
+      active: '',
+      heading: 'Still connecting',
+      body: 'Clearwave is starting up and connecting to the database. This usually takes only a moment. Try again in a few seconds.',
+      status: 503,
+      retryUrl: req.originalUrl
+    });
+  }
+  if (!databaseBootState.ok) {
+    return res.status(503).render('message', {
+      title: 'Database unavailable — Clearwave Crypto',
+      description: 'Clearwave could not reach the database.',
+      active: '',
+      heading: 'Database not available',
+      body: 'Clearwave could not reach the database right now. Please check back in a few minutes.',
+      status: 503
+    });
+  }
+  next();
+});
+
+// Do not let an unhandled rejection from any async route handler or middleware
+// turn into a silent crash with a 500 page. Forward it to the Express error
+// handler the same way sync errors are forwarded.
+process.on('unhandledRejection', (reason) => {
+  console.error('[fatal] unhandled promise rejection:', reason && (reason.stack || reason.message || reason));
 });

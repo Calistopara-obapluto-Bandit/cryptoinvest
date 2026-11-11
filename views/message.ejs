@@ -7,6 +7,9 @@
         <div class="message-code"><%= status %></div>
         <h1 class="message-title"><%= heading %></h1>
         <p class="message-body"><%= body %></p>
+        <% if (retryUrl) { %>
+          <a class="btn-ghost" href="<%= retryUrl %>">Try again<span>→</span></a>
+        <% } %>
         <div class="message-actions">
           <a href="/" class="btn-primary">Back to home</a>
           <a href="/contact" class="btn-outline-lg">Contact support<span>→</span></a>

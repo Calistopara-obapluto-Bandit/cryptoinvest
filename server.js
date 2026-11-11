@@ -289,19 +289,12 @@ app.post('/api/reset', async (req, res, next) => {
 app.get('/api/health', (req, res) => res.json({ ok: true, mode: 'paper-trading' }));
 
 // ---- MEMBER ACCOUNTS (register, login, dashboards) ----
-// Order matters: the last app.get('/dashboard') registered wins for a plain GET.
-// accountRoutes registers the client dashboard first, then memberRoutes registers
-// the client dashboard again (and the admin dashboard is on /admin). Keeping
-// memberRoutes second means its /dashboard handler (which passes summary) is the
-// one Express uses. If you ever change this order, re-verify /dashboard still
-// renders with summary for both admin and client members.
-accountRoutes.register(app);
-memberRoutes.register(app);
-
-// Defensive: mount /dashboard directly here (after memberRoutes) so that even if
-// a lazily-required route module is stale on the hosting build cache, the handler
-// that actually serves /dashboard is the current one in this file. This handler
-// is the authoritative client dashboard route.
+// Express uses the FIRST app.get('/dashboard') registered for a plain GET, so the
+// authoritative client dashboard handler is mounted here BEFORE accountRoutes and
+// memberRoutes. That way, even if a lazily-required route module is stale in the
+// hosting build cache, the handler that actually serves GET /dashboard is the
+// current one in this file and always receives summary, transactions, active
+// investments and a referral link.
 app.get('/dashboard', auth.requireMember, async (req, res, next) => {
   try {
     const summary = await ledger.summary(req.member.id);
@@ -321,6 +314,9 @@ app.get('/dashboard', auth.requireMember, async (req, res, next) => {
     next(error);
   }
 });
+
+accountRoutes.register(app);
+memberRoutes.register(app);
 
 // Helpers every view can use: money and ledger labels, plus the plan catalog.
 app.locals.money = ledger.money;

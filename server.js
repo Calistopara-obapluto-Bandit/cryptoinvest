@@ -386,8 +386,18 @@ const bootDatabase = () =>
 let databaseBootPromise = null;
 let databaseBootState = null;
 
+let deployedCommit = '[git commit unavailable at runtime]';
+try {
+  const fs = require('node:fs');
+  const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf8'));
+  deployedCommit = (pkg && pkg._deployedCommit) || deployedCommit;
+} catch (readError) {
+  // package.json might not carry the marker; leave the fallback.
+}
+
 const appServer = app.listen(port, async () => {
   console.log('Clearwave Crypto site listening on http://localhost:' + port);
+  console.log('[deploy] booted commit: ' + deployedCommit);
   databaseBootPromise = bootDatabase();
   try {
     databaseBootState = await databaseBootPromise;

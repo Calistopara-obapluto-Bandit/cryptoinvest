@@ -170,6 +170,13 @@ const legacyRedirects = {
   '/services/card': '/member-id',
   '/services/membership': '/member-id',
   '/member': '/member-id',
+  // Sign-up wording people try in the address bar or that older links used.
+  '/signup': '/register',
+  '/sign-up': '/register',
+  '/registration': '/register',
+  '/join': '/register',
+  '/signin': '/login',
+  '/sign-in': '/login',
   '/about': '/company',
   '/testimonials': '/#testimonials'
 };
@@ -311,4 +318,14 @@ app.use((error, req, res, next) => {
 
 app.listen(port, () => {
   console.log('Clearwave Crypto site listening on http://localhost:' + port);
+  console.log('Member database: ' + (db.isConfigured() ? 'connected via DATABASE_URL' : 'not configured — set DATABASE_URL to enable accounts'));
+
+  // A fresh database gets its administrator from the environment, if one is
+  // configured. Failures here must never stop the site from serving.
+  auth.ensureEnvAdmin()
+    .then((admin) => {
+      if (!admin) return;
+      console.log('[auth] admin ready: ' + admin.email + (admin.promoted ? ' (promoted to admin)' : ''));
+    })
+    .catch((error) => console.error('[auth] could not prepare the admin account:', error.message));
 });

@@ -2206,6 +2206,15 @@ html[data-theme="dark"] .di-icon--img { background: #E8F5F1; }
 .auth-submit:hover { background: var(--accent-mid); transform: translateY(-1px); box-shadow: 0 10px 28px rgba(26, 122, 110, 0.34); }
 .auth-switch { font-size: 0.82rem; color: var(--text-3); text-align: center; }
 .auth-switch a { color: var(--accent); font-weight: 600; }
+.auth-staff {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 0.74rem;
+  line-height: 1.6;
+  color: var(--text-3);
+  text-align: center;
+}
 
 .form-errors {
   margin-bottom: 18px;

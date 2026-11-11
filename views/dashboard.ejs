@@ -1,4 +1,8 @@
 <%
+  // Deployed build self-report: this file is views/dashboard.ejs from the
+  // current main. The running service logs the git commit it booted from at
+  // startup (package.json._deployedCommit), so a Render log line like
+  // "[deploy] booted commit: <hash>" can be tied back to this source.
   var summary = locals.summary || {};
   var firstName = member.full_name.split(' ')[0];
   var joined = new Date(member.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });

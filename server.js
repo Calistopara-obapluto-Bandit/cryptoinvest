@@ -406,6 +406,16 @@ app.use((req, res, next) => {
       status: 503
     });
   }
+  if (req._dbUnavailable) {
+    return res.status(503).render('message', {
+      title: 'Database unavailable — Clearwave Crypto',
+      description: 'Clearwave could not reach the database.',
+      active: '',
+      heading: 'Database not available',
+      body: 'Clearwave could not reach the database right now. Please try again in a moment.',
+      status: 503
+    });
+  }
   next();
 });
 

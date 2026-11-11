@@ -14,5 +14,5 @@
     "express": "^4.21.2",
     "pg": "^8.23.1"
   },
-  "_deployedCommit": "0cd2c7f"
+  "_deployedCommit": "pending-restore-of-dashboard-ejs"
 }

@@ -43,7 +43,10 @@
 
       <div class="nav-cta">
         <% if (typeof user !== 'undefined' && user) { %>
-          <a href="<%= user.role === 'admin' ? '/admin' : '/dashboard' %>" class="btn-ghost"><%= user.role === 'admin' ? 'Admin' : 'Dashboard' %></a>
+          <a href="/dashboard" class="btn-ghost">Dashboard</a>
+          <% if (user.role === 'admin') { %>
+            <a href="/admin" class="btn-ghost">Admin</a>
+          <% } %>
           <form method="post" action="/logout" class="nav-logout">
             <button type="submit" class="btn-primary">Log out</button>
           </form>
@@ -83,7 +86,10 @@
     <div class="mm-label">Account</div>
     <div class="mm-links">
       <% if (typeof user !== 'undefined' && user) { %>
-        <a href="<%= user.role === 'admin' ? '/admin' : '/dashboard' %>"><%= user.role === 'admin' ? 'Admin dashboard' : 'My dashboard' %></a>
+        <a href="/dashboard">My dashboard</a>
+        <% if (user.role === 'admin') { %>
+          <a href="/admin">Admin dashboard</a>
+        <% } %>
       <% } else { %>
         <a href="/login">Log in</a>
         <a href="/register">Create an account</a>

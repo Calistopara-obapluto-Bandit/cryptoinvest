@@ -234,7 +234,7 @@
         </div>
       </section>
 
-      <% if (isAdmin) { %>
+      <% if (member && member.role === 'admin') { %>
         <div class="dash-admin-strip">
           <div>
             <strong>You are signed in as an administrator.</strong>

@@ -298,6 +298,30 @@ app.get('/api/health', (req, res) => res.json({ ok: true, mode: 'paper-trading' 
 accountRoutes.register(app);
 memberRoutes.register(app);
 
+// Defensive: mount /dashboard directly here (after memberRoutes) so that even if
+// a lazily-required route module is stale on the hosting build cache, the handler
+// that actually serves /dashboard is the current one in this file. This handler
+// is the authoritative client dashboard route.
+app.get('/dashboard', auth.requireMember, async (req, res, next) => {
+  try {
+    const summary = await ledger.summary(req.member.id);
+    res.render('dashboard', {
+      title: 'Your dashboard — Clearwave Crypto',
+      description: 'Balances, transactions, referrals and investment packages in one place.',
+      active: 'dashboard',
+      member: req.member,
+      welcome: req.query.welcome === '1',
+      summary,
+      transactions: await ledger.recentTransactions(req.member.id, 8),
+      activeInvestments: await ledger.investments(req.member.id, 'active'),
+      referralLink: (typeof referralLink === 'function') ? referralLink(req, req.member) :
+        (req.protocol + '://' + req.get('host') + '/register?ref=' + encodeURIComponent(req.member.member_id))
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Helpers every view can use: money and ledger labels, plus the plan catalog.
 app.locals.money = ledger.money;
 app.locals.kindLabel = ledger.kindLabel;

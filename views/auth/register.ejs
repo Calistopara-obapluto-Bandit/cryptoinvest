@@ -19,8 +19,10 @@
         <div class="auth-card">
           <h2 class="auth-card-title">Create your account</h2>
 
-          <% if (!databaseReady) { %>
-            <p class="form-notice form-notice--warn">The member database is not connected yet, so accounts cannot be saved. Add <code>DATABASE_URL</code> in Settings → Environment to switch registration on.</p>
+          <% if (!hasDatabase) { %>
+            <p class="form-notice form-notice--warn">The member database is not connected on this server, so accounts cannot be saved yet. Add <code>DATABASE_URL</code> to the server's environment and reload this page.</p>
+          <% } else if (localDatabase) { %>
+            <p class="form-notice">Developer database: this preview saves accounts on its own disk. Add <code>DATABASE_URL</code> in Settings → Environment to store members in your Neon database.</p>
           <% } %>
 
           <% if (errors && errors.length) { %>

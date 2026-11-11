@@ -15,8 +15,8 @@ const auth = require('../lib/auth');
 const db = require('../lib/db');
 
 async function main() {
-  if (!db.isConfigured()) {
-    console.error('DATABASE_URL is not set. Add your Neon connection string first.');
+  if (!db.hasDatabase()) {
+    console.error('No database is configured. Set DATABASE_URL to your Neon connection string first.');
     process.exit(1);
   }
 

@@ -9,8 +9,8 @@
           <h1 class="auth-title auth-title--sm">Log in to your <em>dashboard</em></h1>
           <p class="auth-lead auth-lead--sm">Use the email address and password you registered with.</p>
 
-          <% if (!databaseReady) { %>
-            <p class="form-notice form-notice--warn">The member database is not connected yet. Add <code>DATABASE_URL</code> in Settings → Environment and try again.</p>
+          <% if (!hasDatabase) { %>
+            <p class="form-notice form-notice--warn">This server has no member database connected, so no account can be found. Add <code>DATABASE_URL</code> to the server's environment.</p>
           <% } %>
 
           <% if (notice) { %>

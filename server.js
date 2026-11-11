@@ -318,13 +318,27 @@ app.use((error, req, res, next) => {
 
 app.listen(port, () => {
   console.log('Clearwave Crypto site listening on http://localhost:' + port);
-  console.log('Member database: ' + (db.isConfigured() ? 'connected via DATABASE_URL' : 'not configured — set DATABASE_URL to enable accounts'));
+  // Prove the connection at startup: a wrong URL then shows up in the host's
+  // log immediately instead of as a failed first registration.
+  db.ping().then((state) => {
+    const where = state.mode === 'local' ? 'embedded Postgres (.pglite/, set DATABASE_URL for Neon)' : 'DATABASE_URL';
+    if (state.ok) {
+      console.log('[db] ' + where + ' — ' + state.members + ' member(s), ready in ' + state.ms + 'ms');
+    } else {
+      console.error('[db] ' + where + ' connection failed:', state.error.message);
+    }
+  });
 
   // A fresh database gets its administrator from the environment, if one is
   // configured. Failures here must never stop the site from serving.
   auth.ensureEnvAdmin()
     .then((admin) => {
       if (!admin) return;
+      if (admin.generated) {
+        console.log('[auth] created developer admin — email: ' + admin.email + ' password: ' + admin.password);
+        console.log('[auth] this password is printed once; change it with: npm run seed:admin -- ' + admin.email + ' <new-password>');
+        return;
+      }
       console.log('[auth] admin ready: ' + admin.email + (admin.promoted ? ' (promoted to admin)' : ''));
     })
     .catch((error) => console.error('[auth] could not prepare the admin account:', error.message));

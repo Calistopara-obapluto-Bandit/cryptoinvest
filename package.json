@@ -9,6 +9,7 @@
     "seed:admin": "node scripts/seed-admin.js"
   },
   "dependencies": {
+    "@electric-sql/pglite": "^0.5.16",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
     "pg": "^8.23.1"

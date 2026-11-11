@@ -308,7 +308,8 @@ app.use((req, res) => {
     active: '',
     heading: 'Page not found',
     body: 'That page has moved or never existed. The links below will get you back to the platform.',
-    status: 404
+    status: 404,
+    retryUrl: undefined
   });
 });
 
@@ -351,7 +352,8 @@ function render500(req, res, error, extraBody) {
     body,
     status: 500,
     errorId: id,
-    errorShort: short
+    errorShort: short,
+    retryUrl: undefined
   });
 }
 
@@ -465,7 +467,8 @@ app.use((req, res, next) => {
       active: '',
       heading: 'Database not available',
       body: 'Clearwave could not reach the database right now. Please check back in a few minutes.',
-      status: 503
+      status: 503,
+      retryUrl: undefined
     });
   }
   if (req._dbUnavailable) {
@@ -475,7 +478,8 @@ app.use((req, res, next) => {
       active: '',
       heading: 'Database not available',
       body: 'Clearwave could not reach the database right now. Please try again in a moment.',
-      status: 503
+      status: 503,
+      retryUrl: undefined
     });
   }
   next();

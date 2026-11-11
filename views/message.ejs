@@ -12,8 +12,8 @@
             <% if (errorShort) { %><span class="message-short"><%- errorShort %></span><% } %>
           </p>
         <% } %>
-        <% if (retryUrl) { %>
-          <a class="btn-ghost" href="<%= retryUrl %>">Try again<span>→</span></a>
+        <% if (locals && locals.retryUrl) { %>
+          <a class="btn-ghost" href="<%= locals.retryUrl %>">Try again<span>→</span></a>
         <% } %>
         <div class="message-actions">
           <a href="/" class="btn-primary">Back to home</a>

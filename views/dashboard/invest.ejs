@@ -1,0 +1,70 @@
+<%- include('../partials/head', { title: title, description: description }) %>
+<%- include('../partials/nav', { active: 'dashboard' }) %>
+
+  <main class="app-main">
+    <div class="container app-narrow">
+      <a class="app-back" href="/dashboard">Back to dashboard</a>
+
+      <header class="app-head app-head--page">
+        <div class="app-head-copy">
+          <div class="section-label">New investment</div>
+          <h1 class="app-title">Choose a <em>package</em></h1>
+          <p class="app-sub">Invest securely and pick the package that fits your balance. The amount is taken from your account balance the moment you confirm.</p>
+        </div>
+        <div class="dash-id">
+          <span class="dash-id-label">Available balance</span>
+          <strong class="dash-id-value"><%= money(available) %></strong>
+          <span class="dash-id-hint">Deposit first if this is still empty</span>
+        </div>
+      </header>
+
+      <% if (errors && errors.length) { %>
+        <div class="form-errors" role="alert">
+          <ul><% errors.forEach(function (error) { %><li><%= error %></li><% }); %></ul>
+        </div>
+      <% } %>
+
+      <form class="app-form" method="post" action="/dashboard/invest">
+        <div class="app-card">
+          <label class="field">
+            <span>Amount (USD)</span>
+            <input type="text" name="amount" inputmode="decimal" value="<%= values.amount %>" placeholder="Enter amount to invest" autocomplete="off" required />
+          </label>
+        </div>
+
+        <fieldset class="choice-set">
+          <legend>Package</legend>
+          <% standard.forEach(function (plan) { %>
+            <label class="pkg-choice<%= values.plan === plan.code ? ' is-selected' : '' %>">
+              <input type="radio" name="plan" value="<%= plan.code %>"<%= values.plan === plan.code ? ' checked' : '' %> />
+              <span class="pkg-choice-body">
+                <strong><%= plan.name %></strong>
+                <span><%= plan.minLabel %> – <%= plan.maxLabel %> · <%= plan.rateLabel %> daily for <%= plan.days %> days</span>
+              </span>
+            </label>
+          <% }); %>
+        </fieldset>
+
+        <fieldset class="choice-set">
+          <legend>Real estate deals</legend>
+          <% estate.forEach(function (plan) { %>
+            <label class="pkg-choice<%= values.plan === plan.code ? ' is-selected' : '' %>">
+              <input type="radio" name="plan" value="<%= plan.code %>"<%= values.plan === plan.code ? ' checked' : '' %> />
+              <span class="pkg-choice-body">
+                <strong><%= plan.name %></strong>
+                <span><%= plan.minLabel %> – <%= plan.maxLabel %> · <%= plan.rateLabel %> ROI after <%= plan.days %> days</span>
+              </span>
+            </label>
+          <% }); %>
+        </fieldset>
+
+        <div class="app-form-actions">
+          <button type="submit" class="btn-primary-lg">Confirm investment<span>→</span></button>
+          <a href="/plan" class="text-link">Read the plan details</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+<%- include('../partials/app-nav', { activeTab: 'invest' }) %>
+<%- include('../partials/footer') %>

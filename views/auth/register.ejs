@@ -33,7 +33,12 @@
             </div>
           <% } %>
 
+          <% if (typeof referral !== 'undefined' && referral) { %>
+            <p class="form-notice">You were invited with member code <strong class="mono"><%= referral %></strong>. It will be recorded with your account.</p>
+          <% } %>
+
           <form class="auth-form" method="post" action="/register">
+            <input type="hidden" name="ref" value="<%= typeof referral !== 'undefined' ? referral : '' %>" />
             <div class="field-grid">
               <label class="field">
                 <span>Full name</span>

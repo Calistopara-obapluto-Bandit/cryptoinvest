@@ -40,6 +40,52 @@
         </div>
       </div>
 
+      <section class="app-card admin-requests" id="requests">
+        <header class="app-card-head">
+          <h2>Pending requests</h2>
+          <span class="app-hint"><%= requests.length %> waiting</span>
+        </header>
+        <% if (updated) { %>
+          <p class="form-notice form-notice--ok" role="status">Request <%= updated === 'approve' ? 'approved' : 'rejected' %>.</p>
+        <% } %>
+        <% if (!requests.length) { %>
+          <p class="app-empty">Nothing waiting. Deposits and withdrawals appear here the moment a client submits one.</p>
+        <% } else { %>
+          <div class="app-table-wrap">
+            <table class="app-table">
+              <thead>
+                <tr><th>Member</th><th>Type</th><th>Reference</th><th>Method</th><th>Amount</th><th>Requested</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                <% requests.forEach(function (row) { %>
+                  <tr>
+                    <td>
+                      <%= row.full_name %><br />
+                      <span class="mono"><%= row.member_id %></span>
+                    </td>
+                    <td><%= kindLabel(row.kind) %></td>
+                    <td class="mono"><%= row.reference %></td>
+                    <td><%= methodLabel(row.method) %></td>
+                    <td class="tx-amount"><%= money(row.amount) %></td>
+                    <td><%= fmtDate(row.created_at) %></td>
+                    <td>
+                      <div class="admin-actions">
+                        <form method="post" action="/admin/requests/<%= row.id %>/approve">
+                          <button type="submit" class="btn-mini btn-mini--ok">Approve</button>
+                        </form>
+                        <form method="post" action="/admin/requests/<%= row.id %>/reject">
+                          <button type="submit" class="btn-mini btn-mini--no">Reject</button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </section>
+
       <form class="dash-search" method="get" action="/admin" role="search">
         <label class="field field--grow">
           <span>Search members</span>

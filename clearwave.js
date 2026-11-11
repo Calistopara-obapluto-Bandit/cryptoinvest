@@ -245,3 +245,57 @@
     applyTheme(activeTheme());
   });
 })();
+
+/* ============================================================
+   Member app — copy the referral link, highlight the chosen package
+   ============================================================ */
+(function () {
+  'use strict';
+
+  function ready(fn) {
+    if (document.readyState !== 'loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
+
+  ready(function () {
+    /* Copy referral link. Falls back to selecting the text when the
+       clipboard API is unavailable (non-HTTPS previews, older browsers). */
+    document.addEventListener('click', function (event) {
+      var button = event.target.closest ? event.target.closest('[data-copy]') : null;
+      if (!button) return;
+
+      var value = button.getAttribute('data-copy') || '';
+      var original = button.textContent;
+      var done = function () {
+        button.textContent = 'Copied';
+        window.setTimeout(function () { button.textContent = original; }, 1600);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(value).then(done, function () {
+          button.textContent = 'Copy failed';
+        });
+        return;
+      }
+
+      var field = button.parentElement ? button.parentElement.querySelector('input') : null;
+      if (field) {
+        field.select();
+        try { document.execCommand('copy'); done(); } catch (error) { /* selection stays */ }
+      }
+    });
+
+    /* Keep the selected package card outlined. */
+    var choices = document.querySelectorAll('.pkg-choice');
+    Array.prototype.forEach.call(choices, function (choice) {
+      var input = choice.querySelector('input[type="radio"]');
+      if (!input) return;
+      input.addEventListener('change', function () {
+        Array.prototype.forEach.call(choices, function (other) {
+          var own = other.querySelector('input[type="radio"]');
+          other.classList.toggle('is-selected', Boolean(own && own.checked));
+        });
+      });
+    });
+  });
+})();

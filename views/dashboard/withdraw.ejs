@@ -1,0 +1,65 @@
+<%- include('../partials/head', { title: title, description: description }) %>
+<%- include('../partials/nav', { active: 'dashboard' }) %>
+
+  <main class="app-main">
+    <div class="container app-narrow">
+      <a class="app-back" href="/dashboard">Back to dashboard</a>
+
+      <header class="app-head app-head--page">
+        <div class="app-head-copy">
+          <div class="section-label">Payout</div>
+          <h1 class="app-title">New <em>withdrawal</em></h1>
+          <p class="app-sub">Minimum <%= money(minimum) %>. Money leaves your available balance only once the request is approved.</p>
+        </div>
+        <div class="dash-id">
+          <span class="dash-id-label">Available balance</span>
+          <strong class="dash-id-value"><%= money(available) %></strong>
+          <span class="dash-id-hint">Approved deposits and profit, minus money in packages</span>
+        </div>
+      </header>
+
+      <% if (errors && errors.length) { %>
+        <div class="form-errors" role="alert">
+          <ul><% errors.forEach(function (error) { %><li><%= error %></li><% }); %></ul>
+        </div>
+      <% } %>
+
+      <% if (available <= 0) { %>
+        <p class="form-notice form-notice--warn">You have nothing available to withdraw yet. Fund your account or wait for a package to pay out.</p>
+      <% } %>
+
+      <form class="app-card app-form" method="post" action="/dashboard/withdraw">
+        <label class="field">
+          <span>Amount (USD)</span>
+          <input type="text" name="amount" inputmode="decimal" value="<%= values.amount %>" placeholder="Enter amount to withdraw" autocomplete="off" required />
+        </label>
+
+        <fieldset class="choice-set">
+          <legend>Send to</legend>
+          <% methods.forEach(function (method) { %>
+            <label class="choice">
+              <input type="radio" name="method" value="<%= method.code %>"<%= values.method === method.code ? ' checked' : '' %> />
+              <span class="choice-body">
+                <strong><%= method.label %></strong>
+              </span>
+            </label>
+          <% }); %>
+        </fieldset>
+
+        <label class="field">
+          <span>Wallet address or account number</span>
+          <input type="text" name="destination" value="<%= values.destination %>" placeholder="Where the payout should go" maxlength="120" autocomplete="off" required />
+        </label>
+
+        <p class="app-hint">Double-check the destination. Payouts to a wrong address cannot be reversed once sent.</p>
+
+        <div class="app-form-actions">
+          <button type="submit" class="btn-primary-lg">Request withdrawal<span>→</span></button>
+          <a href="/dashboard" class="text-link">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+<%- include('../partials/app-nav', { activeTab: 'withdraw' }) %>
+<%- include('../partials/footer') %>

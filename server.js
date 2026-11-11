@@ -6,6 +6,9 @@ const ejs = require('ejs');
 const db = require('./lib/db');
 const auth = require('./lib/auth');
 const accountRoutes = require('./lib/account-routes');
+const memberRoutes = require('./lib/member-routes');
+const ledger = require('./lib/ledger');
+const planCatalog = require('./lib/plans');
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
@@ -287,6 +290,14 @@ app.get('/api/health', (req, res) => res.json({ ok: true, mode: 'paper-trading' 
 
 // ---- MEMBER ACCOUNTS (register, login, dashboards) ----
 accountRoutes.register(app);
+memberRoutes.register(app);
+
+// Helpers every view can use: money and ledger labels, plus the plan catalog.
+app.locals.money = ledger.money;
+app.locals.kindLabel = ledger.kindLabel;
+app.locals.statusLabel = ledger.statusLabel;
+app.locals.methodLabel = ledger.methodLabel;
+app.locals.planCatalog = planCatalog;
 
 // 404 / error handling last.
 app.use('/api', (req, res) => res.status(404).json({ error: 'API route not found.' }));

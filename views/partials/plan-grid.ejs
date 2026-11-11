@@ -7,11 +7,11 @@
     <article class="plan-card<%= plan.featured ? ' plan-card--featured' : '' %>">
       <% if (plan.featured) { %><span class="plan-badge">Recommended</span><% } %>
       <div class="plan-name"><%= plan.name %></div>
-      <div class="plan-rate"><%= plan.rate %> <span>daily for 30 Days</span></div>
+      <div class="plan-rate"><%= plan.rateLabel %> <span>daily for <%= plan.days %> Days</span></div>
       <dl class="plan-rows">
-        <div><dt>Minimum</dt><dd><%= plan.min %></dd></div>
-        <div><dt>Maximum</dt><dd><%= plan.max %></dd></div>
-        <div><dt>Duration</dt><dd>30 Days</dd></div>
+        <div><dt>Minimum</dt><dd><%= plan.minLabel %></dd></div>
+        <div><dt>Maximum</dt><dd><%= plan.maxLabel %></dd></div>
+        <div><dt>Duration</dt><dd><%= plan.days %> Days</dd></div>
         <div><dt>Referral bonus</dt><dd>7%</dd></div>
       </dl>
       <a href="/register" class="plan-cta">Choose Plan</a>
@@ -27,10 +27,10 @@
     <article class="plan-card plan-card--estate">
       <div class="plan-photo"><img src="/assets/images/site/<%= plan.img %>" width="1920" height="1280" loading="lazy" alt="<%= plan.name %>" /></div>
       <div class="plan-name"><%= plan.name %></div>
-      <div class="plan-rate"><%= plan.rate %> <span>ROI · 1 Month</span></div>
+      <div class="plan-rate"><%= plan.rateLabel %> <span>ROI · 1 Month</span></div>
       <dl class="plan-rows">
-        <div><dt>Property value</dt><dd><%= plan.max %></dd></div>
-        <div><dt>Minimum</dt><dd><%= plan.min %></dd></div>
+        <div><dt>Property value</dt><dd><%= plan.maxLabel %></dd></div>
+        <div><dt>Minimum</dt><dd><%= plan.minLabel %></dd></div>
         <div><dt>Duration</dt><dd>1 Month</dd></div>
         <div><dt>Returns</dt><dd>Monthly</dd></div>
       </dl>

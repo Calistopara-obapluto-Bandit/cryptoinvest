@@ -1,0 +1,52 @@
+<%- include('../partials/head', { title: title, description: description }) %>
+<%- include('../partials/nav', { active: 'dashboard' }) %>
+
+  <main class="app-main">
+    <div class="container app-narrow">
+      <a class="app-back" href="/dashboard">Back to dashboard</a>
+
+      <header class="app-head app-head--page">
+        <div class="app-head-copy">
+          <div class="section-label">Add funds</div>
+          <h1 class="app-title">New <em>deposit</em></h1>
+          <p class="app-sub">Minimum <%= money(minimum) %>. The request stays pending until our desk confirms the funds, then it lands in your account balance.</p>
+        </div>
+      </header>
+
+      <% if (errors && errors.length) { %>
+        <div class="form-errors" role="alert">
+          <ul><% errors.forEach(function (error) { %><li><%= error %></li><% }); %></ul>
+        </div>
+      <% } %>
+
+      <form class="app-card app-form" method="post" action="/dashboard/deposit">
+        <label class="field">
+          <span>Amount (USD)</span>
+          <input type="text" name="amount" inputmode="decimal" value="<%= values.amount %>" placeholder="Enter amount to deposit" autocomplete="off" required />
+        </label>
+
+        <fieldset class="choice-set">
+          <legend>Payment method</legend>
+          <% methods.forEach(function (method) { %>
+            <label class="choice">
+              <input type="radio" name="method" value="<%= method.code %>"<%= values.method === method.code ? ' checked' : '' %> />
+              <span class="choice-body">
+                <strong><%= method.label %></strong>
+                <span><%= method.hint %></span>
+              </span>
+            </label>
+          <% }); %>
+        </fieldset>
+
+        <p class="app-hint">Payment details for the method you pick are sent by the desk with your reference code. Never send funds to an address that did not come from support.</p>
+
+        <div class="app-form-actions">
+          <button type="submit" class="btn-primary-lg">Submit deposit<span>→</span></button>
+          <a href="/dashboard" class="text-link">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+<%- include('../partials/app-nav', { activeTab: 'deposit' }) %>
+<%- include('../partials/footer') %>

@@ -1,0 +1,52 @@
+<%
+  var when = function (value) {
+    return new Date(value).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  };
+%>
+<%- include('../partials/head', { title: title, description: description }) %>
+<%- include('../partials/nav', { active: 'dashboard' }) %>
+
+  <main class="app-main">
+    <div class="container">
+      <a class="app-back" href="/dashboard">Back to dashboard</a>
+
+      <header class="app-head app-head--page">
+        <div class="app-head-copy">
+          <div class="section-label">History</div>
+          <h1 class="app-title">Every <em>transaction</em></h1>
+          <p class="app-sub">Deposits, withdrawals, package purchases and profit credits, newest first.</p>
+        </div>
+      </header>
+
+      <section class="app-card">
+        <% if (!transactions.length) { %>
+          <p class="app-empty">No transactions yet. Start with a deposit and this page fills up.</p>
+        <% } else { %>
+          <div class="app-table-wrap">
+            <table class="app-table">
+              <thead>
+                <tr><th>ID</th><th>Type</th><th>Detail</th><th>Amount</th><th>Status</th><th>Date</th></tr>
+              </thead>
+              <tbody>
+                <% transactions.forEach(function (row) { %>
+                  <tr>
+                    <td class="mono"><%= row.reference %></td>
+                    <td><%= kindLabel(row.kind) %></td>
+                    <td><%= row.note || methodLabel(row.method) %></td>
+                    <td class="tx-amount<%= row.kind === 'withdrawal' || row.kind === 'investment' ? ' is-out' : '' %>">
+                      <%= (row.kind === 'withdrawal' || row.kind === 'investment' ? '−' : '+') + money(row.amount) %>
+                    </td>
+                    <td><span class="tx-status tx-status--<%= row.status %>"><%= statusLabel(row.status) %></span></td>
+                    <td><%= when(row.created_at) %></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </section>
+    </div>
+  </main>
+
+<%- include('../partials/app-nav', { activeTab: 'dashboard' }) %>
+<%- include('../partials/footer') %>

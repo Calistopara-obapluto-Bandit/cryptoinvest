@@ -1,0 +1,67 @@
+<%
+  var joined = new Date(member.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+%>
+<%- include('../partials/head', { title: title, description: description }) %>
+<%- include('../partials/nav', { active: 'dashboard' }) %>
+
+  <main class="app-main">
+    <div class="container app-narrow">
+      <a class="app-back" href="/dashboard">Back to dashboard</a>
+
+      <header class="app-head app-head--page">
+        <div class="app-head-copy">
+          <div class="section-label">Account</div>
+          <h1 class="app-title">Your <em>details</em></h1>
+          <p class="app-sub">What our desk sees when you get in touch. Ask support if anything here needs correcting.</p>
+        </div>
+        <div class="dash-id">
+          <span class="dash-id-label">Member ID</span>
+          <strong class="dash-id-value"><%= member.member_id %></strong>
+          <span class="dash-id-hint">Joined <%= joined %></span>
+        </div>
+      </header>
+
+      <section class="app-card">
+        <h2>Profile</h2>
+        <dl class="dash-list">
+          <div><dt>Full name</dt><dd><%= member.full_name %></dd></div>
+          <div><dt>Email</dt><dd><%= member.email %></dd></div>
+          <div><dt>Phone</dt><dd><%= member.phone %></dd></div>
+          <div><dt>Nationality</dt><dd><%= member.nationality %></dd></div>
+          <div><dt>Age</dt><dd><%= member.age %></dd></div>
+          <div><dt>Member ID</dt><dd class="mono"><%= member.member_id %></dd></div>
+          <div><dt>Role</dt><dd><%= member.role === 'admin' ? 'Administrator' : 'Client' %></dd></div>
+        </dl>
+      </section>
+
+      <section class="app-card">
+        <h2>Referral link</h2>
+        <p class="app-card-sub">Share this link. Members who join with it are credited to you, and referral bonuses land in your referral balance.</p>
+        <div class="app-ref">
+          <input class="app-ref-input" type="text" readonly value="<%= referralLink %>" aria-label="Your referral link" />
+          <button type="button" class="app-ref-copy" data-copy="<%= referralLink %>">Copy</button>
+        </div>
+        <p class="app-hint"><%= summary.referrals %> member<%= summary.referrals === 1 ? '' : 's' %> joined with your link · balance <%= money(summary.referralBalance) %></p>
+      </section>
+
+      <section class="app-card">
+        <h2>Balances</h2>
+        <dl class="dash-list">
+          <div><dt>Account balance</dt><dd><%= money(summary.accountBalance) %></dd></div>
+          <div><dt>Profit balance</dt><dd><%= money(summary.profitBalance) %></dd></div>
+          <div><dt>Bonus balance</dt><dd><%= money(summary.bonusBalance) %></dd></div>
+          <div><dt>Ongoing investments</dt><dd><%= money(summary.ongoingInvestments) %></dd></div>
+        </dl>
+      </section>
+
+      <div class="app-form-actions">
+        <a href="/dashboard/transactions" class="btn-outline-lg">Transaction history<span>→</span></a>
+        <form method="post" action="/logout">
+          <button type="submit" class="text-link">Log out</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+<%- include('../partials/app-nav', { activeTab: 'account' }) %>
+<%- include('../partials/footer') %>

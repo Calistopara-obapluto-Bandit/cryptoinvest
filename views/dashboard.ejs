@@ -2,73 +2,200 @@
   var firstName = member.full_name.split(' ')[0];
   var joined = new Date(member.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
   var isAdmin = member.role === 'admin';
+  var shortDate = function (value) {
+    return new Date(value).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+  var tiles = [
+    { label: 'Account Balance',        value: summary.accountBalance,        icon: 'wallet' },
+    { label: 'Profit Balance',         value: summary.profitBalance,         icon: 'chart' },
+    { label: 'Bonus Balance',          value: summary.bonusBalance,          icon: 'gift' },
+    { label: 'Ongoing Investments',    value: summary.ongoingInvestments,    icon: 'users' },
+    { label: 'Approved Deposits',      value: summary.approvedDeposits,      icon: 'trophy' },
+    { label: 'Pending Deposits',       value: summary.pendingDeposits,       icon: 'clock' },
+    { label: 'Completed Investments',  value: summary.completedInvestments,  icon: 'check' },
+    { label: 'Pending Withdrawals',    value: summary.pendingWithdrawals,    icon: 'clock' },
+    { label: 'Completed Withdrawals',  value: summary.completedWithdrawals,  icon: 'check' },
+    { label: "Today's Earning",        value: summary.todayEarning,          icon: 'tag' },
+    { label: 'Referral Balance',       value: summary.referralBalance,       icon: 'users' },
+    { label: 'Total Withdrawal',       value: summary.totalWithdrawal,       icon: 'out' }
+  ];
+  var packages = plans.concat(estatePlans);
+  var maxBar = Math.max.apply(null, summary.earningHistory.map(function (row) { return row.total; }).concat([1]));
 %>
 <%- include('partials/head', { title: title, description: description }) %>
 <%- include('partials/nav', { active: 'dashboard' }) %>
 
-  <main class="dash-main">
+  <main class="app-main">
     <div class="container">
-      <div class="dash-head">
-        <div class="dash-head-copy">
+      <header class="app-head">
+        <div class="app-head-copy">
           <div class="section-label">Member dashboard</div>
-          <h1 class="dash-title">Welcome back, <em><%= firstName %></em></h1>
-          <p class="section-sub">This is the account our team sees when you call, and the reference behind every statement and payout.</p>
+          <h1 class="app-title">Welcome back, <em><%= firstName %></em></h1>
+          <p class="app-sub">Member ID <span class="mono"><%= member.member_id %></span> · with us since <%= joined %></p>
         </div>
-        <div class="dash-id">
-          <span class="dash-id-label">Your member ID</span>
-          <strong class="dash-id-value"><%= member.member_id %></strong>
-          <span class="dash-id-hint">Quote this in any message to support</span>
+        <div class="app-head-actions">
+          <a href="/plan" class="btn-outline-lg">All packages<span>→</span></a>
         </div>
-      </div>
+      </header>
 
-      <% if (welcome) { %>
-        <div class="form-notice form-notice--ok" role="status">
-          Your account is open. Keep your member ID safe — it is how we find you without asking for anything sensitive.
-        </div>
+      <% if (flash) { %>
+        <p class="form-notice form-notice--ok" role="status"><%= flash.text %></p>
       <% } %>
 
-      <div class="dash-grid">
-        <section class="dash-card">
-          <h2 class="dash-card-title">Your details</h2>
-          <p class="dash-card-sub">Registered on <%= joined %>. Tell support if anything here needs correcting.</p>
-          <dl class="dash-list">
-            <div><dt>Full name</dt><dd><%= member.full_name %></dd></div>
-            <div><dt>Email</dt><dd><%= member.email %></dd></div>
-            <div><dt>Phone</dt><dd><%= member.phone %></dd></div>
-            <div><dt>Nationality</dt><dd><%= member.nationality %></dd></div>
-            <div><dt>Age</dt><dd><%= member.age %></dd></div>
-            <div><dt>Member ID</dt><dd class="mono"><%= member.member_id %></dd></div>
-          </dl>
+      <div class="app-actions">
+        <a class="app-action app-action--deposit" href="/dashboard/deposit">
+          <strong>Deposit</strong><span>Fund your balance</span>
+        </a>
+        <a class="app-action app-action--invest" href="/dashboard/invest">
+          <strong>Invest</strong><span>Pick a package</span>
+        </a>
+        <a class="app-action app-action--withdraw" href="/dashboard/withdraw">
+          <strong>Withdraw</strong><span>Cash out profits</span>
+        </a>
+      </div>
+
+      <section class="tile-grid" aria-label="Account balances">
+        <% tiles.forEach(function (tile) { %>
+          <article class="tile">
+            <div class="tile-copy">
+              <span class="tile-label"><%= tile.label %></span>
+              <strong class="tile-value"><%= money(tile.value) %></strong>
+            </div>
+            <%- include('partials/tile-icon', { icon: tile.icon }) %>
+          </article>
+        <% }); %>
+      </section>
+
+      <div class="app-cols">
+        <section class="app-card app-card--wide">
+          <header class="app-card-head">
+            <h2>Most recent transactions</h2>
+            <a href="/dashboard/transactions" class="app-card-link">View all</a>
+          </header>
+          <% if (!transactions.length) { %>
+            <p class="app-empty">No recent transactions found. Your first deposit will appear here.</p>
+          <% } else { %>
+            <div class="app-table-wrap">
+              <table class="app-table">
+                <thead>
+                  <tr><th>ID</th><th>Type</th><th>Amount</th><th>Date</th></tr>
+                </thead>
+                <tbody>
+                  <% transactions.forEach(function (row) { %>
+                    <tr>
+                      <td class="mono"><%= row.reference %></td>
+                      <td>
+                        <%= kindLabel(row.kind) %>
+                        <span class="tx-status tx-status--<%= row.status %>"><%= statusLabel(row.status) %></span>
+                      </td>
+                      <td class="tx-amount<%= row.kind === 'withdrawal' || row.kind === 'investment' ? ' is-out' : '' %>">
+                        <%= (row.kind === 'withdrawal' || row.kind === 'investment' ? '−' : '+') + money(row.amount) %>
+                      </td>
+                      <td><%= shortDate(row.created_at) %></td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          <% } %>
         </section>
 
-        <div class="dash-side">
-          <section class="dash-card">
-            <h2 class="dash-card-title">Account status</h2>
-            <ul class="dash-status">
-              <li><span class="dash-dot is-on"></span> Email registered</li>
-              <li><span class="dash-dot is-on"></span> <%= isAdmin ? 'Administrator access' : 'Member access' %></li>
-              <li><span class="dash-dot"></span> Plan activation — talk to a representative</li>
-            </ul>
-            <a href="/plan" class="text-link">See the investment plans →</a>
-          </section>
-
-          <section class="dash-card">
-            <h2 class="dash-card-title">Shortcuts</h2>
-            <div class="dash-shortcuts">
-              <a href="/loans">Loans<span>Borrow against your portfolio</span></a>
-              <a href="/grants">Grants<span>Non-repayable funding</span></a>
-              <a href="/member-id">Member ID<span>How the reference works</span></a>
-              <a href="/contact">Support<span>Speak to a representative</span></a>
-            </div>
-          </section>
-        </div>
+        <section class="app-card">
+          <h2>Referral link</h2>
+          <p class="app-card-sub">Share this link. Every member who joins with it is credited to <span class="mono"><%= member.member_id %></span>.</p>
+          <div class="app-ref">
+            <input class="app-ref-input" type="text" readonly value="<%= referralLink %>" aria-label="Your referral link" />
+            <button type="button" class="app-ref-copy" data-copy="<%= referralLink %>">Copy</button>
+          </div>
+          <p class="app-hint"><%= summary.referrals %> member<%= summary.referrals === 1 ? '' : 's' %> joined with your link · balance <%= money(summary.referralBalance) %></p>
+        </section>
       </div>
+
+      <div class="app-cols">
+        <section class="app-card app-card--wide">
+          <header class="app-card-head">
+            <h2>Your investments</h2>
+            <a href="/dashboard/invest" class="app-card-link">New investment</a>
+          </header>
+          <% if (!activeInvestments.length) { %>
+            <p class="app-empty">No investments yet. Fund your account, then choose a package — every package below is available to you.</p>
+          <% } else { %>
+            <ul class="inv-list">
+              <% activeInvestments.forEach(function (item) { %>
+                <li class="inv-row">
+                  <div class="inv-main">
+                    <strong><%= item.plan_name %></strong>
+                    <span class="mono"><%= item.reference %></span>
+                  </div>
+                  <div class="inv-fig">
+                    <span>Invested</span>
+                    <strong><%= money(item.amount) %></strong>
+                  </div>
+                  <div class="inv-fig">
+                    <span>Package ROI</span>
+                    <strong><%= Number(item.roi_percent) %>%</strong>
+                  </div>
+                  <div class="inv-fig">
+                    <span>Matures</span>
+                    <strong><%= shortDate(item.matures_at) %></strong>
+                  </div>
+                </li>
+              <% }); %>
+            </ul>
+          <% } %>
+        </section>
+
+        <section class="app-card">
+          <h2>Earning overview</h2>
+          <div class="earn-figures">
+            <div><span>This month</span><strong><%= money(summary.earningThisMonth) %></strong></div>
+            <div><span>Last month</span><strong><%= money(summary.earningLastMonth) %></strong></div>
+          </div>
+          <% if (summary.earningHistory.length) { %>
+            <div class="earn-bars" aria-hidden="true">
+              <% summary.earningHistory.forEach(function (row) { %>
+                <div class="earn-bar" title="<%= row.month %>: <%= money(row.total) %>">
+                  <span style="height: <%= Math.max(6, Math.round((row.total / maxBar) * 100)) %>%"></span>
+                  <em><%= row.month.slice(5) %></em>
+                </div>
+              <% }); %>
+            </div>
+          <% } else { %>
+            <p class="app-hint">Profit credits appear here as soon as a package pays out.</p>
+          <% } %>
+        </section>
+      </div>
+
+      <section class="app-card">
+        <header class="app-card-head">
+          <h2>What the site offers</h2>
+          <a href="/dashboard/invest" class="app-card-link">Invest now</a>
+        </header>
+        <p class="app-card-sub">The same packages advertised on the plans page — pick one and the amount comes straight out of your balance.</p>
+        <div class="pkg-grid">
+          <% packages.forEach(function (plan) { %>
+            <article class="pkg-card<%= plan.featured ? ' pkg-card--featured' : '' %>">
+              <div class="pkg-head">
+                <strong><%= plan.name %></strong>
+                <% if (plan.featured) { %><span class="pkg-badge">Popular</span><% } %>
+              </div>
+              <p class="pkg-rate"><%= plan.rateLabel %> <span><%= plan.kind === 'estate' ? 'ROI per month' : 'daily for ' + plan.days + ' days' %></span></p>
+              <dl class="pkg-rows">
+                <div><dt>Minimum</dt><dd><%= plan.minLabel %></dd></div>
+                <div><dt>Maximum</dt><dd><%= plan.maxLabel %></dd></div>
+                <div><dt>Term</dt><dd><%= plan.days %> days</dd></div>
+              </dl>
+              <a class="pkg-cta" href="/dashboard/invest?plan=<%= plan.code %>">Invest in <%= plan.name.split(' ')[0] %></a>
+            </article>
+          <% }); %>
+        </div>
+      </section>
 
       <% if (isAdmin) { %>
         <div class="dash-admin-strip">
           <div>
             <strong>You are signed in as an administrator.</strong>
-            <p>Every registration lands in the admin dashboard, ready to review.</p>
+            <p>Pending deposits and withdrawals are waiting for approval in the admin dashboard.</p>
           </div>
           <a href="/admin" class="btn-primary">Open admin dashboard</a>
         </div>
@@ -76,4 +203,5 @@
     </div>
   </main>
 
+<%- include('partials/app-nav', { activeTab: 'dashboard' }) %>
 <%- include('partials/footer') %>

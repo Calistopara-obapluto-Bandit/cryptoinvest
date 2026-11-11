@@ -2373,6 +2373,35 @@ html[data-theme="dark"] .form-notice--warn { background: rgba(226, 175, 68, 0.12
 .message-body { font-size: 0.95rem; line-height: 1.75; color: var(--text-2); }
 .message-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 26px; }
 
+.message-metadata {
+  margin-top: 18px;
+  font-size: 0.78rem;
+  color: var(--text-3);
+  text-align: center;
+}
+
+.message-metadata code {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.message-short {
+  display: block;
+  margin-top: 6px;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  color: var(--text-3);
+  word-break: break-word;
+  max-width: 46ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @media (max-width: 980px) {
   .auth-shell { grid-template-columns: 1fr; gap: 36px; max-width: 560px; }
   .auth-main { padding: 112px 0 72px; }

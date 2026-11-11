@@ -312,21 +312,45 @@ app.use((req, res) => {
   });
 });
 
+function sanitizeShortMessage(error) {
+  if (!error || typeof error !== 'object') return '';
+  const raw = error.message || error.code || '';
+  if (typeof raw !== 'string') return '';
+  const max = 220;
+  const safe = raw.replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g, '').slice(0, max);
+  if (!safe) return '';
+  return safe;
+}
+
+function errorId() {
+  return 'err-' + Math.random().toString(36).slice(2, 9);
+}
+
 function render500(req, res, error, extraBody) {
   if (res.headersSent) return;
-  console.error(error);
+  console.error('[500] ' + req.method + ' ' + req.originalUrl + ' :: ' + (error ? (error.stack || error.message || String(error)) : 'no error object'));
   const isApi = req.path.startsWith('/api/');
   if (isApi) {
     return res.status(500).json({ error: 'The service could not complete that request.' });
   }
-  const body = extraBody || 'That request could not be completed. Try again, or contact support if it keeps happening.';
+  const short = sanitizeShortMessage(error);
+  const id = errorId();
+  let body;
+  if (short) {
+    body = extraBody || ('This request failed with: ' + short);
+  } else {
+    body = extraBody || 'That request could not be completed. Try again, or contact support if it keeps happening.';
+  }
+  if (id) body += '\n\nError id: ' + id;
   res.status(500).render('message', {
     title: 'Something went wrong — Clearwave Crypto',
     description: 'The request could not be completed.',
     active: '',
     heading: 'Something went wrong',
     body,
-    status: 500
+    status: 500,
+    errorId: id,
+    errorShort: short
   });
 }
 

@@ -1,0 +1,109 @@
+<%- include('partials/head', { title: 'Member ID — Clearwave Crypto', description: 'What your Clearwave Member ID is, where to find it, and how it is used on statements, payout records, support tickets and referrals.' }) %>
+<%- include('partials/nav', { active: 'member-id' }) %>
+
+  <main class="page-main">
+    <%- include('partials/page-header', { title: 'Member ID', crumb: 'Member ID' }) %>
+
+    <section class="container section-pad">
+      <div class="split">
+        <div class="split-copy prose">
+          <h2>One number that identifies your account</h2>
+          <p>Every Clearwave account has a Member ID: a short reference that starts with <strong>CW-</strong> and stays with the account for as long as it is open. It is how we identify you in support, on statements and in payout records without ever asking for anything sensitive.</p>
+          <p>Your Member ID is not a password, not a wallet address and not a balance. On its own it cannot move money or open an account — it only tells us which account is being discussed.</p>
+          <a href="/contact" class="btn-cta-primary">Ask for your Member ID<span>→</span></a>
+        </div>
+        <figure class="split-media">
+          <div class="member-card">
+            <div class="member-card-brand">Clearwave<span>Member</span></div>
+            <div class="member-card-chip" aria-hidden="true"></div>
+            <div class="member-card-id">CW-4819-2276</div>
+            <div class="member-card-name">Account Holder</div>
+            <div class="member-card-meta">
+              <div>Member since<b>2019</b></div>
+              <div>Status<b>Verified</b></div>
+              <div>Tier<b>Golden</b></div>
+            </div>
+          </div>
+          <figcaption class="member-card-caption">A sample Member ID card. Your own number is issued when your account is verified.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">What it is used for</div>
+          <h2 class="section-title">Three places your ID <em>does the work</em></h2>
+        </div>
+        <div class="cards-3">
+          <article class="cw-benefit-card">
+            <div class="cw-benefit-title">Support without the guesswork</div>
+            <p class="cw-benefit-desc">Quoting the ID lets our team open the right account immediately. You never have to send a password, a one-time code or a full card number to get help.</p>
+          </article>
+          <article class="cw-benefit-card">
+            <div class="cw-benefit-title">Statements and payouts</div>
+            <p class="cw-benefit-desc">Every statement, payout confirmation and loan or grant decision references your ID, so a payment can be traced months later without matching names and dates by hand.</p>
+          </article>
+          <article class="cw-benefit-card">
+            <div class="cw-benefit-title">Referral credit</div>
+            <p class="cw-benefit-desc">When someone joins with your ID, the referral bonus is credited to the right account automatically — no manual claim, no form to fill in afterwards.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="split split--reverse">
+        <div class="split-copy prose">
+          <h2>Where to find your own</h2>
+          <p>You do not need to memorise it. The ID appears everywhere an account reference is needed, and any member of staff can confirm it for you once your identity is verified.</p>
+          <ul class="check-list">
+            <li>Top right of your account dashboard, under your name</li>
+            <li>In the footer of every statement and payout confirmation</li>
+            <li>In your welcome email and each plan confirmation</li>
+            <li>From support — we confirm the last four digits before reading it back</li>
+          </ul>
+          <p>Numbers are issued in sequence and never reused. If an account is closed, its ID is retired with it, which is why the ID on an old statement still points to exactly one account.</p>
+        </div>
+        <div class="split-copy prose">
+          <h2>How to treat it</h2>
+          <p>The Member ID is closer to an account number than to a secret, but it still deserves care. Sharing it with our support team is normal. Posting it publicly next to your balance or payout history is not.</p>
+          <ul class="check-list">
+            <li>We never ask for your password, one-time codes or wallet seed phrase — not by email, not by phone</li>
+            <li>Staff need the ID itself and nothing else to locate your account</li>
+            <li>No one needs your Member ID in order to send you money</li>
+            <li>If a message quotes an ID you do not recognise, forward it to support before replying</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <div class="section-label">F.A.Q</div>
+        <h2>Member ID questions, answered</h2>
+        <div class="faq-list svc-faq">
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">Can someone access my account with my Member ID?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">No. The ID only identifies an account. Signing in still requires your credentials and any verification step on your account, and we never reset those from an ID alone.</div></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">What if I have more than one account?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">Each account gets its own Member ID. Quote the one you are asking about — mixing two IDs in one request is the most common reason support has to come back and ask again.</div></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">I never received one. What now?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">An ID is issued as soon as your account is verified. If the welcome email never arrived, contact support with the email address on the account and we will confirm it after verification.</div></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">Can I change my Member ID?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">No. The ID is permanent so that old statements, payouts and referral records keep pointing at the same account. You can change your display name and contact details at any time.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/newsletter') %>
+  </main>
+
+<%- include('partials/footer') %>

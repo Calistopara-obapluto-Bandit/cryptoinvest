@@ -1,0 +1,142 @@
+<%
+  var tracks = [
+    { name: 'Education grant', amount: 'Up to $2,500', body: 'Workshops, curricula and study materials that teach people how markets, custody and risk actually work — for schools, community colleges and adult-learning groups.' },
+    { name: 'Community grant', amount: 'Up to $5,000', body: 'Meetups, mentorship programmes and financial-literacy work that helps a local community make better decisions with its own money.' },
+    { name: 'Builder grant', amount: 'Up to $15,000', body: 'Open-source tools, public data and research that let investors check for themselves what a platform, a fund or a property deal is really doing.' }
+  ];
+%>
+<%- include('partials/head', { title: 'Grants — Clearwave Crypto', description: 'Clearwave Grants funds education, community and open-source work with non-repayable money, paid in instalments against agreed milestones.' }) %>
+<%- include('partials/nav', { active: 'grants' }) %>
+
+  <main class="page-main">
+    <%- include('partials/page-header', { title: 'Grants', crumb: 'Grants' }) %>
+
+    <section class="container section-pad">
+      <div class="split">
+        <div class="split-copy prose">
+          <h2>Money that does not have to be repaid</h2>
+          <p>Clearwave Grants is a fixed annual pool set aside for work that makes investing easier to understand: classrooms, community programmes and open-source tools. It is not a loan and it is not an investment — there is no interest, no repayment schedule and no equity taken in return.</p>
+          <p>We fund a defined piece of work, agree the milestones in writing, and pay in instalments as those milestones are met. If the work changes shape halfway through, we would rather renegotiate the plan than pretend the original one still fits.</p>
+          <a href="/contact" class="btn-cta-primary">Start an application<span>→</span></a>
+        </div>
+        <figure class="split-media">
+          <img src="/assets/images/site/about-image.jpg" width="1000" height="630" loading="lazy" alt="A grant review meeting at Clearwave" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">Three tracks</div>
+          <h2 class="section-title">What we <em>fund</em></h2>
+          <p class="section-sub">Pick the track that fits the work. If it fits more than one, say so in the brief — we will route it to the right reviewers.</p>
+        </div>
+        <div class="cards-3">
+          <% tracks.forEach(function (track) { %>
+            <article class="cw-benefit-card">
+              <div class="section-label"><%= track.amount %></div>
+              <div class="cw-benefit-title"><%= track.name %></div>
+              <p class="cw-benefit-desc"><%= track.body %></p>
+            </article>
+          <% }); %>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="value-grid value-grid--3">
+        <article class="value-card">
+          <h3>No fee to apply</h3>
+          <p>Applying is free and always will be. We never ask for an application fee, a processing fee or a "release" payment — any grant offer that asks for money up front is not from Clearwave.</p>
+        </article>
+        <article class="value-card">
+          <h3>Paid in milestones</h3>
+          <p>An accepted grant is split into two or three payments tied to deliverables. You get the first instalment when the plan is signed, not months later.</p>
+        </article>
+        <article class="value-card">
+          <h3>Report, don't repay</h3>
+          <p>At the end we ask for a short written summary and the receipts for what was spent. Unspent money comes back to the pool; nothing else is owed.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="split split--reverse">
+        <div class="split-copy prose">
+          <h2>Who can apply</h2>
+          <p>We accept applications from individuals, informal community groups, schools and small non-profits. You do not need a company, a pitch deck or a lawyer — a clear one-page description of the work is enough to be considered.</p>
+          <ul class="check-list">
+            <li>A verified Clearwave account in good standing, on any plan tier</li>
+            <li>A one-page brief: what the work is, who it reaches and what it costs</li>
+            <li>A budget and a timeline you can hold yourself to</li>
+            <li>A named person and account that can receive the funds</li>
+          </ul>
+          <p>Grants are reviewed quarterly. Applications that miss the window roll into the next round automatically, so nothing needs to be resubmitted.</p>
+        </div>
+        <figure class="split-media">
+          <img src="/assets/images/site/company-1.jpg" width="1280" height="720" loading="lazy" alt="Clearwave grant committee reviewing applications" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">The process</div>
+          <h2 class="section-title">From brief to <em>first instalment</em></h2>
+        </div>
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-title">Send the brief</div>
+            <div class="step-desc">One page through the contact form, with your Member ID and the track you are applying under.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-title">Review</div>
+            <div class="step-desc">Two reviewers read every brief. You get an answer within three weeks of the quarterly cut-off, successful or not.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-title">Agree milestones</div>
+            <div class="step-desc">We agree what "done" looks like for each payment and put it in a short written agreement.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-title">Get paid</div>
+            <div class="step-desc">The first instalment goes out when the agreement is signed, with the balance released as milestones are met.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <div class="section-label">F.A.Q</div>
+        <h2>Grant questions, answered</h2>
+        <div class="faq-list svc-faq">
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">Is a grant really free?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">Yes. A grant is non-repayable: no interest, no repayment schedule and no equity. The only obligations are the milestone plan and a short report at the end.</div></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">Can I apply more than once?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">Yes, once per funding round. If a previous application was declined, tell us what changed — a clearer brief or a smaller scope often makes the difference.</div></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">Do you fund salaries?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">Sometimes, as part of a defined project. We do not fund ongoing operating costs, general overheads or anything already paid for by another funder.</div></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">What if the milestones slip?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">Tell us early. We usually extend the timeline or agree a smaller scope. What we do not do is keep paying instalments for work that has stopped.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/newsletter') %>
+  </main>
+
+<%- include('partials/footer') %>

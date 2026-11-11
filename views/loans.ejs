@@ -1,0 +1,161 @@
+<%
+  var tiers = [
+    ['Starter loan',   '$1,000 – $9,999',     '50%', '3 months',  '9.5% APR'],
+    ['Growth loan',    '$10,000 – $49,999',   '55%', '6 months',  '8.25% APR'],
+    ['Portfolio loan', '$50,000 – $250,000',  '60%', '12 months', '7.5% APR']
+  ];
+%>
+<%- include('partials/head', { title: 'Loans — Clearwave Crypto', description: 'Clearwave loans let members borrow against the portfolio they already hold instead of selling positions, with fixed terms agreed before funds are released.' }) %>
+<%- include('partials/nav', { active: 'loans' }) %>
+
+  <main class="page-main">
+    <%- include('partials/page-header', { title: 'Loans', crumb: 'Loans' }) %>
+
+    <section class="container section-pad">
+      <div class="split">
+        <div class="split-copy prose">
+          <h2>Borrow against what you already hold</h2>
+          <p>A Clearwave loan lets you raise cash against the balance already working in your portfolio instead of selling positions to cover a short-term need. The pledged holdings stay invested for the length of the loan, and the cash you borrow is yours to use elsewhere.</p>
+          <p>Every loan is sized against the value of the collateral you pledge. The loan-to-value ratio, the interest rate and the repayment dates are fixed at approval and written into the agreement before a single dollar moves — nothing is repriced halfway through the term.</p>
+          <a href="/contact" class="btn-cta-primary">Request a loan quote<span>→</span></a>
+        </div>
+        <figure class="split-media">
+          <img src="/assets/images/site/property-1.jpg" width="1920" height="1280" loading="lazy" alt="Assets that can be pledged as loan collateral" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">Why borrow instead of sell</div>
+          <h2 class="section-title">Cash today, <em>positions intact</em></h2>
+        </div>
+        <div class="cards-3">
+          <article class="cw-benefit-card">
+            <div class="cw-benefit-title">Keep your positions</div>
+            <p class="cw-benefit-desc">Selling to raise cash ends the plan early and can land you in a worse entry point when you buy back in. Pledging collateral keeps the underlying position open while the loan runs.</p>
+          </article>
+          <article class="cw-benefit-card">
+            <div class="cw-benefit-title">Priced before you sign</div>
+            <p class="cw-benefit-desc">Rate, term and maximum loan-to-value are quoted in the agreement at approval. Your repayment schedule is fixed, so the cost of borrowing is known from day one.</p>
+          </article>
+          <article class="cw-benefit-card">
+            <div class="cw-benefit-title">A defined exit</div>
+            <p class="cw-benefit-desc">Repay on schedule, or repay early and have the remaining interest recalculated. Once the balance is cleared, the pledged collateral is released back to your portfolio.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="table-block">
+        <h2 class="table-title">Loan tiers</h2>
+        <div class="svc-table-wrap">
+          <table class="svc-table">
+            <thead>
+              <tr>
+                <th scope="col">Loan</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Max LTV</th>
+                <th scope="col">Term</th>
+                <th scope="col">Rate</th>
+                <th scope="col">Request</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% tiers.forEach(function (row) { %>
+                <tr>
+                  <th scope="row"><%= row[0] %></th>
+                  <td><%= row[1] %></td>
+                  <td><%= row[2] %></td>
+                  <td><%= row[3] %></td>
+                  <td><%= row[4] %></td>
+                  <td><a href="/contact" class="table-cta">Apply</a></td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+        <p class="svc-table-note">Illustrative terms. Your actual offer depends on the assets pledged, your account history and your region, and is confirmed in the loan agreement before any funds are released. Borrowing carries risk: if the pledged collateral falls in value you may be asked to add collateral or repay part of the balance.</p>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container">
+        <div class="features-header">
+          <div class="section-label">How a loan is approved</div>
+          <h2 class="section-title">Four steps from <em>request to release</em></h2>
+        </div>
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-title">Request a quote</div>
+            <div class="step-desc">Tell us the amount you need and which holdings you would like to pledge. We size the loan against their current value.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-title">Pledge collateral</div>
+            <div class="step-desc">You sign the agreement and the pledged positions are locked for the term. They stay invested, but cannot be withdrawn while they secure the loan.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-title">Receive funds</div>
+            <div class="step-desc">The approved amount is paid to your nominated account or wallet, less the arrangement fee stated in the agreement.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-title">Repay and release</div>
+            <div class="step-desc">Pay in instalments or settle in one go. When the balance clears, the collateral unlocks and returns to your portfolio.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="split split--reverse">
+        <div class="split-copy prose">
+          <h2>What a loan does not touch</h2>
+          <p>A loan is a separate agreement sitting on top of your portfolio, not a change to it. The pledged position keeps its own plan terms and continues to follow the payout schedule you agreed when you started it.</p>
+          <p>Loans are reviewed by a person, not an automated score. That means a real conversation about what you need the money for, what you are pledging and how you intend to repay it — and a straight answer if we think a loan is the wrong tool for the job.</p>
+          <ul class="check-list">
+            <li>No credit check and no impact on your credit file</li>
+            <li>No early-repayment penalty</li>
+            <li>Collateral released within one business day of settlement</li>
+          </ul>
+        </div>
+        <figure class="split-media">
+          <img src="/assets/images/site/hero-banner.jpg" width="1000" height="667" loading="lazy" alt="Clearwave account view showing pledged collateral" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="container section-pad">
+      <div class="prose">
+        <div class="section-label">F.A.Q</div>
+        <h2>Loan questions, answered</h2>
+        <div class="faq-list svc-faq">
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">What can I pledge as collateral?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">Supported portfolio positions and funded real-estate holdings. Not every asset is eligible, and the loan-to-value ratio differs by asset class — your quote lists exactly what is being pledged and at what value.</div></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">What happens if my collateral falls in value?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">If the pledged assets fall far enough to breach the agreed loan-to-value limit, we contact you with a cure period. You can add collateral or repay part of the balance inside that window. Collateral is only liquidated if neither happens.</div></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">Can I repay early?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">Yes. There is no early-repayment penalty, and interest stops accruing on the day the balance clears. Any interest already paid for the current period is not refunded.</div></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">Does borrowing affect my investment plan?<div class="faq-icon">+</div></div>
+            <div class="faq-answer"><div class="faq-answer-inner">No. The pledged position stays invested on its existing terms. The loan is recorded separately, with its own schedule, and does not extend or reset your plan.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/newsletter') %>
+  </main>
+
+<%- include('partials/footer') %>

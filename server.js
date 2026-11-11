@@ -3,6 +3,9 @@ const fs = require('node:fs');
 const fsPromises = require('node:fs/promises');
 const path = require('node:path');
 const ejs = require('ejs');
+const db = require('./lib/db');
+const auth = require('./lib/auth');
+const accountRoutes = require('./lib/account-routes');
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
@@ -26,6 +29,10 @@ const initialAccount = () => ({
 let marketCache = { updatedAt: 0, assets: fallbackMarkets, source: 'demo' };
 
 app.disable('x-powered-by');
+// Freebuff previews and production hosting both terminate TLS in front of the
+// app, so trust the first proxy hop when deciding if the session cookie is
+// allowed to be Secure.
+app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -42,12 +49,16 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: false, limit: '20kb' }));
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   next();
 });
+// Resolves the cw_session cookie into res.locals.user for every page. Static
+// assets are served above this point, so this never waits on the database.
+app.use(auth.attachMember);
 
 async function readAccount() {
   try {
@@ -267,12 +278,35 @@ app.post('/api/reset', async (req, res, next) => {
 
 app.get('/api/health', (req, res) => res.json({ ok: true, mode: 'paper-trading' }));
 
+// ---- MEMBER ACCOUNTS (register, login, dashboards) ----
+accountRoutes.register(app);
+
 // 404 / error handling last.
 app.use('/api', (req, res) => res.status(404).json({ error: 'API route not found.' }));
+app.use((req, res) => {
+  res.status(404).render('message', {
+    title: 'Page not found — Clearwave Crypto',
+    description: 'The page you asked for does not exist.',
+    active: '',
+    heading: 'Page not found',
+    body: 'That page has moved or never existed. The links below will get you back to the platform.',
+    status: 404
+  });
+});
 app.use((error, req, res, next) => {
   if (res.headersSent) return next(error);
   console.error(error);
-  res.status(500).json({ error: 'The service could not complete that request.' });
+  if (req.path.startsWith('/api/')) {
+    return res.status(500).json({ error: 'The service could not complete that request.' });
+  }
+  res.status(500).render('message', {
+    title: 'Something went wrong — Clearwave Crypto',
+    description: 'The request could not be completed.',
+    active: '',
+    heading: 'Something went wrong',
+    body: 'That request could not be completed. Try again, or contact support if it keeps happening.',
+    status: 500
+  });
 });
 
 app.listen(port, () => {

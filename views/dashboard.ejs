@@ -1,0 +1,79 @@
+<%
+  var firstName = member.full_name.split(' ')[0];
+  var joined = new Date(member.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  var isAdmin = member.role === 'admin';
+%>
+<%- include('partials/head', { title: title, description: description }) %>
+<%- include('partials/nav', { active: 'dashboard' }) %>
+
+  <main class="dash-main">
+    <div class="container">
+      <div class="dash-head">
+        <div class="dash-head-copy">
+          <div class="section-label">Member dashboard</div>
+          <h1 class="dash-title">Welcome back, <em><%= firstName %></em></h1>
+          <p class="section-sub">This is the account our team sees when you call, and the reference behind every statement and payout.</p>
+        </div>
+        <div class="dash-id">
+          <span class="dash-id-label">Your member ID</span>
+          <strong class="dash-id-value"><%= member.member_id %></strong>
+          <span class="dash-id-hint">Quote this in any message to support</span>
+        </div>
+      </div>
+
+      <% if (welcome) { %>
+        <div class="form-notice form-notice--ok" role="status">
+          Your account is open. Keep your member ID safe — it is how we find you without asking for anything sensitive.
+        </div>
+      <% } %>
+
+      <div class="dash-grid">
+        <section class="dash-card">
+          <h2 class="dash-card-title">Your details</h2>
+          <p class="dash-card-sub">Registered on <%= joined %>. Tell support if anything here needs correcting.</p>
+          <dl class="dash-list">
+            <div><dt>Full name</dt><dd><%= member.full_name %></dd></div>
+            <div><dt>Email</dt><dd><%= member.email %></dd></div>
+            <div><dt>Phone</dt><dd><%= member.phone %></dd></div>
+            <div><dt>Nationality</dt><dd><%= member.nationality %></dd></div>
+            <div><dt>Age</dt><dd><%= member.age %></dd></div>
+            <div><dt>Member ID</dt><dd class="mono"><%= member.member_id %></dd></div>
+          </dl>
+        </section>
+
+        <div class="dash-side">
+          <section class="dash-card">
+            <h2 class="dash-card-title">Account status</h2>
+            <ul class="dash-status">
+              <li><span class="dash-dot is-on"></span> Email registered</li>
+              <li><span class="dash-dot is-on"></span> <%= isAdmin ? 'Administrator access' : 'Member access' %></li>
+              <li><span class="dash-dot"></span> Plan activation — talk to a representative</li>
+            </ul>
+            <a href="/plan" class="text-link">See the investment plans →</a>
+          </section>
+
+          <section class="dash-card">
+            <h2 class="dash-card-title">Shortcuts</h2>
+            <div class="dash-shortcuts">
+              <a href="/loans">Loans<span>Borrow against your portfolio</span></a>
+              <a href="/grants">Grants<span>Non-repayable funding</span></a>
+              <a href="/member-id">Member ID<span>How the reference works</span></a>
+              <a href="/contact">Support<span>Speak to a representative</span></a>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <% if (isAdmin) { %>
+        <div class="dash-admin-strip">
+          <div>
+            <strong>You are signed in as an administrator.</strong>
+            <p>Every registration lands in the admin dashboard, ready to review.</p>
+          </div>
+          <a href="/admin" class="btn-primary">Open admin dashboard</a>
+        </div>
+      <% } %>
+    </div>
+  </main>
+
+<%- include('partials/footer') %>

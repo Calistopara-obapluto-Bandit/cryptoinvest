@@ -1,0 +1,96 @@
+<%
+  var fmtDate = function (value) {
+    return new Date(value).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+%>
+<%- include('partials/head', { title: title, description: description }) %>
+<%- include('partials/nav', { active: 'admin' }) %>
+
+  <main class="dash-main">
+    <div class="container">
+      <div class="dash-head">
+        <div class="dash-head-copy">
+          <div class="section-label">Admin dashboard</div>
+          <h1 class="dash-title">Registered <em>members</em></h1>
+          <p class="section-sub">Everyone who has created an account, newest first. Passwords are stored as hashes and are never shown here.</p>
+        </div>
+        <div class="dash-id dash-id--admin">
+          <span class="dash-id-label">Signed in as</span>
+          <strong class="dash-id-value"><%= member.full_name %></strong>
+          <span class="dash-id-hint"><%= member.email %></span>
+        </div>
+      </div>
+
+      <div class="dash-stats">
+        <div class="dash-stat">
+          <strong><%= stats.total %></strong>
+          <span>Total members</span>
+        </div>
+        <div class="dash-stat">
+          <strong><%= stats.recent %></strong>
+          <span>New in last 7 days</span>
+        </div>
+        <div class="dash-stat">
+          <strong><%= stats.avg_age %></strong>
+          <span>Average age</span>
+        </div>
+        <div class="dash-stat">
+          <strong><%= stats.countries %></strong>
+          <span>Nationalities</span>
+        </div>
+      </div>
+
+      <form class="dash-search" method="get" action="/admin" role="search">
+        <label class="field field--grow">
+          <span>Search members</span>
+          <input type="search" name="q" value="<%= search %>" placeholder="Name, email, nationality or member ID" maxlength="80" />
+        </label>
+        <button type="submit" class="btn-primary">Search</button>
+        <% if (search) { %><a href="/admin" class="text-link">Clear</a><% } %>
+      </form>
+
+      <% if (!members.length) { %>
+        <div class="dash-empty">
+          <h2>No members yet</h2>
+          <p><% if (search) { %>Nothing matched “<%= search %>”.<% } else { %>Registrations will appear here the moment someone creates an account.<% } %></p>
+          <a href="/register" class="btn-outline-lg">Open the registration form<span>→</span></a>
+        </div>
+      <% } else { %>
+        <div class="svc-table-wrap dash-table-wrap">
+          <table class="svc-table dash-table">
+            <thead>
+              <tr>
+                <th scope="col">Member</th>
+                <th scope="col">Contact</th>
+                <th scope="col">Nationality</th>
+                <th scope="col">Age</th>
+                <th scope="col">Joined</th>
+                <th scope="col">Member ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% members.forEach(function (row) { %>
+                <tr>
+                  <th scope="row">
+                    <span class="dash-name"><%= row.full_name %></span>
+                    <span class="dash-sub"><%= row.email %></span>
+                  </th>
+                  <td>
+                    <span class="dash-cell"><%= row.phone %></span>
+                    <span class="dash-sub">Email verified on registration</span>
+                  </td>
+                  <td><%= row.nationality %></td>
+                  <td><%= row.age %></td>
+                  <td><%= fmtDate(row.created_at) %></td>
+                  <td><span class="mono"><%= row.member_id %></span></td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+        <p class="svc-table-note">Showing <%= members.length %> member<%= members.length === 1 ? '' : 's' %><% if (search) { %> matching “<%= search %>”<% } %>. Passwords are stored as scrypt hashes and are never included in this view.</p>
+      <% } %>
+    </div>
+  </main>
+
+<%- include('partials/footer') %>

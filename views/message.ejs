@@ -1,0 +1,18 @@
+<%- include('partials/head', { title: title, description: description }) %>
+<%- include('partials/nav', { active: active }) %>
+
+  <main class="page-main">
+    <section class="container section-pad">
+      <div class="message-page">
+        <div class="message-code"><%= status %></div>
+        <h1 class="message-title"><%= heading %></h1>
+        <p class="message-body"><%= body %></p>
+        <div class="message-actions">
+          <a href="/" class="btn-primary">Back to home</a>
+          <a href="/contact" class="btn-outline-lg">Contact support<span>→</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+<%- include('partials/footer') %>

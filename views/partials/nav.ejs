@@ -42,7 +42,15 @@
       </ul>
 
       <div class="nav-cta">
-        <a href="/contact" class="btn-primary">Get Started</a>
+        <% if (typeof user !== 'undefined' && user) { %>
+          <a href="<%= user.role === 'admin' ? '/admin' : '/dashboard' %>" class="btn-ghost"><%= user.role === 'admin' ? 'Admin' : 'Dashboard' %></a>
+          <form method="post" action="/logout" class="nav-logout">
+            <button type="submit" class="btn-primary">Log out</button>
+          </form>
+        <% } else { %>
+          <a href="/login" class="btn-ghost">Log in</a>
+          <a href="/register" class="btn-primary">Get Started</a>
+        <% } %>
       </div>
 
       <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to dark theme" title="Switch to dark theme">
@@ -72,5 +80,21 @@
       <a href="/contact">Contact Us</a>
     </div>
 
-    <a href="/contact" class="mm-cta">Get Started</a>
+    <div class="mm-label">Account</div>
+    <div class="mm-links">
+      <% if (typeof user !== 'undefined' && user) { %>
+        <a href="<%= user.role === 'admin' ? '/admin' : '/dashboard' %>"><%= user.role === 'admin' ? 'Admin dashboard' : 'My dashboard' %></a>
+      <% } else { %>
+        <a href="/login">Log in</a>
+        <a href="/register">Create an account</a>
+      <% } %>
+    </div>
+
+    <% if (typeof user !== 'undefined' && user) { %>
+      <form method="post" action="/logout" class="mm-logout">
+        <button type="submit" class="mm-cta">Log out</button>
+      </form>
+    <% } else { %>
+      <a href="/register" class="mm-cta">Get Started</a>
+    <% } %>
   </div>

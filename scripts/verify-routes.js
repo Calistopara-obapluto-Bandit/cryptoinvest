@@ -20,6 +20,8 @@ const routes = [
   '/plan',
   '/faq',
   '/contact',
+  '/login',
+  '/register',
   '/privacy',
   '/terms'
 ];

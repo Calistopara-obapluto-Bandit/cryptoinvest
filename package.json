@@ -5,10 +5,12 @@
   "description": "Clearwave Crypto — multi-page website built with Express + EJS.",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "seed:admin": "node scripts/seed-admin.js"
   },
   "dependencies": {
     "ejs": "^3.1.10",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "pg": "^8.23.1"
   }
 }

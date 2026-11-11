@@ -1,0 +1,46 @@
+<%- include('../partials/head', { title: title, description: description }) %>
+<%- include('../partials/nav', { active: 'login' }) %>
+
+  <main class="auth-main">
+    <div class="container">
+      <div class="auth-shell auth-shell--single">
+        <div class="auth-card">
+          <div class="section-label">Member access</div>
+          <h1 class="auth-title auth-title--sm">Log in to your <em>dashboard</em></h1>
+          <p class="auth-lead auth-lead--sm">Use the email address and password you registered with.</p>
+
+          <% if (!databaseReady) { %>
+            <p class="form-notice form-notice--warn">The member database is not connected yet. Add <code>DATABASE_URL</code> in Settings → Environment and try again.</p>
+          <% } %>
+
+          <% if (notice) { %>
+            <p class="form-notice form-notice--ok"><%= notice %></p>
+          <% } %>
+
+          <% if (errors && errors.length) { %>
+            <div class="form-errors" role="alert">
+              <ul>
+                <% errors.forEach(function (error) { %><li><%= error %></li><% }); %>
+              </ul>
+            </div>
+          <% } %>
+
+          <form class="auth-form" method="post" action="/login">
+            <input type="hidden" name="next" value="<%= next %>" />
+            <label class="field">
+              <span>Email address</span>
+              <input type="email" name="email" value="<%= email %>" required maxlength="120" autocomplete="email" placeholder="you@example.com" autofocus />
+            </label>
+            <label class="field">
+              <span>Password</span>
+              <input type="password" name="password" required maxlength="200" autocomplete="current-password" placeholder="Your password" />
+            </label>
+            <button type="submit" class="auth-submit">Log in</button>
+            <p class="auth-switch">No account yet? <a href="/register">Create one in a minute</a>.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+<%- include('../partials/footer') %>

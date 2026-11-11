@@ -1,0 +1,77 @@
+<%- include('../partials/head', { title: title, description: description }) %>
+<%- include('../partials/nav', { active: 'register' }) %>
+
+  <main class="auth-main">
+    <div class="container">
+      <div class="auth-shell">
+        <aside class="auth-aside">
+          <div class="section-label">Member access</div>
+          <h1 class="auth-title">Open your <em>Clearwave</em> account</h1>
+          <p class="auth-lead">One login for your plans, loans, grants and member ID. Registration takes a minute, and the details you enter here are the ones our support desk will use to identify you.</p>
+          <ul class="auth-points">
+            <li><span aria-hidden="true">✓</span> Your own dashboard, plan history and member ID</li>
+            <li><span aria-hidden="true">✓</span> Loan and grant requests raised from one account</li>
+            <li><span aria-hidden="true">✓</span> A named human on the other end of every ticket</li>
+          </ul>
+          <p class="auth-fineprint">Accounts are for people aged 18 and over. Your password is stored as a one-way hash — never in plain text, and never shown to our staff.</p>
+        </aside>
+
+        <div class="auth-card">
+          <h2 class="auth-card-title">Create your account</h2>
+
+          <% if (!databaseReady) { %>
+            <p class="form-notice form-notice--warn">The member database is not connected yet, so accounts cannot be saved. Add <code>DATABASE_URL</code> in Settings → Environment to switch registration on.</p>
+          <% } %>
+
+          <% if (errors && errors.length) { %>
+            <div class="form-errors" role="alert">
+              <ul>
+                <% errors.forEach(function (error) { %><li><%= error %></li><% }); %>
+              </ul>
+            </div>
+          <% } %>
+
+          <form class="auth-form" method="post" action="/register">
+            <div class="field-grid">
+              <label class="field">
+                <span>Full name</span>
+                <input type="text" name="fullName" value="<%= values.fullName %>" required minlength="2" maxlength="80" autocomplete="name" placeholder="Ada Okonkwo" />
+              </label>
+              <label class="field">
+                <span>Email address</span>
+                <input type="email" name="email" value="<%= values.email %>" required maxlength="120" autocomplete="email" placeholder="you@example.com" />
+              </label>
+              <label class="field">
+                <span>Phone number</span>
+                <input type="tel" name="phone" value="<%= values.phone %>" required maxlength="24" autocomplete="tel" placeholder="+1 555 0142" />
+              </label>
+              <label class="field">
+                <span>Nationality</span>
+                <input type="text" name="nationality" value="<%= values.nationality %>" required maxlength="56" list="country-list" autocomplete="country-name" placeholder="Start typing…" />
+                <datalist id="country-list">
+                  <% countries.forEach(function (country) { %><option value="<%= country %>"></option><% }); %>
+                </datalist>
+              </label>
+              <label class="field">
+                <span>Age</span>
+                <input type="number" name="age" value="<%= values.age %>" required min="18" max="120" step="1" inputmode="numeric" placeholder="18+" />
+              </label>
+              <label class="field">
+                <span>Password</span>
+                <input type="password" name="password" required minlength="8" maxlength="200" autocomplete="new-password" placeholder="At least 8 characters" />
+              </label>
+              <label class="field field--wide">
+                <span>Confirm password</span>
+                <input type="password" name="confirmPassword" required minlength="8" maxlength="200" autocomplete="new-password" placeholder="Repeat your password" />
+              </label>
+            </div>
+
+            <button type="submit" class="auth-submit">Create my account</button>
+            <p class="auth-switch">Already registered? <a href="/login">Log in instead</a>.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+<%- include('../partials/footer') %>

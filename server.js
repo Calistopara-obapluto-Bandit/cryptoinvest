@@ -289,6 +289,12 @@ app.post('/api/reset', async (req, res, next) => {
 app.get('/api/health', (req, res) => res.json({ ok: true, mode: 'paper-trading' }));
 
 // ---- MEMBER ACCOUNTS (register, login, dashboards) ----
+// Order matters: the last app.get('/dashboard') registered wins for a plain GET.
+// accountRoutes registers the client dashboard first, then memberRoutes registers
+// the client dashboard again (and the admin dashboard is on /admin). Keeping
+// memberRoutes second means its /dashboard handler (which passes summary) is the
+// one Express uses. If you ever change this order, re-verify /dashboard still
+// renders with summary for both admin and client members.
 accountRoutes.register(app);
 memberRoutes.register(app);
 

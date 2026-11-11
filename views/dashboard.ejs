@@ -1,4 +1,5 @@
 <%
+  var summary = locals.summary || {};
   var firstName = member.full_name.split(' ')[0];
   var joined = new Date(member.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
   var isAdmin = member.role === 'admin';

@@ -3,10 +3,35 @@
   // current main. The running service logs the git commit it booted from at
   // startup (package.json._deployedCommit), so a Render log line like
   // "[deploy] booted commit: <hash>" can be tied back to this source.
-  var summary = locals.summary || {};
-  var firstName = member.full_name.split(' ')[0];
-  var joined = new Date(member.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-  var isAdmin = member.role === 'admin';
+  var member = Object.assign({
+    full_name: 'Member',
+    created_at: new Date().toISOString(),
+    member_id: '',
+    role: ''
+  }, locals.member || {});
+  var summary = Object.assign({
+    accountBalance: 0, profitBalance: 0, bonusBalance: 0,
+    ongoingInvestments: 0, ongoingCount: 0, approvedDeposits: 0,
+    pendingDeposits: 0, completedInvestments: 0, completedInvestmentsCount: 0,
+    completedWithdrawals: 0, pendingWithdrawals: 0, totalWithdrawal: 0,
+    todayEarning: 0, referralBalance: 0, referrals: 0,
+    earningThisMonth: 0, earningLastMonth: 0,
+    earningHistory: []
+  }, locals.summary || {});
+  var plans = locals.plans || [];
+  var estatePlans = locals.estatePlans || [];
+  var transactions = locals.transactions || [];
+  var activeInvestments = locals.activeInvestments || [];
+  var referralLink = locals.referralLink || '';
+  var title = locals.title || 'Your dashboard — Clearwave Crypto';
+  var description = locals.description || 'Balances, transactions, referrals and investment packages in one place.';
+  var active = locals.active || 'dashboard';
+  var welcome = !!(locals.welcome === '1' || locals.welcome === true);
+  if (!summary.earningHistory) summary.earningHistory = [];
+  if (typeof activeInvestments === 'undefined' || !activeInvestments) activeInvestments = [];
+  var firstName = member && member.full_name ? String(member.full_name).split(' ')[0] : 'Member';
+  var joined = member && member.created_at ? new Date(member.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+  var isAdmin = member && member.role === 'admin';
   var shortDate = function (value) {
     return new Date(value).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   };
@@ -36,7 +61,7 @@
         <div class="app-head-copy">
           <div class="section-label">Member dashboard</div>
           <h1 class="app-title">Welcome back, <em><%= firstName %></em></h1>
-          <p class="app-sub">Member ID <span class="mono"><%= member.member_id %></span> · with us since <%= joined %></p>
+          <p class="app-sub">Member ID <span class="mono"><%= (member && member.member_id) ? member.member_id : '' %></span> · with us since <%= joined %></p>
         </div>
         <div class="app-head-actions">
           <a href="/plan" class="btn-outline-lg">All packages<span>→</span></a>
@@ -63,8 +88,8 @@
         <% tiles.forEach(function (tile) { %>
           <article class="tile">
             <div class="tile-copy">
-              <span class="tile-label"><%= tile.label %></span>
-              <strong class="tile-value"><%= money(tile.value) %></strong>
+              <span class="tile-label"><%= (tile && tile.label) ? tile.label : '' %></span>
+              <strong class="tile-value"><%= money(tile && tile.value != null ? tile.value : 0) %></strong>
             </div>
             <%- include('partials/tile-icon', { icon: tile.icon }) %>
           </article>
@@ -77,7 +102,7 @@
             <h2>Most recent transactions</h2>
             <a href="/dashboard/transactions" class="app-card-link">View all</a>
           </header>
-          <% if (!transactions.length) { %>
+          <% if (!transactions || !transactions.length) { %>
             <p class="app-empty">No recent transactions found. Your first deposit will appear here.</p>
           <% } else { %>
             <div class="app-table-wrap">
@@ -86,17 +111,17 @@
                   <tr><th>ID</th><th>Type</th><th>Amount</th><th>Date</th></tr>
                 </thead>
                 <tbody>
-                  <% transactions.forEach(function (row) { %>
+                  <% (transactions || []).forEach(function (row) { %>
                     <tr>
-                      <td class="mono"><%= row.reference %></td>
+                      <td class="mono"><%= (row && row.reference) ? row.reference : '' %></td>
                       <td>
-                        <%= kindLabel(row.kind) %>
-                        <span class="tx-status tx-status--<%= row.status %>"><%= statusLabel(row.status) %></span>
+                        <%= (row && row.kind) ? kindLabel(row.kind) : '' %>
+                        <span class="tx-status tx-status--<%= (row && row.status) ? row.status : '' %>"><%= (row && row.status) ? statusLabel(row.status) : '' %></span>
                       </td>
-                      <td class="tx-amount<%= row.kind === 'withdrawal' || row.kind === 'investment' ? ' is-out' : '' %>">
-                        <%= (row.kind === 'withdrawal' || row.kind === 'investment' ? '−' : '+') + money(row.amount) %>
+                      <td class="tx-amount<%= (row && (row.kind === 'withdrawal' || row.kind === 'investment')) ? ' is-out' : '' %>">
+                        <%= (row && row.kind) ? ((row.kind === 'withdrawal' || row.kind === 'investment' ? '−' : '+') + money(row.amount)) : '' %>
                       </td>
-                      <td><%= shortDate(row.created_at) %></td>
+                      <td><%= (row && row.created_at) ? shortDate(row.created_at) : '' %></td>
                     </tr>
                   <% }); %>
                 </tbody>
@@ -107,12 +132,12 @@
 
         <section class="app-card">
           <h2>Referral link</h2>
-          <p class="app-card-sub">Share this link. Every member who joins with it is credited to <span class="mono"><%= member.member_id %></span>.</p>
+          <p class="app-card-sub">Share this link. Every member who joins with it is credited to <span class="mono"><%= (member && member.member_id) ? member.member_id : '' %></span>.</p>
           <div class="app-ref">
-            <input class="app-ref-input" type="text" readonly value="<%= referralLink %>" aria-label="Your referral link" />
+            <input class="app-ref-input" type="text" readonly value="<%= (referralLink && referralLink.toString()) ? referralLink : '' %>" aria-label="Your referral link" />
             <button type="button" class="app-ref-copy" data-copy="<%= referralLink %>">Copy</button>
           </div>
-          <p class="app-hint"><%= summary.referrals %> member<%= summary.referrals === 1 ? '' : 's' %> joined with your link · balance <%= money(summary.referralBalance) %></p>
+          <p class="app-hint"><%= summary && summary.referrals != null ? summary.referrals : 0 %> member<%= (summary && summary.referrals != null ? summary.referrals : 0) === 1 ? '' : 's' %> joined with your link · balance <%= money(summary && summary.referralBalance != null ? summary.referralBalance : 0) %></p>
         </section>
       </div>
 
@@ -122,11 +147,11 @@
             <h2>Your investments</h2>
             <a href="/dashboard/invest" class="app-card-link">New investment</a>
           </header>
-          <% if (!activeInvestments.length) { %>
+          <% if (!activeInvestments || !activeInvestments.length) { %>
             <p class="app-empty">No investments yet. Fund your account, then choose a package — every package below is available to you.</p>
           <% } else { %>
             <ul class="inv-list">
-              <% activeInvestments.forEach(function (item) { %>
+              <% (activeInvestments && activeInvestments.forEach) && activeInvestments.forEach(function (item) { %>
                 <li class="inv-row">
                   <div class="inv-main">
                     <strong><%= item.plan_name %></strong>
@@ -156,17 +181,19 @@
             <div><span>This month</span><strong><%= money(summary.earningThisMonth) %></strong></div>
             <div><span>Last month</span><strong><%= money(summary.earningLastMonth) %></strong></div>
           </div>
-          <% if (summary.earningHistory.length) { %>
+          <% if (summary && summary.earningHistory && summary.earningHistory.length) { %>
+          <% } else { %>
+            <p class="app-hint">Profit credits appear here as soon as a package pays out.</p>
+          <% } %>
+          <% if (summary && summary.earningHistory && summary.earningHistory.length) { %>
             <div class="earn-bars" aria-hidden="true">
               <% summary.earningHistory.forEach(function (row) { %>
-                <div class="earn-bar" title="<%= row.month %>: <%= money(row.total) %>">
-                  <span style="height: <%= Math.max(6, Math.round((row.total / maxBar) * 100)) %>%"></span>
-                  <em><%= row.month.slice(5) %></em>
+                <div class="earn-bar" title="<%= (row && row.month) ? row.month + ': ' + money(row.total) : '' %>">
+                  <span style="height: <%= (row && row.total != null && maxBar) ? Math.max(6, Math.round((row.total / maxBar) * 100)) : 6 %>%"></span>
+                  <em><%= (row && row.month) ? row.month.slice(5) : '' %></em>
                 </div>
               <% }); %>
             </div>
-          <% } else { %>
-            <p class="app-hint">Profit credits appear here as soon as a package pays out.</p>
           <% } %>
         </section>
       </div>
@@ -182,7 +209,7 @@
             <article class="pkg-card<%= plan.featured ? ' pkg-card--featured' : '' %>">
               <div class="pkg-head">
                 <strong><%= plan.name %></strong>
-                <% if (plan.featured) { %><span class="pkg-badge">Popular</span><% } %>
+                <% if (plan && plan.featured) { %><span class="pkg-badge">Popular</span><% } %>
               </div>
               <p class="pkg-rate"><%= plan.rateLabel %> <span><%= plan.kind === 'estate' ? 'ROI per month' : 'daily for ' + plan.days + ' days' %></span></p>
               <dl class="pkg-rows">
@@ -190,7 +217,7 @@
                 <div><dt>Maximum</dt><dd><%= plan.maxLabel %></dd></div>
                 <div><dt>Term</dt><dd><%= plan.days %> days</dd></div>
               </dl>
-              <a class="pkg-cta" href="/dashboard/invest?plan=<%= plan.code %>">Invest in <%= plan.name.split(' ')[0] %></a>
+              <a class="pkg-cta" href="/dashboard/invest?plan=<%= (plan && plan.code) ? plan.code : '' %>">Invest in <%= (plan && plan.name) ? plan.name.split(' ')[0] : 'this package' %></a>
             </article>
           <% }); %>
         </div>

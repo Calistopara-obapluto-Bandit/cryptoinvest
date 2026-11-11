@@ -391,6 +391,19 @@ app.post('/dashboard/withdraw/proof', auth.requireMember, (req, res, next) => {
   });
 });
 
+app.post('/dashboard/kyc/proof', auth.requireMember, (req, res, next) => {
+  proofUpload(req, res, (error) => {
+    if (error) {
+      return res.status(400).json({ error: error.message });
+    }
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image was uploaded.' });
+    }
+    res.cookie('pending_kyc_proof', req.file.filename, { maxAge: 5 * 60 * 1000, path: '/' });
+    res.json({ filename: req.file.filename });
+  });
+});
+
 // Helpers every view can use: money and ledger labels, plus the plan catalog.
 app.locals.money = ledger.money;
 app.locals.kindLabel = ledger.kindLabel;

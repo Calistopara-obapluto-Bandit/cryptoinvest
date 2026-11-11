@@ -1,0 +1,90 @@
+<%
+  var fmtDate = function (value) {
+    return new Date(value).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+%>
+<%- include('../partials/head', { title: title, description: description }) %>
+<%- include('../partials/nav', { active: 'admin' }) %>
+
+  <main class="dash-main">
+    <div class="container">
+      <div class="dash-head">
+        <div class="dash-head-copy">
+          <div class="section-label">Admin dashboard</div>
+          <h1 class="dash-title">Loan <em>applications</em></h1>
+          <p class="section-sub">Loan requests from members, pending your review. Approve or decline each application.</p>
+        </div>
+        <div class="dash-id dash-id--admin">
+          <span class="dash-id-label">Signed in as</span>
+          <strong class="dash-id-value"><%= member.full_name %></strong>
+          <span class="dash-id-hint"><%= member.email %></span>
+        </div>
+      </div>
+
+      <% if (typeof query !== 'undefined' && query.updated) { %>
+        <p class="form-notice form-notice--ok" role="status">Loan application <%= query.updated === 'approve' ? 'approved' : 'declined' %>.</p>
+      <% } %>
+
+      <% if (!loans.length) { %>
+        <div class="dash-empty">
+          <h2>No loan applications yet</h2>
+          <p>Loan applications from members will appear here as they are submitted.</p>
+          <a href="/admin" class="btn-outline-lg">Back to admin dashboard<span>→</span></a>
+        </div>
+      <% } else { %>
+        <div class="svc-table-wrap dash-table-wrap">
+          <table class="svc-table dash-table">
+            <thead>
+              <tr>
+                <th scope="col">Member</th>
+                <th scope="col">Reference</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Term</th>
+                <th scope="col">Status</th>
+                <th scope="col">Applied</th>
+                <th scope="col">Note</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% loans.forEach(function (loan) { %>
+                <tr>
+                  <td>
+                    <span class="dash-name"><%= loan.full_name %></span>
+                    <span class="dash-sub"><%= loan.email %></span>
+                  </td>
+                  <td class="mono"><%= loan.reference %></td>
+                  <td class="tx-amount"><%= money(loan.amount) %></td>
+                  <td><%= loan.term_months %> months</td>
+                  <td><span class="tx-status tx-status--<%= loan.status %>"><%= ledger.loanStatusLabel(loan.status) %></span></td>
+                  <td><%= fmtDate(loan.created_at) %></td>
+                  <td><%= loan.note || '—' %></td>
+                  <td>
+                    <% if (loan.status === 'pending') { %>
+                      <div class="admin-actions">
+                        <form method="post" action="/admin/loans/<%= loan.id %>/approve">
+                          <button type="submit" class="btn-mini btn-mini--ok">Approve</button>
+                        </form>
+                        <form method="post" action="/admin/loans/<%= loan.id %>/reject">
+                          <button type="submit" class="btn-mini btn-mini--no">Decline</button>
+                        </form>
+                      </div>
+                    <% } else { %>
+                      <span class="text-link"><%= loan.status %></span>
+                    <% } %>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+
+      <div class="app-form-actions" style="margin-top: 24px;">
+        <a href="/admin" class="btn-outline-lg">Back to admin dashboard<span>→</span></a>
+        <a href="/admin/kyc" class="text-link">KYC submissions</a>
+      </div>
+    </div>
+  </main>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,99 @@
+<%
+  var fmtDate = function (value) {
+    return new Date(value).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+%>
+<%- include('../partials/head', { title: title, description: description }) %>
+<%- include('../partials/nav', { active: 'admin' }) %>
+
+  <main class="dash-main">
+    <div class="container">
+      <div class="dash-head">
+        <div class="dash-head-copy">
+          <div class="section-label">Admin dashboard</div>
+          <h1 class="dash-title">KYC <em>submissions</em></h1>
+          <p class="section-sub">Identity verification documents from members, pending your review. Approve or decline each submission.</p>
+        </div>
+        <div class="dash-id dash-id--admin">
+          <span class="dash-id-label">Signed in as</span>
+          <strong class="dash-id-value"><%= member.full_name %></strong>
+          <span class="dash-id-hint"><%= member.email %></span>
+        </div>
+      </div>
+
+      <% if (typeof query !== 'undefined' && query.updated) { %>
+        <p class="form-notice form-notice--ok" role="status">KYC submission <%= query.updated === 'approve' ? 'verified' : 'declined' %>.</p>
+      <% } %>
+
+      <% if (!submissions.length) { %>
+        <div class="dash-empty">
+          <h2>No KYC submissions yet</h2>
+          <p>KYC documents from members will appear here as they are submitted.</p>
+          <a href="/admin" class="btn-outline-lg">Back to admin dashboard<span>→</span></a>
+        </div>
+      <% } else { %>
+        <div class="svc-table-wrap dash-table-wrap">
+          <table class="svc-table dash-table">
+            <thead>
+              <tr>
+                <th scope="col">Member</th>
+                <th scope="col">Reference</th>
+                <th scope="col">Document type</th>
+                <th scope="col">Document</th>
+                <th scope="col">Status</th>
+                <th scope="col">Submitted</th>
+                <th scope="col">Note</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% submissions.forEach(function (kyc) { %>
+                <tr>
+                  <td>
+                    <span class="dash-name"><%= kyc.full_name %></span>
+                    <span class="dash-sub"><%= kyc.email %></span>
+                  </td>
+                  <td class="mono"><%= kyc.reference %></td>
+                  <td><%= kyc.document_type %></td>
+                  <td>
+                    <% if (kyc.document_file) { %>
+                      <a href="/uploads/proof-of-payment/<%= kyc.document_file %>" target="_blank" class="proof-thumb-link" title="View document">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        <%= kyc.document_file %>
+                      </a>
+                    <% } else { %>
+                      <span class="app-hint">No file</span>
+                    <% } %>
+                  </td>
+                  <td><span class="tx-status tx-status--<%= kyc.status %>"><%= ledger.kycStatusLabel(kyc.status) %></span></td>
+                  <td><%= fmtDate(kyc.created_at) %></td>
+                  <td><%= kyc.note || '—' %></td>
+                  <td>
+                    <% if (kyc.status === 'pending') { %>
+                      <div class="admin-actions">
+                        <form method="post" action="/admin/kyc/<%= kyc.id %>/approve">
+                          <button type="submit" class="btn-mini btn-mini--ok">Verify</button>
+                        </form>
+                        <form method="post" action="/admin/kyc/<%= kyc.id %>/reject">
+                          <button type="submit" class="btn-mini btn-mini--no">Decline</button>
+                        </form>
+                      </div>
+                    <% } else { %>
+                      <span class="text-link"><%= kyc.status %></span>
+                    <% } %>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+
+      <div class="app-form-actions" style="margin-top: 24px;">
+        <a href="/admin" class="btn-outline-lg">Back to admin dashboard<span>→</span></a>
+        <a href="/admin/loans" class="text-link">Loan applications</a>
+      </div>
+    </div>
+  </main>
+
+<%- include('../partials/footer') %>

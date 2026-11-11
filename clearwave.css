@@ -2763,6 +2763,24 @@ html[data-theme=dark] .tx-status--approved,
 html[data-theme=dark] .tx-status--completed { background: rgba(62, 207, 188, 0.16); color: #7FE3D8; }
 html[data-theme=dark] .tx-status--rejected { background: rgba(226, 100, 76, 0.18); color: #F0A090; }
 
+/* ---------- loan & KYC status badges ---------- */
+.tx-status--approved { background: rgba(30, 122, 80, 0.14); color: #1E7A50; }
+html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16); color: #7FE3D8; }
+
+/* ---------- app-nav responsive ---------- */
+@media (max-width: 780px) {
+  .app-nav {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .app-nav-item span:last-child { font-size: 0.6rem; }
+}
+@media (max-width: 480px) {
+  .app-nav {
+    grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4 visible, loans+kyc hidden */
+  }
+  .app-nav-item:nth-child(n+5) { display: none; }
+}
+
 @media (max-width: 980px) {
   .app-main { padding: 110px 0 72px; }
   .app-cols { grid-template-columns: 1fr; }

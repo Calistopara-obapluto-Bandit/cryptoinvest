@@ -5,7 +5,9 @@
     { key: 'deposit',   label: 'Deposit',  href: '/dashboard/deposit',    icon: 'in' },
     { key: 'invest',    label: 'Invest',   href: '/dashboard/invest',     icon: 'chart' },
     { key: 'withdraw',  label: 'Withdraw', href: '/dashboard/withdraw',   icon: 'out' },
-    { key: 'account',   label: 'Account',  href: '/dashboard/account',    icon: 'user' }
+    { key: 'loans',     label: 'Loans',    href: '/dashboard/loans',      icon: 'loan' },
+    { key: 'kyc',       label: 'KYC',      href: '/dashboard/kyc',        icon: 'kyc' },
+    { key: 'account',   label: 'ID',       href: '/dashboard/account',    icon: 'user' }
   ];
 %>
 <nav class="app-nav" aria-label="Account shortcuts">
@@ -20,6 +22,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"/><path d="m6.5 13.5 5.5-5 5.5 5"/><path d="M4 3h16"/></svg>
         <% } else if (item.icon === 'chart') { %>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><path d="m7 15 4-4.5 3.5 3L20 7"/></svg>
+        <% } else if (item.icon === 'loan') { %>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7v6c0 5 3.5 8.5 8 9 4.5-.5 8-4 8-9V7z"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>
+        <% } else if (item.icon === 'kyc') { %>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         <% } else { %>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.2" r="3.7"/><path d="M4.6 21c.6-3.9 3.6-6.2 7.4-6.2s6.8 2.3 7.4 6.2"/></svg>
         <% } %>

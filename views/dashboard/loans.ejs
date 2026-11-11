@@ -1,0 +1,108 @@
+<%- include('../partials/head', { title: title, description: description }) %>
+<%- include('../partials/nav', { active: 'dashboard' }) %>
+
+  <main class="app-main">
+    <div class="container app-narrow">
+      <a class="app-back" href="/dashboard">Back to dashboard</a>
+
+      <header class="app-head app-head--page">
+        <div class="app-head-copy">
+          <div class="section-label">Loan application</div>
+          <h1 class="app-title">Request a <em>loan</em></h1>
+          <p class="app-sub">Borrow against your portfolio holdings. Applications are reviewed by an administrator before funds are released.</p>
+        </div>
+        <div class="dash-id">
+          <span class="dash-id-label">Member ID</span>
+          <strong class="dash-id-value"><%= member.member_id %></strong>
+          <span class="dash-id-hint">Your account reference</span>
+        </div>
+      </header>
+
+      <% if (typeof query !== 'undefined' && query.applied) { %>
+        <p class="form-notice form-notice--ok" role="status">Loan application <span class="mono"><%= query.applied %></span> submitted. It is waiting for admin approval.</p>
+      <% } %>
+
+      <% if (errors && errors.length) { %>
+        <div class="form-errors" role="alert">
+          <ul><% errors.forEach(function (error) { %><li><%= error %></li><% }); %></ul>
+        </div>
+      <% } %>
+
+      <div class="app-cols" style="grid-template-columns: 1fr;">
+        <section class="app-card app-card--wide">
+          <header class="app-card-head">
+            <h2>Your loan applications</h2>
+            <a href="/dashboard/loans" class="app-card-link">View all</a>
+          </header>
+          <% if (!myLoans || !myLoans.length) { %>
+            <p class="app-empty">No loan applications yet. Use the form below to request your first loan.</p>
+          <% } else { %>
+            <ul class="inv-list">
+              <% myLoans.forEach(function (loan) { %>
+                <li class="inv-row">
+                  <div class="inv-main">
+                    <strong><%= loan.amount %></strong>
+                    <span class="mono"><%= loan.reference %></span>
+                  </div>
+                  <div class="inv-fig">
+                    <span>Term</span>
+                    <strong><%= loan.term_months %> months</strong>
+                  </div>
+                  <div class="inv-fig">
+                    <span>Status</span>
+                    <strong><%= ledger.loanStatusLabel(loan.status) %></strong>
+                  </div>
+                  <div class="inv-fig">
+                    <span>Applied</span>
+                    <strong><%= new Date(loan.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) %></strong>
+                  </div>
+                </li>
+              <% }); %>
+            </ul>
+          <% } %>
+        </section>
+      </div>
+
+      <section class="app-card app-form">
+        <h2>New loan application</h2>
+        <p class="app-card-sub">Tell us how much you need and over how many months. An admin will review your application and get back to you.</p>
+
+        <form class="app-form" method="post" action="/dashboard/loans">
+          <div class="app-card" style="margin-top: 0;">
+            <label class="field">
+              <span>Loan amount (USD)</span>
+              <input type="text" name="amount" inputmode="decimal" value="<%= values.amount %>" placeholder="e.g. 5000" autocomplete="off" required />
+            </label>
+
+            <label class="field">
+              <span>Loan term</span>
+              <select name="termMonths">
+                <option value="1" <%= values.termMonths === 1 ? 'selected' : '' %>>1 month</option>
+                <option value="3" <%= values.termMonths === 3 ? 'selected' : '' %>>3 months</option>
+                <option value="6" <%= values.termMonths === 6 ? 'selected' : '' %>>6 months</option>
+                <option value="12" <%= values.termMonths === 12 ? 'selected' : '' %>>12 months</option>
+                <option value="24" <%= values.termMonths === 24 ? 'selected' : '' %>>24 months</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Reason for loan</span>
+              <input type="text" name="note" value="<%= values.note %>" placeholder="Brief reason (optional)" maxlength="500" autocomplete="off" />
+            </label>
+
+            <div class="app-hint">
+              Loans are secured against your portfolio holdings. The exact amount you can borrow depends on your holdings and will be confirmed during review.
+            </div>
+          </div>
+
+          <div class="app-form-actions">
+            <button type="submit" class="btn-primary-lg">Submit loan application<span>→</span></button>
+            <a href="/dashboard" class="text-link">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+<%- include('../partials/app-nav', { activeTab: 'loans' }) %>
+<%- include('../partials/footer') %>

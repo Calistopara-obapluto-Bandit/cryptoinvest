@@ -1,0 +1,191 @@
+<%- include('../partials/head', { title: title, description: description }) %>
+<%- include('../partials/nav', { active: 'dashboard' }) %>
+
+  <main class="app-main">
+    <div class="container app-narrow">
+      <a class="app-back" href="/dashboard">Back to dashboard</a>
+
+      <header class="app-head app-head--page">
+        <div class="app-head-copy">
+          <div class="section-label">Know Your Customer</div>
+          <h1 class="app-title">Verify your <em>identity</em></h1>
+          <p class="app-sub">Submit a document to verify your identity. This unlocks higher limits and makes you eligible for loans.</p>
+        </div>
+        <div class="dash-id">
+          <span class="dash-id-label">Member ID</span>
+          <strong class="dash-id-value"><%= member.member_id %></strong>
+          <span class="dash-id-hint">Your account reference</span>
+        </div>
+      </header>
+
+      <% if (typeof query !== 'undefined' && query.submitted) { %>
+        <p class="form-notice form-notice--ok" role="status">KYC submission <span class="mono"><%= query.submitted %></span> received. It is waiting for admin verification.</p>
+      <% } %>
+
+      <% if (errors && errors.length) { %>
+        <div class="form-errors" role="alert">
+          <ul><% errors.forEach(function (error) { %><li><%= error %></li><% }); %></ul>
+        </div>
+      <% } %>
+
+      <div class="app-cols" style="grid-template-columns: 1fr;">
+        <section class="app-card app-card--wide">
+          <header class="app-card-head">
+            <h2>Your KYC submissions</h2>
+            <a href="/dashboard/kyc" class="app-card-link">View all</a>
+          </header>
+          <% if (!myKyc || !myKyc.length) { %>
+            <p class="app-empty">No KYC submissions yet. Use the form below to verify your identity.</p>
+          <% } else { %>
+            <ul class="inv-list">
+              <% myKyc.forEach(function (kyc) { %>
+                <li class="inv-row">
+                  <div class="inv-main">
+                    <strong><%= kyc.document_type %></strong>
+                    <span class="mono"><%= kyc.reference %></span>
+                  </div>
+                  <div class="inv-fig">
+                    <span>Document</span>
+                    <strong><%= kyc.document_file ? kyc.document_file : 'No file attached' %></strong>
+                  </div>
+                  <div class="inv-fig">
+                    <span>Status</span>
+                    <strong><%= ledger.kycStatusLabel(kyc.status) %></strong>
+                  </div>
+                  <div class="inv-fig">
+                    <span>Submitted</span>
+                    <strong><%= new Date(kyc.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) %></strong>
+                  </div>
+                </li>
+              <% }); %>
+            </ul>
+          <% } %>
+        </section>
+      </div>
+
+      <section class="app-card">
+        <h2>What documents we accept</h2>
+        <p class="app-card-sub">We need to see a valid document that proves who you are.</p>
+        <ul class="check-list" style="margin-top: 4px;">
+          <li><strong>Identity document</strong> — passport, driver's license, or national ID card (front and back)</li>
+          <li><strong>Proof of address</strong> — utility bill, bank statement, or government letter dated within the last 3 months</li>
+          <li><strong>Other</strong> — any other document you think helps verify your identity</li>
+        </ul>
+        <p class="app-hint">All documents are handled securely and only used for identity verification. They are never shared with third parties.</p>
+      </section>
+
+      <section class="app-card app-form">
+        <h2>Submit a document</h2>
+        <p class="app-card-sub">Upload a clear photo or scan of your document. You can attach one file per submission.</p>
+
+        <form class="app-form" method="post" action="/dashboard/kyc">
+          <div class="app-card" style="margin-top: 0;">
+            <label class="field">
+              <span>Document type</span>
+              <select name="documentType">
+                <option value="identity" <%= values.documentType === 'identity' ? 'selected' : '' %>>Identity document</option>
+                <option value="proof-of-address" <%= values.documentType === 'proof-of-address' ? 'selected' : '' %>>Proof of address</option>
+                <option value="other" <%= values.documentType === 'other' ? 'selected' : '' %>>Other document</option>
+              </select>
+            </label>
+
+            <div class="app-field">
+              <label class="field">
+                <span>Document image</span>
+                <span class="field-hint">Upload a photo or scan (PNG, JPEG, GIF or WebP, max 5MB).</span>
+              </label>
+              <div class="proof-upload">
+                <% if (pendingProof) { %>
+                  <div class="proof-attached">
+                    <svg class="proof-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.2l3.6 3.6-1.1 1.1L12 4.4l-2.5 2.5-1.1-1.1L12 2.2z"/><path d="M3.2 12.8l1.1 1.1 2.5-2.5 2.5 2.5 1.1-1.1-3.6-3.6L12 4.4z"/><path d="M12 19.8l-3.6-3.6 1.1-1.1L12 17.6l2.5-2.5 1.1 1.1-3.6 3.6L12 21.8z"/><path d="M20.8 11.2l-1.1-1.1-2.5 2.5-2.5-2.5-1.1 1.1 3.6 3.6L12 19.6z"/></svg>
+                    <span class="proof-name"><%= pendingProof %></span>
+                    <button type="button" class="proof-remove" id="remove-proof">Remove</button>
+                  </div>
+                <% } else { %>
+                  <div class="proof-dropzone" id="proof-dropzone">
+                    <svg class="proof-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <span class="proof-label">Drop your document image here, or click to browse</span>
+                    <input type="file" id="proof-input" name="proof" accept="image/png,image/jpeg,image/gif,image/webp" style="display:none" />
+                  </div>
+                <% } %>
+              </div>
+            </div>
+
+            <label class="field">
+              <span>Notes (optional)</span>
+              <input type="text" name="note" value="<%= values.note %>" placeholder="Any details that help us process your verification" maxlength="500" autocomplete="off" />
+            </label>
+          </div>
+
+          <div class="app-form-actions">
+            <button type="submit" class="btn-primary-lg">Submit for verification<span>→</span></button>
+            <a href="/dashboard" class="text-link">Cancel</a>
+          </div>
+        </form>
+      </section>
+
+      <script>
+        (function () {
+          var dropzone = document.getElementById('proof-dropzone');
+          var input = document.getElementById('proof-input');
+          var removeBtn = document.getElementById('remove-proof');
+
+          function removeProof() {
+            var attached = document.querySelector('.proof-attached');
+            if (attached) {
+              var dz = document.createElement('div');
+              dz.className = 'proof-dropzone';
+              dz.id = 'proof-dropzone';
+              dz.innerHTML = '<svg class="proof-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
+                '<span class="proof-label">Drop your document image here, or click to browse</span>' +
+                '<input type="file" id="proof-input" name="proof" accept="image/png,image/jpeg,image/gif,image/webp" style="display:none" />';
+              attached.parentNode.replaceChild(dz, attached);
+              var newInput = document.getElementById('proof-input');
+              if (newInput) { newInput.addEventListener('change', uploadProof); newInput.addEventListener('click', function(e) { e.stopPropagation(); }); }
+            }
+            document.cookie = 'pending_kyc_proof=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          }
+
+          function uploadProof() {
+            if (!input.files || !input.files[0]) return;
+            var file = input.files[0];
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/dashboard/kyc/proof', true);
+            xhr.onload = function () {
+              if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                var attached = document.querySelector('.proof-attached') || (function () {
+                  var dz = document.getElementById('proof-dropzone');
+                  var div = document.createElement('div');
+                  div.className = 'proof-attached';
+                  dz.parentNode.replaceChild(div, dz);
+                  return div;
+                })();
+                attached.innerHTML = '<svg class="proof-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.2l3.6 3.6-1.1 1.1L12 4.4l-2.5 2.5-1.1-1.1L12 2.2z"/><path d="M3.2 12.8l1.1 1.1 2.5-2.5 2.5 2.5 1.1-1.1-3.6-3.6L12 4.4z"/><path d="M12 19.8l-3.6-3.6 1.1-1.1L12 17.6l2.5-2.5 1.1 1.1-3.6 3.6L12 21.8z"/><path d="M20.8 11.2l-1.1-1.1-2.5 2.5-2.5-2.5-1.1 1.1 3.6 3.6L12 19.6z"/></svg>' +
+                  '<span class="proof-name">' + data.filename + '</span>' +
+                  '<button type="button" class="proof-remove" id="remove-proof">Remove</button>';
+                var newRemove = document.getElementById('remove-proof');
+                if (newRemove) newRemove.addEventListener('click', removeProof);
+                input.value = '';
+              } else {
+                alert('Could not upload document: ' + JSON.parse(xhr.responseText).error);
+              }
+            };
+            xhr.onerror = function () { alert('Could not upload document. Please try again.'); };
+            var fd = new FormData();
+            fd.append('proof', file);
+            xhr.send(fd);
+          }
+
+          if (dropzone) {
+            dropzone.addEventListener('click', function (e) { if (e.target === dropzone || e.target.closest('.proof-dropzone') === dropzone) input.click(); });
+            input.addEventListener('change', uploadProof);
+          }
+          if (removeBtn) removeBtn.addEventListener('click', removeProof);
+        })();
+      </script>
+    </div>
+  </main>
+
+<%- include('../partials/app-nav', { activeTab: 'kyc' }) %>
+<%- include('../partials/footer') %>

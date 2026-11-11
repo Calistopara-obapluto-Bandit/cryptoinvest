@@ -329,6 +329,7 @@ function errorId() {
 function render500(req, res, error, extraBody) {
   if (res.headersSent) return;
   console.error('[500] ' + req.method + ' ' + req.originalUrl + ' :: ' + (error ? (error.stack || error.message || String(error)) : 'no error object'));
+  noteFirstBootError(error);
   const isApi = req.path.startsWith('/api/');
   if (isApi) {
     return res.status(500).json({ error: 'The service could not complete that request.' });
@@ -361,10 +362,24 @@ app.use((error, req, res, next) => {
 process.on('uncaughtException', (error) => {
   console.error('[fatal] uncaught exception:', error && (error.stack || error.message || error));
   try {
+    // If a request is in flight, attempt to send the branded 500 page for it
+    // before we shut down. This only reaches errors that bypass the Express
+    // error handler, which is exactly the case that currently shows the
+    // Express default "Internal Server Error" page.
+    if (typeof render500 === 'function') {
+      const req = appServer ? null : null;
+      // We cannot reliably retrieve the active request here, so we log and
+      // fall back to a clean exit. The Express error handler handles in-request
+      // errors; this path is only for process-level crashes.
+    }
     appServer.close(() => process.exit(1));
   } catch (closeError) {
     process.exit(1);
   }
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('[fatal] unhandled promise rejection:', reason && (reason.stack || reason.message || reason));
 });
 
 const bootDatabase = () =>
@@ -387,12 +402,18 @@ let databaseBootPromise = null;
 let databaseBootState = null;
 
 let deployedCommit = '[git commit unavailable at runtime]';
+let firstErrorOnBoot = null;
 try {
   const fs = require('node:fs');
   const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf8'));
   deployedCommit = (pkg && pkg._deployedCommit) || deployedCommit;
 } catch (readError) {
   // package.json might not carry the marker; leave the fallback.
+}
+
+function noteFirstBootError(error) {
+  if (firstErrorOnBoot) return;
+  firstErrorOnBoot = error && (error.stack || error.message || String(error));
 }
 
 const appServer = app.listen(port, async () => {
@@ -415,7 +436,14 @@ const appServer = app.listen(port, async () => {
       }
       console.log('[auth] admin ready: ' + admin.email + (admin.promoted ? ' (promoted to admin)' : ''));
     })
-    .catch((error) => console.error('[auth] could not prepare the admin account:', error.message));
+    .catch((error) => console.error('[auth] could not prepare the admin account:', error.message))
+    .finally(() => {
+      if (firstErrorOnBoot) {
+        console.error('[boot] first 500 on this instance: ' + firstErrorOnBoot.slice(0, 500));
+      } else {
+        console.log('[boot] no 500 observed during startup wait');
+      }
+    });
 });
 
 app.use((req, res, next) => {

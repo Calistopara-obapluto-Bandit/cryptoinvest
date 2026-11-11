@@ -28,6 +28,7 @@
   var active = locals.active || 'dashboard';
   var welcome = !!(locals.welcome === '1' || locals.welcome === true);
   var flash = locals.flash || {};
+  var query = locals.query || {};
   if (!summary.earningHistory) summary.earningHistory = [];
   if (!activeInvestments || typeof activeInvestments !== 'object') activeInvestments = [];
   var firstName = member && member.full_name ? String(member.full_name).split(' ')[0] : 'Member';
@@ -246,5 +247,4 @@
     </div>
   </main>
 
-<%- include('partials/app-nav', { activeTab: 'dashboard' }) %>
 <%- include('partials/footer') %>

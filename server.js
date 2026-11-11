@@ -14,6 +14,43 @@ const app = express();
 const port = Number(process.env.PORT) || 3000;
 const dataDirectory = path.join(__dirname, 'data');
 const accountFile = path.join(dataDirectory, 'paper-account.json');
+const uploadsDirectory = path.join(dataDirectory, 'uploads');
+const proofOfPaymentDir = path.join(uploadsDirectory, 'proof-of-payment');
+
+// Proof-of-payment image upload handler.
+// Images are stored on disk under data/uploads/proof-of-payment/ and referenced
+// by their filename in the transaction note. A member can upload one proof image
+// per deposit or withdrawal request.
+const multer = require('multer');
+
+function proofStorage() {
+  return multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, proofOfPaymentDir);
+    },
+    filename: (req, file, cb) => {
+      const ext = file.originalname.split('.').pop();
+      const name = (ext && /^[a-zA-Z0-9]+$/.test(ext)) ? ext : 'png';
+      cb(null, 'pop-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8) + '.' + name);
+    }
+  });
+}
+
+const proofUpload = multer({
+  storage: proofStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const allow = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
+    if (allow.includes(file.mimetype)) return cb(null, true);
+    cb(new Error('Only PNG, JPEG, GIF and WebP images are accepted for proof of payment.'));
+  }
+}).single('proof');
+
+function ensureUploadDirs() {
+  return fsPromises.mkdir(proofOfPaymentDir, { recursive: true }).catch((error) => {
+    if (error.code !== 'EEXIST') throw error;
+  });
+}
 const allowedAssets = ['BTC', 'ETH', 'SOL'];
 const marketIds = { BTC: 'bitcoin', ETH: 'ethereum', SOL: 'solana' };
 const fallbackMarkets = [
@@ -50,6 +87,13 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+// Proof-of-payment image serving. These are member-uploaded files served
+// read-only so admins and the desk can view them.
+app.use('/uploads/proof-of-payment', express.static(proofOfPaymentDir, {
+  maxAge: '1y',
+  immutable: true
+}));
 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: false, limit: '20kb' }));
@@ -318,6 +362,35 @@ app.get('/dashboard', auth.requireMember, async (req, res, next) => {
 accountRoutes.register(app);
 memberRoutes.register(app);
 
+// Proof-of-payment upload endpoints.
+// Members can attach an image proof when they submit a deposit or withdrawal.
+app.post('/dashboard/deposit/proof', auth.requireMember, (req, res, next) => {
+  proofUpload(req, res, (error) => {
+    if (error) {
+      return res.status(400).json({ error: error.message });
+    }
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image was uploaded.' });
+    }
+    // Store the filename in a cookie so the deposit form can reference it.
+    res.cookie('pending_proof', req.file.filename, { maxAge: 5 * 60 * 1000, path: '/' });
+    res.json({ filename: req.file.filename });
+  });
+});
+
+app.post('/dashboard/withdraw/proof', auth.requireMember, (req, res, next) => {
+  proofUpload(req, res, (error) => {
+    if (error) {
+      return res.status(400).json({ error: error.message });
+    }
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image was uploaded.' });
+    }
+    res.cookie('pending_withdraw_proof', req.file.filename, { maxAge: 5 * 60 * 1000, path: '/' });
+    res.json({ filename: req.file.filename });
+  });
+});
+
 // Helpers every view can use: money and ledger labels, plus the plan catalog.
 app.locals.money = ledger.money;
 app.locals.kindLabel = ledger.kindLabel;
@@ -428,6 +501,10 @@ const bootDatabase = () =>
 // "we are connecting to the database" page rather than a raw 500.
 let databaseBootPromise = null;
 let databaseBootState = null;
+
+// Make sure the proof-of-payment upload directory exists before any request
+// can hit the upload endpoint.
+ensureUploadDirs().catch((error) => console.error('[uploads] could not create upload directories:', error.message));
 
 let deployedCommit = '[git commit unavailable at runtime]';
 let firstErrorOnBoot = null;

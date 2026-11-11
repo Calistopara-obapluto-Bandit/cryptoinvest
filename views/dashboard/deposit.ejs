@@ -40,11 +40,127 @@
 
         <p class="app-hint">Payment details for the method you pick are sent by the desk with your reference code. Never send funds to an address that did not come from support.</p>
 
+        <div class="app-field">
+          <label class="field">
+            <span>Proof of payment</span>
+            <span class="field-hint">Upload a screenshot or receipt showing the payment was sent. This helps our desk confirm your deposit faster.</span>
+          </label>
+          <div class="proof-upload">
+            <% if (pendingProof) { %>
+              <div class="proof-attached">
+                <svg class="proof-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.2l3.6 3.6-1.1 1.1L12 4.4l-2.5 2.5-1.1-1.1L12 2.2z"/><path d="M3.2 12.8l1.1 1.1 2.5-2.5 2.5 2.5 1.1-1.1-3.6-3.6L12 4.4z"/><path d="M12 19.8l-3.6-3.6 1.1-1.1L12 17.6l2.5-2.5 1.1 1.1-3.6 3.6L12 21.8z"/><path d="M20.8 11.2l-1.1-1.1-2.5 2.5-2.5-2.5-1.1 1.1 3.6 3.6L12 19.6z"/></svg>
+                <span class="proof-name"><%= pendingProof %></span>
+                <button type="button" class="proof-remove" id="remove-proof">Remove</button>
+              </div>
+            <% } else { %>
+              <div class="proof-dropzone" id="proof-dropzone">
+                <svg class="proof-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span class="proof-label">Drop your proof image here, or click to browse</span>
+                <input type="file" id="proof-input" name="proof" accept="image/png,image/jpeg,image/gif,image/webp" style="display:none" />
+              </div>
+            <% } %>
+          </div>
+          <% if (errors && errors.some(function (e) { return String(e).indexOf('image') !== -1 || String(e).indexOf('proof') !== -1; })) { %>
+            <p class="form-notice form-notice--warn"><%= errors.filter(function (e) { return String(e).indexOf('image') !== -1 || String(e).indexOf('proof') !== -1; }).join(' ') %></p>
+          <% } %>
+        </div>
+
         <div class="app-form-actions">
           <button type="submit" class="btn-primary-lg">Submit deposit<span>→</span></button>
           <a href="/dashboard" class="text-link">Cancel</a>
         </div>
       </form>
+
+      <script>
+        (function () {
+          var dropzone = document.getElementById('proof-dropzone');
+          var input = document.getElementById('proof-input');
+          var removeBtn = document.getElementById('remove-proof');
+          var form = document.querySelector('form[action="/dashboard/deposit"]');
+
+          if (dropzone) {
+            dropzone.addEventListener('click', function () { input.click(); });
+            input.addEventListener('change', function () {
+              if (input.files && input.files[0]) {
+                var file = input.files[0];
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/dashboard/deposit/proof', true);
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.onload = function () {
+                  if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    var attached = document.querySelector('.proof-attached') || (function () {
+                      var dz = document.getElementById('proof-dropzone');
+                      var div = document.createElement('div');
+                      div.className = 'proof-attached';
+                      dz.parentNode.replaceChild(div, dz);
+                      return div;
+                    })();
+                    attached.innerHTML = '<svg class="proof-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.2l3.6 3.6-1.1 1.1L12 4.4l-2.5 2.5-1.1-1.1L12 2.2z"/><path d="M3.2 12.8l1.1 1.1 2.5-2.5 2.5 2.5 1.1-1.1-3.6-3.6L12 4.4z"/><path d="M12 19.8l-3.6-3.6 1.1-1.1L12 17.6l2.5-2.5 1.1 1.1-3.6 3.6L12 21.8z"/><path d="M20.8 11.2l-1.1-1.1-2.5 2.5-2.5-2.5-1.1 1.1 3.6 3.6L12 19.6z"/></svg>' +
+                      '<span class="proof-name">' + data.filename + '</span>' +
+                      '<button type="button" class="proof-remove" id="remove-proof">Remove</button>';
+                    var newRemove = document.getElementById('remove-proof');
+                    if (newRemove) newRemove.addEventListener('click', removeProof);
+                    input.value = '';
+                  } else {
+                    var err = JSON.parse(xhr.responseText);
+                    alert('Could not upload proof: ' + err.error);
+                  }
+                };
+                xhr.onerror = function () { alert('Could not upload proof. Please try again.'); };
+                var formData = new FormData();
+                formData.append('proof', file);
+                xhr.send(formData);
+              }
+            });
+          }
+
+          function removeProof() {
+            var attached = document.querySelector('.proof-attached');
+            if (attached) {
+              var dz = document.createElement('div');
+              dz.className = 'proof-dropzone';
+              dz.id = 'proof-dropzone';
+              dz.innerHTML = '<svg class="proof-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
+                '<span class="proof-label">Drop your proof image here, or click to browse</span>' +
+                '<input type="file" id="proof-input" name="proof" accept="image/png,image/jpeg,image/gif,image/webp" style="display:none" />';
+              attached.parentNode.replaceChild(dz, attached);
+              var newInput = document.getElementById('proof-input');
+              if (newInput) newInput.addEventListener('change', function () {
+                if (newInput.files && newInput.files[0]) {
+                  var file = newInput.files[0];
+                  var xhr = new XMLHttpRequest();
+                  xhr.open('POST', '/dashboard/deposit/proof', true);
+                  xhr.onload = function () {
+                    if (xhr.status === 200) {
+                      var data = JSON.parse(xhr.responseText);
+                      var a = document.querySelector('.proof-attached') || (function () {
+                        var d = document.getElementById('proof-dropzone');
+                        var div = document.createElement('div');
+                        div.className = 'proof-attached';
+                        d.parentNode.replaceChild(div, d);
+                        return div;
+                      })();
+                      a.innerHTML = '<svg class="proof-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.2l3.6 3.6-1.1 1.1L12 4.4l-2.5 2.5-1.1-1.1L12 2.2z"/><path d="M3.2 12.8l1.1 1.1 2.5-2.5 2.5 2.5 1.1-1.1-3.6-3.6L12 4.4z"/><path d="M12 19.8l-3.6-3.6 1.1-1.1L12 17.6l2.5-2.5 1.1 1.1-3.6 3.6L12 21.8z"/><path d="M20.8 11.2l-1.1-1.1-2.5 2.5-2.5-2.5-1.1 1.1 3.6 3.6L12 19.6z"/></svg>' +
+                        '<span class="proof-name">' + data.filename + '</span>' +
+                        '<button type="button" class="proof-remove" id="remove-proof">Remove</button>';
+                      var r = document.getElementById('remove-proof');
+                      if (r) r.addEventListener('click', removeProof);
+                      newInput.value = '';
+                    }
+                  };
+                  var fd = new FormData();
+                  fd.append('proof', file);
+                  xhr.send(fd);
+                }
+              });
+            }
+            document.cookie = 'pending_proof=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          }
+
+          if (removeBtn) removeBtn.addEventListener('click', removeProof);
+        })();
+      </script>
     </div>
   </main>
 

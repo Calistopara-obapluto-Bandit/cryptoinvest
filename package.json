@@ -12,7 +12,8 @@
     "@electric-sql/pglite": "^0.5.16",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
-    "pg": "^8.23.1"
+    "pg": "^8.23.1",
+    "multer": "^1.4.5-lts.1"
   },
   "_deployedCommit": "pending-restore-of-dashboard-ejs"
 }

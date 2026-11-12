@@ -36,7 +36,7 @@
 
       <section class="app-card" id="virtual-card">
         <h2>Virtual card</h2>
-        <p class="app-card-sub">Request a virtual card issued against your member ID <span class="mono"><%= member.member_id %></span>. An administrator approves every request before the card is issued.</p>
+        <p class="app-card-sub">A virtual debit card is issued with its own card number, separate from your member ID <span class="mono"><%= member.member_id %></span>, which identifies your account rather than the card. An administrator approves every request before the card is issued.</p>
         <% if (cardNotice) { %>
           <p class="form-notice form-notice--ok" role="status"><%= cardNotice %></p>
         <% } %>
@@ -55,6 +55,16 @@
                   <span>Limit</span>
                   <strong><%= card.currency || 'USD' %> <%= Number(card.spending_limit || 0).toLocaleString('en-US', { maximumFractionDigits: 0 }) %> / month</strong>
                 </div>
+                <% if (card.card_number) { %>
+                  <div class="inv-fig">
+                    <span>Card number</span>
+                    <strong class="mono"><%= ledger.maskCard(card.card_number) %></strong>
+                  </div>
+                  <div class="inv-fig">
+                    <span>Expires</span>
+                    <strong><%= card.card_expiry %></strong>
+                  </div>
+                <% } %>
                 <div class="inv-fig">
                   <span>Status</span>
                   <strong><%= ledger.cardStatusLabel(card.status) %></strong>

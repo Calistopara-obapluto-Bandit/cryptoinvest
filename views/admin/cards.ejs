@@ -43,6 +43,8 @@
                 <th scope="col">Currency</th>
                 <th scope="col">Monthly limit</th>
                 <th scope="col">Phone</th>
+                <th scope="col">Card number</th>
+                <th scope="col">Expires</th>
                 <th scope="col">Status</th>
                 <th scope="col">Requested</th>
                 <th scope="col">Note</th>
@@ -62,6 +64,8 @@
                   <td><%= card.currency || 'USD' %></td>
                   <td><%= money(card.spending_limit || 0) %></td>
                   <td><%= card.phone || '—' %></td>
+                  <td class="mono"><%= card.card_number ? ledger.maskCard(card.card_number) : 'Not issued' %></td>
+                  <td><%= card.card_expiry || '—' %></td>
                   <td><span class="tx-status tx-status--<%= card.status %>"><%= ledger.cardStatusLabel(card.status) %></span></td>
                   <td><%= fmtDate(card.created_at) %></td>
                   <td><%= card.note || '—' %></td>

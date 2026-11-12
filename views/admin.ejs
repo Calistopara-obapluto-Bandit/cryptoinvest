@@ -136,7 +136,12 @@
                       <span class="mono"><%= card.reference %></span>
                     </td>
                     <td data-label="Member ID" class="mono"><%= card.member_id %></td>
-                    <td data-label="Name on card"><%= card.name_on_card || '—' %></td>
+                    <td data-label="Name on card">
+                      <%= card.name_on_card || '—' %>
+                      <% if (card.card_number) { %>
+                        <br /><span class="mono"><%= ledger.maskCard(card.card_number) %> · <%= card.card_expiry %></span>
+                      <% } %>
+                    </td>
                     <td data-label="Currency"><%= card.currency || 'USD' %></td>
                     <td data-label="Monthly limit"><%= money(card.spending_limit || 0) %></td>
                     <td data-label="Phone"><%= card.phone || '—' %></td>

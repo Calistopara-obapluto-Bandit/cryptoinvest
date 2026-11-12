@@ -7,9 +7,9 @@
         <div class="message-code"><%= status %></div>
         <h1 class="message-title"><%= heading %></h1>
         <p class="message-body"><%= body %></p>
-        <% if (errorId) { %>
+        <% if (typeof errorId !== 'undefined' && errorId) { %>
           <p class="message-metadata">Error reference: <code><%= errorId %></code>
-            <% if (errorShort) { %><span class="message-short"><%- errorShort %></span><% } %>
+            <% if (typeof errorShort !== 'undefined' && errorShort) { %><span class="message-short"><%- errorShort %></span><% } %>
           </p>
         <% } %>
         <% if (locals && locals.retryUrl) { %>

@@ -45,6 +45,9 @@
           <h2>Pending requests</h2>
           <span class="app-hint"><%= requests.length %> waiting</span>
         </header>
+        <% if (typeof error !== 'undefined' && error) { %>
+          <p class="form-errors" role="alert"><%= error %></p>
+        <% } %>
         <% if (updated) { %>
           <p class="form-notice form-notice--ok" role="status">Request <%= updated === 'approve' ? 'approved' : 'rejected' %>.</p>
         <% } %>

@@ -2,6 +2,15 @@
   var fmtDate = function (value) {
     return new Date(value).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   };
+  var pendingCards = (cardRequests || []).filter(function (row) { return row.status === 'pending'; });
+  var pendingLoans = (loans || []).filter(function (row) { return row.status === 'pending'; });
+  var pendingKyc = (kycSubmissions || []).filter(function (row) { return row.status === 'pending'; });
+  var proofName = function (note) {
+    if (!note) return null;
+    if (note.indexOf('proof=') === 0) return note.slice(6);
+    if (note.indexOf(' | proof=') !== -1) return note.split(' | proof=')[1];
+    return null;
+  };
 %>
 <%- include('partials/head', { title: title, description: description }) %>
 <%- include('partials/nav', { active: 'admin' }) %>
@@ -40,6 +49,13 @@
         </div>
       </div>
 
+      <nav class="admin-quicklinks" aria-label="Approval queues">
+        <a href="#requests">Money requests · <%= requests.length %></a>
+        <a href="#cards">Virtual cards · <%= pendingCards.length %></a>
+        <a href="#loans">Loans · <%= pendingLoans.length %></a>
+        <a href="#kyc">KYC · <%= pendingKyc.length %></a>
+      </nav>
+
       <section class="app-card admin-requests" id="requests">
         <header class="app-card-head">
           <h2>Pending requests</h2>
@@ -49,7 +65,7 @@
           <p class="form-errors" role="alert"><%= error %></p>
         <% } %>
         <% if (updated) { %>
-          <p class="form-notice form-notice--ok" role="status">Request <%= updated === 'approve' ? 'approved' : 'rejected' %>.</p>
+          <p class="form-notice form-notice--ok" role="status">Request <%= updated.indexOf('reject') !== -1 ? 'declined' : 'approved' %>.</p>
         <% } %>
         <% if (!requests.length) { %>
           <p class="app-empty">Nothing waiting. Deposits and withdrawals appear here the moment a client submits one.</p>
@@ -57,34 +73,173 @@
           <div class="app-table-wrap">
             <table class="app-table">
               <thead>
-                <tr><th>Member</th><th>Type</th><th>Reference</th><th>Method</th><th>Amount</th><th>Requested</th><th>Action</th></tr>
+                <tr><th>Member</th><th>Type</th><th>Reference</th><th>Method</th><th>Amount</th><th>Requested</th><th>Proof</th><th>Action</th></tr>
               </thead>
               <tbody>
                 <% requests.forEach(function (row) { %>
-                  <% var proofFile = (row.note && row.note.indexOf('proof=') === 0) ? row.note.slice(6) : (row.note && row.note.indexOf(' | proof=') !== -1 ? row.note.split(' | proof=')[1] : null); %>
+                  <% var proofFile = proofName(row.note); %>
                   <tr>
-                    <td>
+                    <td data-label="Member">
                       <%= row.full_name %><br />
                       <span class="mono"><%= row.member_id %></span>
                     </td>
-                    <td><%= kindLabel(row.kind) %></td>
-                    <td class="mono"><%= row.reference %></td>
-                    <td><%= methodLabel(row.method) %></td>
-                    <td class="tx-amount"><%= money(row.amount) %></td>
-                    <td><%= fmtDate(row.created_at) %></td>
-                    <td>
+                    <td data-label="Type"><%= kindLabel(row.kind) %></td>
+                    <td data-label="Reference" class="mono"><%= row.reference %></td>
+                    <td data-label="Method"><%= methodLabel(row.method) %></td>
+                    <td data-label="Amount" class="tx-amount"><%= money(row.amount) %></td>
+                    <td data-label="Requested"><%= fmtDate(row.created_at) %></td>
+                    <td data-label="Proof">
                       <% if (proofFile) { %>
-                        <a class="proof-thumb-link" href="/uploads/proof-of-payment/<%= proofFile %>" target="_blank" title="View proof of payment">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                          Proof attached
+                        <a class="proof-thumb-link" href="/uploads/proof-of-payment/<%= proofFile %>" target="_blank" rel="noopener" title="Open proof of payment">
+                          <img class="proof-thumb" src="/uploads/proof-of-payment/<%= proofFile %>" alt="Proof of payment for <%= row.reference %>" loading="lazy" />
                         </a>
+                      <% } else { %>
+                        <span class="app-hint">None</span>
                       <% } %>
+                    </td>
+                    <td data-label="Action">
                       <div class="admin-actions">
                         <form method="post" action="/admin/requests/<%= row.id %>/approve">
                           <button type="submit" class="btn-mini btn-mini--ok">Approve</button>
                         </form>
                         <form method="post" action="/admin/requests/<%= row.id %>/reject">
                           <button type="submit" class="btn-mini btn-mini--no">Reject</button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </section>
+
+      <section class="app-card" id="cards">
+        <header class="app-card-head">
+          <h2>Virtual card requests</h2>
+          <a href="/admin/cards" class="app-card-link">All card requests</a>
+        </header>
+        <% if (!pendingCards.length) { %>
+          <p class="app-empty">No card requests waiting. Members request one from their account page under their member ID.</p>
+        <% } else { %>
+          <div class="app-table-wrap">
+            <table class="app-table">
+              <thead>
+                <tr><th>Member</th><th>Member ID</th><th>Name on card</th><th>Note</th><th>Requested</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                <% pendingCards.forEach(function (card) { %>
+                  <tr>
+                    <td data-label="Member">
+                      <%= card.full_name %><br />
+                      <span class="mono"><%= card.reference %></span>
+                    </td>
+                    <td data-label="Member ID" class="mono"><%= card.member_id %></td>
+                    <td data-label="Name on card"><%= card.name_on_card || '—' %></td>
+                    <td data-label="Note"><%= card.note || '—' %></td>
+                    <td data-label="Requested"><%= fmtDate(card.created_at) %></td>
+                    <td data-label="Action">
+                      <div class="admin-actions">
+                        <form method="post" action="/admin/cards/<%= card.id %>/approve">
+                          <button type="submit" class="btn-mini btn-mini--ok">Approve</button>
+                        </form>
+                        <form method="post" action="/admin/cards/<%= card.id %>/reject">
+                          <button type="submit" class="btn-mini btn-mini--no">Decline</button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </section>
+
+      <section class="app-card" id="loans">
+        <header class="app-card-head">
+          <h2>Loan applications</h2>
+          <a href="/admin/loans" class="app-card-link">All applications</a>
+        </header>
+        <% if (!pendingLoans.length) { %>
+          <p class="app-empty">No loan applications waiting.</p>
+        <% } else { %>
+          <div class="app-table-wrap">
+            <table class="app-table">
+              <thead>
+                <tr><th>Member</th><th>Reference</th><th>Amount</th><th>Term</th><th>Reason</th><th>Applied</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                <% pendingLoans.forEach(function (loan) { %>
+                  <tr>
+                    <td data-label="Member">
+                      <%= loan.full_name %><br />
+                      <span class="mono"><%= loan.member_id %></span>
+                    </td>
+                    <td data-label="Reference" class="mono"><%= loan.reference %></td>
+                    <td data-label="Amount" class="tx-amount"><%= money(loan.amount) %></td>
+                    <td data-label="Term"><%= loan.term_months %> months</td>
+                    <td data-label="Reason"><%= loan.note || '—' %></td>
+                    <td data-label="Applied"><%= fmtDate(loan.created_at) %></td>
+                    <td data-label="Action">
+                      <div class="admin-actions">
+                        <form method="post" action="/admin/loans/<%= loan.id %>/approve">
+                          <button type="submit" class="btn-mini btn-mini--ok">Approve</button>
+                        </form>
+                        <form method="post" action="/admin/loans/<%= loan.id %>/reject">
+                          <button type="submit" class="btn-mini btn-mini--no">Decline</button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </section>
+
+      <section class="app-card" id="kyc">
+        <header class="app-card-head">
+          <h2>KYC submissions</h2>
+          <a href="/admin/kyc" class="app-card-link">All submissions</a>
+        </header>
+        <% if (!pendingKyc.length) { %>
+          <p class="app-empty">No KYC submissions waiting.</p>
+        <% } else { %>
+          <div class="app-table-wrap">
+            <table class="app-table">
+              <thead>
+                <tr><th>Member</th><th>Reference</th><th>Document</th><th>Image</th><th>Note</th><th>Submitted</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                <% pendingKyc.forEach(function (kyc) { %>
+                  <tr>
+                    <td data-label="Member">
+                      <%= kyc.full_name %><br />
+                      <span class="mono"><%= kyc.member_id %></span>
+                    </td>
+                    <td data-label="Reference" class="mono"><%= kyc.reference %></td>
+                    <td data-label="Document"><%= kyc.document_type %></td>
+                    <td data-label="Image">
+                      <% if (kyc.document_file) { %>
+                        <a class="proof-thumb-link" href="/uploads/proof-of-payment/<%= kyc.document_file %>" target="_blank" rel="noopener" title="Open document">
+                          <img class="proof-thumb" src="/uploads/proof-of-payment/<%= kyc.document_file %>" alt="KYC document for <%= kyc.reference %>" loading="lazy" />
+                        </a>
+                      <% } else { %>
+                        <span class="app-hint">None</span>
+                      <% } %>
+                    </td>
+                    <td data-label="Note"><%= kyc.note || '—' %></td>
+                    <td data-label="Submitted"><%= fmtDate(kyc.created_at) %></td>
+                    <td data-label="Action">
+                      <div class="admin-actions">
+                        <form method="post" action="/admin/kyc/<%= kyc.id %>/approve">
+                          <button type="submit" class="btn-mini btn-mini--ok">Verify</button>
+                        </form>
+                        <form method="post" action="/admin/kyc/<%= kyc.id %>/reject">
+                          <button type="submit" class="btn-mini btn-mini--no">Decline</button>
                         </form>
                       </div>
                     </td>

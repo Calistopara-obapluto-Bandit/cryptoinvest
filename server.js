@@ -18,26 +18,15 @@ const uploadsDirectory = path.join(dataDirectory, 'uploads');
 const proofOfPaymentDir = path.join(uploadsDirectory, 'proof-of-payment');
 
 // Proof-of-payment image upload handler.
-// Images are stored on disk under data/uploads/proof-of-payment/ and referenced
-// by their filename in the transaction note. A member can upload one proof image
-// per deposit or withdrawal request.
+//
+// The image bytes are kept in the database (proof_files), not on the hosting
+// filesystem: a Render disk is wiped on every deploy, which made proofs vanish
+// from the admin dashboard. A member can attach one proof image per deposit,
+// withdrawal or KYC submission.
 const multer = require('multer');
 
-function proofStorage() {
-  return multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, proofOfPaymentDir);
-    },
-    filename: (req, file, cb) => {
-      const ext = file.originalname.split('.').pop();
-      const name = (ext && /^[a-zA-Z0-9]+$/.test(ext)) ? ext : 'png';
-      cb(null, 'pop-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8) + '.' + name);
-    }
-  });
-}
-
 const proofUpload = multer({
-  storage: proofStorage(),
+  storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const allow = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
@@ -46,10 +35,40 @@ const proofUpload = multer({
   }
 }).single('proof');
 
-function ensureUploadDirs() {
-  return fsPromises.mkdir(proofOfPaymentDir, { recursive: true }).catch((error) => {
-    if (error.code !== 'EEXIST') throw error;
-  });
+function proofFilename(originalName, mime) {
+  const ext = String(originalName || '').split('.').pop().toLowerCase();
+  const byMime = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/gif': 'gif', 'image/webp': 'webp' };
+  const name = /^[a-z0-9]{2,5}$/.test(ext) ? ext : (byMime[mime] || 'png');
+  return 'pop-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8) + '.' + name;
+}
+
+/**
+ * Persists one uploaded image and remembers its name in a short-lived cookie so
+ * the deposit/withdrawal/KYC form can reference it when it is finally submitted.
+ */
+function handleProofUpload(kind, cookieName) {
+  return (req, res) => {
+    proofUpload(req, res, async (error) => {
+      if (error) return res.status(400).json({ error: error.message });
+      if (!req.file) return res.status(400).json({ error: 'No image was uploaded.' });
+      const filename = proofFilename(req.file.originalname, req.file.mimetype);
+      try {
+        await db.query(
+          `INSERT INTO proof_files (filename, user_id, kind, mime, bytes)
+           VALUES ($1, $2, $3, $4, $5)`,
+          [filename, req.member.id, kind, req.file.mimetype, req.file.buffer]
+        );
+        res.cookie(cookieName, filename, { maxAge: 5 * 60 * 1000, path: '/', httpOnly: true, sameSite: 'lax' });
+        res.json({ filename });
+      } catch (storeError) {
+        console.error('[proof] could not store the uploaded image:', storeError && storeError.message);
+        const message = db.isUnreachable(storeError)
+          ? 'The database could not be reached, so the image was not saved. Try again in a moment.'
+          : 'The image could not be saved. Try a smaller file.';
+        res.status(503).json({ error: message });
+      }
+    });
+  };
 }
 const allowedAssets = ['BTC', 'ETH', 'SOL'];
 const marketIds = { BTC: 'bitcoin', ETH: 'ethereum', SOL: 'solana' };
@@ -88,13 +107,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Proof-of-payment image serving. These are member-uploaded files served
-// read-only so admins and the desk can view them.
-app.use('/uploads/proof-of-payment', express.static(proofOfPaymentDir, {
-  maxAge: '1y',
-  immutable: true
-}));
-
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: false, limit: '20kb' }));
 app.use((req, res, next) => {
@@ -103,9 +115,61 @@ app.use((req, res, next) => {
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   next();
 });
+// Minimal cookie parsing. The proof-upload endpoints remember the last uploaded
+// filename in a short-lived cookie, and the deposit, withdrawal and KYC routes
+// read req.cookies — without this they always saw an empty note and the admin
+// dashboard had no image to show.
+app.use((req, res, next) => {
+  req.cookies = {};
+  String(req.headers.cookie || '').split(';').forEach((part) => {
+    const index = part.indexOf('=');
+    if (index === -1) return;
+    const name = part.slice(0, index).trim();
+    if (!name) return;
+    const value = part.slice(index + 1).trim();
+    try {
+      req.cookies[name] = decodeURIComponent(value);
+    } catch (error) {
+      req.cookies[name] = value;
+    }
+  });
+  next();
+});
+
 // Resolves the cw_session cookie into res.locals.user for every page. Static
 // assets are served above this point, so this never waits on the database.
 app.use(auth.attachMember);
+
+// Proof-of-payment and KYC images. The bytes live in Postgres, so they survive
+// restarts and redeploys; only the owning member or an administrator may read
+// one. Files uploaded before this change are still served from disk.
+app.get('/uploads/proof-of-payment/:file', auth.requireMember, async (req, res, next) => {
+  const name = String(req.params.file || '');
+  if (!/^[A-Za-z0-9._-]{1,120}$/.test(name) || name.indexOf('..') !== -1) {
+    return res.status(404).end();
+  }
+  try {
+    const { rows } = await db.query('SELECT user_id, mime, bytes FROM proof_files WHERE filename = $1', [name]);
+    const row = rows[0];
+    if (row) {
+      if (req.member.role !== 'admin' && Number(row.user_id) !== Number(req.member.id)) {
+        return res.status(403).end();
+      }
+      res.setHeader('Content-Type', row.mime || 'application/octet-stream');
+      res.setHeader('Cache-Control', 'private, no-store');
+      res.setHeader('Content-Disposition', 'inline');
+      return res.end(Buffer.isBuffer(row.bytes) ? row.bytes : Buffer.from(row.bytes));
+    }
+    const legacy = path.join(proofOfPaymentDir, name);
+    if (fs.existsSync(legacy)) {
+      res.setHeader('Cache-Control', 'private, no-store');
+      return res.sendFile(legacy);
+    }
+    return res.status(404).end();
+  } catch (error) {
+    next(error);
+  }
+});
 
 async function readAccount() {
   try {
@@ -362,49 +426,13 @@ app.get('/dashboard', auth.requireMember, async (req, res, next) => {
 accountRoutes.register(app);
 memberRoutes.register(app);
 
-// Proof-of-payment upload endpoints.
-// Members can attach an image proof when they submit a deposit or withdrawal.
-app.post('/dashboard/deposit/proof', auth.requireMember, (req, res, next) => {
-  proofUpload(req, res, (error) => {
-    if (error) {
-      return res.status(400).json({ error: error.message });
-    }
-    if (!req.file) {
-      return res.status(400).json({ error: 'No image was uploaded.' });
-    }
-    // Store the filename in a cookie so the deposit form can reference it.
-    res.cookie('pending_proof', req.file.filename, { maxAge: 5 * 60 * 1000, path: '/' });
-    res.json({ filename: req.file.filename });
-  });
-});
-
-app.post('/dashboard/withdraw/proof', auth.requireMember, (req, res, next) => {
-  proofUpload(req, res, (error) => {
-    if (error) {
-      return res.status(400).json({ error: error.message });
-    }
-    if (!req.file) {
-      return res.status(400).json({ error: 'No image was uploaded.' });
-    }
-    res.cookie('pending_withdraw_proof', req.file.filename, { maxAge: 5 * 60 * 1000, path: '/' });
-    res.json({ filename: req.file.filename });
-  });
-});
-
-app.post('/dashboard/kyc/proof', auth.requireMember, (req, res, next) => {
-  proofUpload(req, res, (error) => {
-    if (error) {
-      return res.status(400).json({ error: error.message });
-    }
-    if (!req.file) {
-      return res.status(400).json({ error: 'No image was uploaded.' });
-    }
-    res.cookie('pending_kyc_proof', req.file.filename, { maxAge: 5 * 60 * 1000, path: '/' });
-    res.json({ filename: req.file.filename });
-  });
-});
+// Upload endpoints for deposit, withdrawal and KYC proof images.
+app.post('/dashboard/deposit/proof', auth.requireMember, handleProofUpload('deposit', 'pending_proof'));
+app.post('/dashboard/withdraw/proof', auth.requireMember, handleProofUpload('withdrawal', 'pending_withdraw_proof'));
+app.post('/dashboard/kyc/proof', auth.requireMember, handleProofUpload('kyc', 'pending_kyc_proof'));
 
 // Helpers every view can use: money and ledger labels, plus the plan catalog.
+app.locals.ledger = ledger;
 app.locals.money = ledger.money;
 app.locals.kindLabel = ledger.kindLabel;
 app.locals.statusLabel = ledger.statusLabel;
@@ -514,10 +542,6 @@ const bootDatabase = () =>
 // "we are connecting to the database" page rather than a raw 500.
 let databaseBootPromise = null;
 let databaseBootState = null;
-
-// Make sure the proof-of-payment upload directory exists before any request
-// can hit the upload endpoint.
-ensureUploadDirs().catch((error) => console.error('[uploads] could not create upload directories:', error.message));
 
 let deployedCommit = '[git commit unavailable at runtime]';
 let firstErrorOnBoot = null;

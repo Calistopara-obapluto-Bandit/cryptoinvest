@@ -2767,6 +2767,37 @@ html[data-theme=dark] .tx-status--rejected { background: rgba(226, 100, 76, 0.18
 .tx-status--approved { background: rgba(30, 122, 80, 0.14); color: #1E7A50; }
 html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16); color: #7FE3D8; }
 
+/* ---------- admin approval queues ---------- */
+.admin-quicklinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 4px;
+}
+.admin-quicklinks a {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: var(--surface);
+  color: var(--text-2);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.25s var(--silk), border-color 0.25s var(--silk);
+}
+.admin-quicklinks a:hover { color: var(--accent); border-color: var(--accent-border); }
+.proof-thumb {
+  display: block;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.proof-thumb-link { display: inline-flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+.proof-thumb-link .mono { font-size: 0.62rem; color: var(--text-3); word-break: break-all; }
+
 /* ---------- member service links ---------- */
 .app-links {
   display: grid;

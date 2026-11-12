@@ -1,0 +1,91 @@
+<%
+  var fmtDate = function (value) {
+    return new Date(value).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+%>
+<%- include('../partials/head', { title: title, description: description }) %>
+<%- include('../partials/nav', { active: 'admin' }) %>
+
+  <main class="dash-main">
+    <div class="container">
+      <div class="dash-head">
+        <div class="dash-head-copy">
+          <div class="section-label">Admin dashboard</div>
+          <h1 class="dash-title">Virtual <em>cards</em></h1>
+          <p class="section-sub">Card requests from members, tied to their member ID. Approve or decline each request and the member sees the decision on their account page.</p>
+        </div>
+        <div class="dash-id dash-id--admin">
+          <span class="dash-id-label">Signed in as</span>
+          <strong class="dash-id-value"><%= member.full_name %></strong>
+          <span class="dash-id-hint"><%= member.email %></span>
+        </div>
+      </div>
+
+      <% if (updated) { %>
+        <p class="form-notice form-notice--ok" role="status">Card request <%= updated.indexOf('reject') !== -1 ? 'declined' : 'approved' %>.</p>
+      <% } %>
+
+      <% if (!cards.length) { %>
+        <div class="dash-empty">
+          <h2>No card requests yet</h2>
+          <p>Members request a virtual card from their account page. Requests appear here the moment they are submitted.</p>
+          <a href="/admin" class="btn-outline-lg">Back to admin dashboard<span>→</span></a>
+        </div>
+      <% } else { %>
+        <div class="svc-table-wrap dash-table-wrap">
+          <table class="svc-table dash-table">
+            <thead>
+              <tr>
+                <th scope="col">Member</th>
+                <th scope="col">Member ID</th>
+                <th scope="col">Reference</th>
+                <th scope="col">Name on card</th>
+                <th scope="col">Status</th>
+                <th scope="col">Requested</th>
+                <th scope="col">Note</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% cards.forEach(function (card) { %>
+                <tr>
+                  <td>
+                    <span class="dash-name"><%= card.full_name %></span>
+                    <span class="dash-sub"><%= card.email %></span>
+                  </td>
+                  <td class="mono"><%= card.member_id %></td>
+                  <td class="mono"><%= card.reference %></td>
+                  <td><%= card.name_on_card || '—' %></td>
+                  <td><span class="tx-status tx-status--<%= card.status %>"><%= ledger.cardStatusLabel(card.status) %></span></td>
+                  <td><%= fmtDate(card.created_at) %></td>
+                  <td><%= card.note || '—' %></td>
+                  <td>
+                    <% if (card.status === 'pending') { %>
+                      <div class="admin-actions">
+                        <form method="post" action="/admin/cards/<%= card.id %>/approve">
+                          <button type="submit" class="btn-mini btn-mini--ok">Approve</button>
+                        </form>
+                        <form method="post" action="/admin/cards/<%= card.id %>/reject">
+                          <button type="submit" class="btn-mini btn-mini--no">Decline</button>
+                        </form>
+                      </div>
+                    <% } else { %>
+                      <span class="text-link"><%= card.status %></span>
+                    <% } %>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+
+      <div class="app-form-actions" style="margin-top: 24px;">
+        <a href="/admin" class="btn-outline-lg">Back to admin dashboard<span>→</span></a>
+        <a href="/admin/loans" class="text-link">Loan applications</a>
+        <a href="/admin/kyc" class="text-link">KYC submissions</a>
+      </div>
+    </div>
+  </main>
+
+<%- include('../partials/footer') %>

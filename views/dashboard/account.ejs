@@ -34,6 +34,54 @@
         </dl>
       </section>
 
+      <section class="app-card" id="virtual-card">
+        <h2>Virtual card</h2>
+        <p class="app-card-sub">Request a virtual card issued against your member ID <span class="mono"><%= member.member_id %></span>. An administrator approves every request before the card is issued.</p>
+        <% if (cardNotice) { %>
+          <p class="form-notice form-notice--ok" role="status"><%= cardNotice %></p>
+        <% } %>
+        <% if (cardError) { %>
+          <p class="form-errors" role="alert"><%= cardError %></p>
+        <% } %>
+        <% if (myCards && myCards.length) { %>
+          <ul class="inv-list">
+            <% myCards.forEach(function (card) { %>
+              <li class="inv-row">
+                <div class="inv-main">
+                  <strong><%= card.name_on_card || member.full_name %></strong>
+                  <span class="mono"><%= card.reference %></span>
+                </div>
+                <div class="inv-fig">
+                  <span>Status</span>
+                  <strong><%= ledger.cardStatusLabel(card.status) %></strong>
+                </div>
+                <div class="inv-fig">
+                  <span>Requested</span>
+                  <strong><%= new Date(card.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) %></strong>
+                </div>
+              </li>
+            <% }); %>
+          </ul>
+        <% } else { %>
+          <p class="app-empty">No card requests yet. Request one below and an administrator will review it.</p>
+        <% } %>
+        <form class="app-form" method="post" action="/dashboard/card">
+          <div class="app-card" style="margin-top: 0;">
+            <label class="field">
+              <span>Name on card</span>
+              <input type="text" name="nameOnCard" value="<%= member.full_name %>" maxlength="60" autocomplete="off" required />
+            </label>
+            <label class="field">
+              <span>Note (optional)</span>
+              <input type="text" name="note" maxlength="200" placeholder="Delivery or billing preference" autocomplete="off" />
+            </label>
+          </div>
+          <div class="app-form-actions">
+            <button type="submit" class="btn-primary-lg">Request virtual card<span>→</span></button>
+          </div>
+        </form>
+      </section>
+
       <section class="app-card">
         <h2>Referral link</h2>
         <p class="app-card-sub">Share this link. Members who join with it are credited to you, and referral bonuses land in your referral balance.</p>

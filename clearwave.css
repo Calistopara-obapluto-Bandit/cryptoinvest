@@ -2601,7 +2601,21 @@ html[data-theme="dark"] .form-notice--warn { background: rgba(226, 175, 68, 0.12
 .tx-status--rejected { background: rgba(172, 58, 34, 0.14); color: #A83B22; }
 
 /* referral */
-.app-ref { display: flex; gap: 8px; }
+.app-ref { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; margin: 12px 0; }
+.app-ref-value {
+  flex: 1 1 240px;
+  min-width: 0;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text-2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
 .app-ref-input {
   flex: 1 1 auto;
   min-width: 0;
@@ -2753,9 +2767,6 @@ html[data-theme="dark"] .form-notice--warn { background: rgba(226, 175, 68, 0.12
 .btn-mini--ok { color: #1E7A50; border-color: rgba(30, 122, 80, 0.32); }
 .btn-mini--no { color: #A83B22; border-color: rgba(172, 58, 34, 0.32); }
 
-/* mobile app bar */
-.app-nav { display: none; }
-
 html[data-theme=dark] .tx-amount { color: #6ADFAF; }
 html[data-theme=dark] .tx-amount.is-out { color: #F0A07A; }
 html[data-theme=dark] .tx-status--pending { background: rgba(224, 168, 58, 0.18); color: #E7BC72; }
@@ -2767,78 +2778,17 @@ html[data-theme=dark] .tx-status--rejected { background: rgba(226, 100, 76, 0.18
 .tx-status--approved { background: rgba(30, 122, 80, 0.14); color: #1E7A50; }
 html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16); color: #7FE3D8; }
 
-/* ---------- app-nav ---------- */
-.app-nav {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 60;
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 2px;
-  padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
-  background: rgba(244, 250, 250, 0.96);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  border-top: 1px solid var(--border);
-  box-shadow: 0 -4px 20px rgba(13, 30, 28, 0.08);
-}
-.app-nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  padding: 6px 2px;
-  border-radius: 10px;
-  font-size: 0.62rem;
-  font-weight: 600;
-  color: var(--text-3);
-  text-decoration: none;
-  transition: color 0.2s var(--silk), background 0.2s var(--silk);
-}
-.app-nav-item:hover { color: var(--text-1); }
-.app-nav-item.is-active { color: var(--accent); background: var(--accent-ghost); }
-.app-nav-icon svg { display: block; width: 20px; height: 20px; }
-.app-nav-label { line-height: 1.2; }
-
-/* ensure page content doesn't go under the fixed nav */
-.app-main { padding-bottom: 80px; }
+/* ---------- app-nav (phone bottom bar) ---------- */
+/*
+ * The bottom bar is a phone affordance: hidden on desktop, and below 780px it
+ * is one row of seven tabs. Seven fixed columns stop the bar wrapping into a
+ * second row that would cover the page, and the page reserves the bar's height
+ * plus the device safe area so nothing is ever hidden behind it.
+ */
+.app-nav { display: none; }
 
 @media (max-width: 980px) {
-  .app-main { padding: 110px 0 72px; }
-  .app-cols { grid-template-columns: 1fr; }
-  .tile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .inv-row { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 780px) {
-  .app-nav {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-  .app-nav-item span:last-child { font-size: 0.58rem; }
-  .app-main { padding-bottom: 116px; }
-}
-
-@media (max-width: 480px) {
-  .app-nav {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  .app-nav-item:nth-child(n+5) { display: none; }
-  .app-main { padding-bottom: 120px; }
-  .tile { padding: 14px 16px; }
-  .tile-value { font-size: 1.2rem; }
-  .inv-row { grid-template-columns: 1fr; }
-  .app-ref { flex-direction: column; }
-  .app-ref-copy { padding: 11px 18px; }
-  .app-actions { grid-template-columns: 1fr; gap: 10px; }
-  .app-action { flex-direction: row; align-items: baseline; justify-content: space-between; padding: 15px 18px; }
-  .app-card { padding: 20px 18px; }
-}
-
-@media (max-width: 980px) {
-  .app-main { padding: 110px 0 72px; }
+  .app-main { padding-top: 110px; }
   .app-cols { grid-template-columns: 1fr; }
   .tile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .inv-row { grid-template-columns: 1fr 1fr; }
@@ -2852,40 +2802,51 @@ html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16
     bottom: 0;
     z-index: 60;
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 2px;
-    padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0;
+    padding: 7px 4px calc(7px + env(safe-area-inset-bottom, 0px));
     background: rgba(244, 250, 250, 0.96);
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 20px rgba(13, 30, 28, 0.08);
   }
   .app-nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    padding: 6px 2px;
-    border-radius: 12px;
-    font-size: 0.66rem;
+    justify-content: center;
+    gap: 2px;
+    min-width: 0;
+    padding: 5px 1px;
+    border-radius: 10px;
+    font-size: 0.55rem;
     font-weight: 600;
     color: var(--text-3);
+    text-decoration: none;
   }
+  .app-nav-item:hover { color: var(--text-1); }
   .app-nav-item.is-active { color: var(--accent); background: var(--accent-ghost); }
-  .app-nav-icon svg { display: block; width: 20px; height: 20px; }
-  .app-main { padding-bottom: 116px; }
+  .app-nav-icon svg { display: block; width: 19px; height: 19px; }
+  .app-nav-label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.15;
+  }
+  .app-main { padding: 104px 0 calc(96px + env(safe-area-inset-bottom, 0px)); }
   .app-actions { grid-template-columns: 1fr; gap: 10px; }
   .app-action { flex-direction: row; align-items: baseline; justify-content: space-between; padding: 15px 18px; }
   .app-card { padding: 20px 18px; }
+  .app-ref { flex-direction: column; }
+  .app-ref-copy { padding: 11px 18px; }
   html[data-theme=dark] .app-nav { background: rgba(7, 17, 15, 0.94); }
 }
 
-@media (max-width: 520px) {
-  .tile { padding: 15px 16px; }
-  .tile-value { font-size: 1.2rem; }
-  .inv-row { grid-template-columns: 1fr 1fr; }
-  .app-ref { flex-direction: column; }
-  .app-ref-copy { padding: 11px 18px; }
+@media (max-width: 400px) {
+  .app-nav-item { font-size: 0.5rem; padding: 5px 0; }
+  .app-nav-icon svg { width: 17px; height: 17px; }
 }
 
 /* ---------- proof of payment upload ---------- */

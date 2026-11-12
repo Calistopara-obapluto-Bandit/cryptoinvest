@@ -282,6 +282,18 @@
       if (field) {
         field.select();
         try { document.execCommand('copy'); done(); } catch (error) { /* selection stays */ }
+        return;
+      }
+
+      // The referral link is wrapping text, not an input: select its contents so
+      // the reader can copy manually when the clipboard API is unavailable.
+      var linkText = button.parentElement ? button.parentElement.querySelector('.app-ref-value') : null;
+      if (linkText && window.getSelection) {
+        var range = document.createRange();
+        range.selectNodeContents(linkText);
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
       }
     });
 

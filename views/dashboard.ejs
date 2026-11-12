@@ -148,7 +148,7 @@
           <h2>Referral link</h2>
           <p>Share this link. Every member who joins with it is credited to <span class="mono"><%= (member && member.member_id) ? member.member_id : '' %></span>.</p>
           <div class="app-ref">
-            <input class="app-ref-input" type="text" readonly value="<%= (referralLink && referralLink.toString()) ? referralLink : '' %>" aria-label="Your referral link" />
+            <span class="app-ref-value" id="referral-link" aria-label="Your referral link"><%= (referralLink && referralLink.toString()) ? referralLink : '' %></span>
             <button type="button" class="app-ref-copy" data-copy="<%= (referralLink && referralLink.toString()) ? referralLink : '' %>">Copy</button>
           </div>
           <p><%= (summary && summary.referrals != null ? summary.referrals : 0) %> member<%= (summary && summary.referrals != null ? summary.referrals : 0) === 1 ? '' : 's' %> joined with your link · balance <%= money(summary && summary.referralBalance != null ? summary.referralBalance : 0) %></p>
@@ -246,5 +246,7 @@
       <% } %>
     </div>
   </main>
+
+<%- include('partials/app-nav', { activeTab: 'dashboard' }) %>
 
 <%- include('partials/footer') %>

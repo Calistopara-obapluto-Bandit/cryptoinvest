@@ -1,3 +1,7 @@
+<%
+  var currentYear = new Date().getFullYear();
+  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+%>
 <%- include('../partials/head', { title: title, description: description }) %>
 <%- include('../partials/nav', { active: 'register' }) %>
 
@@ -59,10 +63,39 @@
                   <% countries.forEach(function (country) { %><option value="<%= country %>"></option><% }); %>
                 </datalist>
               </label>
-              <label class="field">
-                <span>Age</span>
-                <input type="number" name="age" value="<%= values.age %>" required min="18" max="120" step="1" inputmode="numeric" placeholder="18+" />
-              </label>
+              <div class="field field--wide">
+                <span>Date of birth</span>
+                <div class="dob-grid">
+                  <label class="dob-part">
+                    <span>Day</span>
+                    <select name="dobDay" required>
+                      <option value="">--</option>
+                      <% for (var day = 1; day <= 31; day += 1) { %>
+                        <option value="<%= day %>"<%= String(values.dobDay) === String(day) ? ' selected' : '' %>><%= day %></option>
+                      <% } %>
+                    </select>
+                  </label>
+                  <label class="dob-part">
+                    <span>Month</span>
+                    <select name="dobMonth" required>
+                      <option value="">--</option>
+                      <% months.forEach(function (name, index) { %>
+                        <option value="<%= index + 1 %>"<%= String(values.dobMonth) === String(index + 1) ? ' selected' : '' %>><%= name %></option>
+                      <% }); %>
+                    </select>
+                  </label>
+                  <label class="dob-part">
+                    <span>Year</span>
+                    <select name="dobYear" required>
+                      <option value="">----</option>
+                      <% for (var year = currentYear; year >= currentYear - 100; year -= 1) { %>
+                        <option value="<%= year %>"<%= String(values.dobYear) === String(year) ? ' selected' : '' %>><%= year %></option>
+                      <% } %>
+                    </select>
+                  </label>
+                </div>
+                <span class="field-hint" id="dob-age" aria-live="polite">Your age is calculated from this date; you must be 18 or older.</span>
+              </div>
               <label class="field">
                 <span>Password</span>
                 <input type="password" name="password" required minlength="8" maxlength="200" autocomplete="new-password" placeholder="At least 8 characters" />
@@ -76,6 +109,41 @@
             <button type="submit" class="auth-submit">Create my account</button>
             <p class="auth-switch">Already registered? <a href="/login">Log in instead</a>.</p>
           </form>
+
+          <script>
+            (function () {
+              var day = document.querySelector('select[name="dobDay"]');
+              var month = document.querySelector('select[name="dobMonth"]');
+              var year = document.querySelector('select[name="dobYear"]');
+              var output = document.getElementById('dob-age');
+              if (!day || !month || !year || !output) return;
+
+              function updateAge() {
+                output.classList.remove('is-warn');
+                if (!day.value || !month.value || !year.value) {
+                  output.textContent = 'Your age is calculated from this date; you must be 18 or older.';
+                  return;
+                }
+                var today = new Date();
+                var age = today.getFullYear() - Number(year.value);
+                var hadBirthday = (today.getMonth() + 1) > Number(month.value) ||
+                  ((today.getMonth() + 1) === Number(month.value) && today.getDate() >= Number(day.value));
+                if (!hadBirthday) age -= 1;
+                if (age < 0) {
+                  output.textContent = 'That date is in the future.';
+                  output.classList.add('is-warn');
+                } else if (age < 18) {
+                  output.textContent = 'You are ' + age + ' — accounts need the member to be 18 or older.';
+                  output.classList.add('is-warn');
+                } else {
+                  output.textContent = 'You are ' + age + ' years old.';
+                }
+              }
+
+              [day, month, year].forEach(function (select) { select.addEventListener('change', updateAge); });
+              updateAge();
+            })();
+          </script>
         </div>
       </div>
     </div>

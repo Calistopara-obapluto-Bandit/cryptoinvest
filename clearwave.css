@@ -2227,6 +2227,22 @@ html[data-theme="dark"] .di-icon--img { background: #E8F5F1; }
   transition: border-color 0.2s var(--silk), box-shadow 0.2s var(--silk), background-color 0.2s var(--silk);
 }
 .field textarea { min-height: 108px; resize: vertical; line-height: 1.6; }
+/* Day / month / year date-of-birth row on the registration form. */
+.dob-grid {
+  display: grid;
+  grid-template-columns: minmax(64px, 0.8fr) minmax(110px, 1.5fr) minmax(80px, 1fr);
+  gap: 8px;
+}
+.dob-part { display: grid; gap: 5px; }
+.dob-part > span {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+#dob-age.is-warn { color: #B4532A; }
+html[data-theme="dark"] #dob-age.is-warn { color: #F0A07A; }
 .field select {
   appearance: none;
   -webkit-appearance: none;

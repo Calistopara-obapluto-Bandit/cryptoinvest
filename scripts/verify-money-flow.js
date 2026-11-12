@@ -170,12 +170,16 @@ function pendingId(html, memberId, action) {
 }
 
 function signupForm(member, ref) {
+  // Registration now takes a date of birth and derives the age from it.
+  const birthYear = new Date().getFullYear() - member.age;
   return {
     fullName: member.fullName,
     email: member.email,
     phone: member.phone,
     nationality: member.nationality,
-    age: String(member.age),
+    dobDay: '1',
+    dobMonth: '1',
+    dobYear: String(birthYear),
     password: PASSWORD,
     confirmPassword: PASSWORD,
     ref: ref || ''

@@ -428,7 +428,6 @@ memberRoutes.register(app);
 
 // Upload endpoints for deposit, withdrawal and KYC proof images.
 app.post('/dashboard/deposit/proof', auth.requireMember, handleProofUpload('deposit', 'pending_proof'));
-app.post('/dashboard/withdraw/proof', auth.requireMember, handleProofUpload('withdrawal', 'pending_withdraw_proof'));
 app.post('/dashboard/kyc/proof', auth.requireMember, handleProofUpload('kyc', 'pending_kyc_proof'));
 
 // Helpers every view can use: money and ledger labels, plus the plan catalog.

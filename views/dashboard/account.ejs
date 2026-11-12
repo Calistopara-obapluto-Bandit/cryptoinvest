@@ -38,7 +38,7 @@
         <h2>Referral link</h2>
         <p class="app-card-sub">Share this link. Members who join with it are credited to you, and referral bonuses land in your referral balance.</p>
         <div class="app-ref">
-          <input class="app-ref-input" type="text" readonly value="<%= referralLink %>" aria-label="Your referral link" />
+          <span class="app-ref-value" id="referral-link" aria-label="Your referral link"><%= referralLink %></span>
           <button type="button" class="app-ref-copy" data-copy="<%= referralLink %>">Copy</button>
         </div>
         <p class="app-hint"><%= summary.referrals %> member<%= summary.referrals === 1 ? '' : 's' %> joined with your link · balance <%= money(summary.referralBalance) %></p>

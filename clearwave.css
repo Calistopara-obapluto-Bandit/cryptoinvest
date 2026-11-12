@@ -2616,17 +2616,6 @@ html[data-theme="dark"] .form-notice--warn { background: rgba(226, 175, 68, 0.12
   overflow-wrap: anywhere;
   word-break: break-word;
 }
-.app-ref-input {
-  flex: 1 1 auto;
-  min-width: 0;
-  padding: 12px 14px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  color: var(--text-2);
-  font-size: 0.78rem;
-  font-family: inherit;
-}
 .app-ref-copy {
   flex: 0 0 auto;
   padding: 0 18px;
@@ -2778,6 +2767,40 @@ html[data-theme=dark] .tx-status--rejected { background: rgba(226, 100, 76, 0.18
 .tx-status--approved { background: rgba(30, 122, 80, 0.14); color: #1E7A50; }
 html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16); color: #7FE3D8; }
 
+/* ---------- member service links ---------- */
+.app-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0 4px;
+}
+.app-link-card {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text-1);
+  text-decoration: none;
+  transition: border-color 0.3s var(--silk), transform 0.3s var(--silk), box-shadow 0.3s var(--silk);
+}
+.app-link-card strong { font-size: 0.94rem; letter-spacing: -0.01em; }
+.app-link-card span { color: var(--text-3); font-size: 0.78rem; line-height: 1.45; }
+.app-link-card::after {
+  content: '\2192';
+  margin-top: 8px;
+  color: var(--accent);
+  font-size: 0.85rem;
+  line-height: 1;
+}
+.app-link-card:hover {
+  border-color: var(--accent-border);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
 /* ---------- app-nav (phone bottom bar) ---------- */
 /*
  * The bottom bar is a phone affordance: hidden on desktop, and below 780px it
@@ -2802,7 +2825,7 @@ html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16
     bottom: 0;
     z-index: 60;
     display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 0;
     padding: 7px 4px calc(7px + env(safe-area-inset-bottom, 0px));
     background: rgba(244, 250, 250, 0.96);
@@ -2820,14 +2843,14 @@ html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16
     min-width: 0;
     padding: 5px 1px;
     border-radius: 10px;
-    font-size: 0.55rem;
+    font-size: 0.63rem;
     font-weight: 600;
     color: var(--text-3);
     text-decoration: none;
   }
   .app-nav-item:hover { color: var(--text-1); }
   .app-nav-item.is-active { color: var(--accent); background: var(--accent-ghost); }
-  .app-nav-icon svg { display: block; width: 19px; height: 19px; }
+  .app-nav-icon svg { display: block; width: 21px; height: 21px; }
   .app-nav-label {
     max-width: 100%;
     overflow: hidden;
@@ -2837,6 +2860,11 @@ html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16
   }
   .app-main { padding: 104px 0 calc(96px + env(safe-area-inset-bottom, 0px)); }
   .app-actions { grid-template-columns: 1fr; gap: 10px; }
+  .app-links { grid-template-columns: 1fr; gap: 10px; }
+  .app-link-card { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2px 12px; padding: 14px 16px; }
+  .app-link-card strong { flex: 1 1 auto; }
+  .app-link-card span { flex: 1 1 100%; }
+  .app-link-card::after { margin-top: 0; }
   .app-action { flex-direction: row; align-items: baseline; justify-content: space-between; padding: 15px 18px; }
   .app-card { padding: 20px 18px; }
   .app-ref { flex-direction: column; }
@@ -2845,8 +2873,8 @@ html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16
 }
 
 @media (max-width: 400px) {
-  .app-nav-item { font-size: 0.5rem; padding: 5px 0; }
-  .app-nav-icon svg { width: 17px; height: 17px; }
+  .app-nav-item { font-size: 0.58rem; padding: 5px 0; }
+  .app-nav-icon svg { width: 19px; height: 19px; }
 }
 
 /* ---------- proof of payment upload ---------- */

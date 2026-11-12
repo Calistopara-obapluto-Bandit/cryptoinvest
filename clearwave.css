@@ -2889,15 +2889,38 @@ html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16
   }
   .app-table td.mono { white-space: normal; word-break: break-word; }
 
-  .app-main { padding: 104px 0 calc(96px + env(safe-area-inset-bottom, 0px)); }
+  .app-main { padding: 96px 0 calc(92px + env(safe-area-inset-bottom, 0px)); }
   .app-actions { grid-template-columns: 1fr; gap: 10px; }
   .app-links { grid-template-columns: 1fr; gap: 10px; }
   .app-link-card { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2px 12px; padding: 14px 16px; }
   .app-link-card strong { flex: 1 1 auto; }
   .app-link-card span { flex: 1 1 100%; }
   .app-link-card::after { margin-top: 0; }
-  .app-action { flex-direction: row; align-items: baseline; justify-content: space-between; padding: 15px 18px; }
-  .app-card { padding: 20px 18px; }
+  /* Phones get a tighter rhythm: desktop card/tile padding and the stacked
+     action buttons otherwise push the balances and transactions below the fold. */
+  .container { padding: 0 16px; }
+  .app-head { gap: 12px; margin-bottom: 16px; }
+  .app-head h1,
+  .app-title { margin: 6px 0; font-size: 1.5rem; }
+  .app-head-copy p { font-size: 0.8rem; line-height: 1.55; }
+  .app-actions { gap: 8px; margin: 14px 0 16px; }
+  .app-action { flex-direction: row; align-items: baseline; justify-content: space-between; padding: 13px 16px; }
+  .app-action strong { font-size: 0.95rem; }
+  .app-action span { font-size: 0.7rem; }
+  .app-links { margin: 14px 0 2px; }
+  .app-link-card { padding: 12px 14px; }
+  .tile-grid { gap: 10px; }
+  .tile { padding: 13px 14px; gap: 8px; }
+  .tile-label { font-size: 0.74rem; }
+  .tile-value { margin-top: 5px; font-size: 1.18rem; }
+  .tile-icon { width: 30px; height: 30px; border-radius: 9px; }
+  .tile-icon svg { width: 15px; height: 15px; }
+  .app-cols { gap: 12px; margin-top: 12px; }
+  .app-card { padding: 16px 15px; border-radius: 18px; }
+  .app-card h2 { font-size: 0.98rem; }
+  .app-card-head { gap: 8px; margin-bottom: 10px; }
+  .app-card-link { font-size: 0.75rem; }
+  .app-empty { padding: 20px 14px; }
   .app-ref { flex-direction: column; }
   .app-ref-value { flex: 1 1 auto; padding: 10px 12px; font-size: 0.7rem; }
   .app-ref-copy { width: 100%; padding: 11px 18px; }
@@ -2907,6 +2930,14 @@ html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16
 @media (max-width: 400px) {
   .app-nav-item { font-size: 0.58rem; padding: 5px 0; }
   .app-nav-icon svg { width: 19px; height: 19px; }
+  .app-head h1,
+  .app-title { font-size: 1.4rem; }
+  .app-action { padding: 12px 14px; }
+  .tile { padding: 12px; gap: 6px; }
+  .tile-label { font-size: 0.7rem; }
+  .tile-value { font-size: 1.08rem; }
+  .tile-icon { width: 27px; height: 27px; }
+  .tile-icon svg { width: 14px; height: 14px; }
 }
 
 /* ---------- proof of payment upload ---------- */

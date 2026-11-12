@@ -2855,7 +2855,7 @@ html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16
 /* ---------- member service links ---------- */
 .app-links {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
   gap: 12px;
   margin: 18px 0 4px;
 }
@@ -2975,6 +2975,8 @@ html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16
   .app-table td.mono { white-space: normal; word-break: break-word; }
 
   .app-main { padding: 96px 0 calc(92px + env(safe-area-inset-bottom, 0px)); }
+  /* Admin pages use .dash-main and now carry the same bottom bar. */
+  .dash-main { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
   .app-actions { grid-template-columns: 1fr; gap: 10px; }
   .app-links { grid-template-columns: 1fr; gap: 10px; }
   .app-link-card { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2px 12px; padding: 14px 16px; }

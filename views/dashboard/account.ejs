@@ -52,6 +52,10 @@
                   <span class="mono"><%= card.reference %></span>
                 </div>
                 <div class="inv-fig">
+                  <span>Limit</span>
+                  <strong><%= card.currency || 'USD' %> <%= Number(card.spending_limit || 0).toLocaleString('en-US', { maximumFractionDigits: 0 }) %> / month</strong>
+                </div>
+                <div class="inv-fig">
                   <span>Status</span>
                   <strong><%= ledger.cardStatusLabel(card.status) %></strong>
                 </div>
@@ -72,8 +76,25 @@
               <input type="text" name="nameOnCard" value="<%= member.full_name %>" maxlength="60" autocomplete="off" required />
             </label>
             <label class="field">
+              <span>Card currency</span>
+              <select name="currency">
+                <option value="USD" selected>USD — US dollar</option>
+                <option value="EUR">EUR — Euro</option>
+                <option value="GBP">GBP — Pound sterling</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Monthly spending limit</span>
+              <input type="text" name="spendingLimit" inputmode="decimal" value="2000" placeholder="e.g. 2000" autocomplete="off" required />
+              <span class="field-hint">Between 50 and 50,000 in the card currency.</span>
+            </label>
+            <label class="field">
+              <span>Phone number</span>
+              <input type="tel" name="phone" value="<%= member.phone %>" maxlength="24" autocomplete="tel" required />
+            </label>
+            <label class="field">
               <span>Note (optional)</span>
-              <input type="text" name="note" maxlength="200" placeholder="Delivery or billing preference" autocomplete="off" />
+              <input type="text" name="note" maxlength="200" placeholder="Billing preference or anything the desk should know" autocomplete="off" />
             </label>
           </div>
           <div class="app-form-actions">

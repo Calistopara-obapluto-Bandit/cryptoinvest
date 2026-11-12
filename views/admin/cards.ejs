@@ -40,6 +40,9 @@
                 <th scope="col">Member ID</th>
                 <th scope="col">Reference</th>
                 <th scope="col">Name on card</th>
+                <th scope="col">Currency</th>
+                <th scope="col">Monthly limit</th>
+                <th scope="col">Phone</th>
                 <th scope="col">Status</th>
                 <th scope="col">Requested</th>
                 <th scope="col">Note</th>
@@ -56,6 +59,9 @@
                   <td class="mono"><%= card.member_id %></td>
                   <td class="mono"><%= card.reference %></td>
                   <td><%= card.name_on_card || '—' %></td>
+                  <td><%= card.currency || 'USD' %></td>
+                  <td><%= money(card.spending_limit || 0) %></td>
+                  <td><%= card.phone || '—' %></td>
                   <td><span class="tx-status tx-status--<%= card.status %>"><%= ledger.cardStatusLabel(card.status) %></span></td>
                   <td><%= fmtDate(card.created_at) %></td>
                   <td><%= card.note || '—' %></td>
@@ -87,5 +93,7 @@
       </div>
     </div>
   </main>
+
+<%- include('../partials/admin-nav', { adminTab: 'cards' }) %>
 
 <%- include('../partials/footer') %>

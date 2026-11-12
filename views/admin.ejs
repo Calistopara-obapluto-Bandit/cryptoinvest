@@ -126,7 +126,7 @@
           <div class="app-table-wrap">
             <table class="app-table">
               <thead>
-                <tr><th>Member</th><th>Member ID</th><th>Name on card</th><th>Note</th><th>Requested</th><th>Action</th></tr>
+                <tr><th>Member</th><th>Member ID</th><th>Name on card</th><th>Currency</th><th>Monthly limit</th><th>Phone</th><th>Requested</th><th>Action</th></tr>
               </thead>
               <tbody>
                 <% pendingCards.forEach(function (card) { %>
@@ -137,7 +137,9 @@
                     </td>
                     <td data-label="Member ID" class="mono"><%= card.member_id %></td>
                     <td data-label="Name on card"><%= card.name_on_card || '—' %></td>
-                    <td data-label="Note"><%= card.note || '—' %></td>
+                    <td data-label="Currency"><%= card.currency || 'USD' %></td>
+                    <td data-label="Monthly limit"><%= money(card.spending_limit || 0) %></td>
+                    <td data-label="Phone"><%= card.phone || '—' %></td>
                     <td data-label="Requested"><%= fmtDate(card.created_at) %></td>
                     <td data-label="Action">
                       <div class="admin-actions">
@@ -267,7 +269,7 @@
           <a href="/register" class="btn-outline-lg">Open the registration form<span>→</span></a>
         </div>
       <% } else { %>
-        <div class="svc-table-wrap dash-table-wrap">
+        <div class="svc-table-wrap dash-table-wrap" id="members">
           <table class="svc-table dash-table">
             <thead>
               <tr>
@@ -303,5 +305,7 @@
       <% } %>
     </div>
   </main>
+
+<%- include('partials/admin-nav', { adminTab: 'overview' }) %>
 
 <%- include('partials/footer') %>

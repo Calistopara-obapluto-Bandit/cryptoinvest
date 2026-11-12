@@ -142,15 +142,15 @@
                 <tbody>
                   <% (transactions || []).forEach(function (row) { %>
                     <tr>
-                      <td><%= (row && row.reference) ? row.reference : '' %></td>
-                      <td>
+                      <td data-label="ID"><%= (row && row.reference) ? row.reference : '' %></td>
+                      <td data-label="Type">
                         <%= (row && row.kind) ? kindLabel(row.kind) : '' %>
                         <span class="tx-status tx-status--<%= (row && row.status) ? row.status : '' %>"><%= (row && row.status) ? statusLabel(row.status) : '' %></span>
                       </td>
-                      <td class="tx-amount<%= (row && (row.kind === 'withdrawal' || row.kind === 'investment')) ? ' is-out' : '' %>">
+                      <td data-label="Amount" class="tx-amount<%= (row && (row.kind === 'withdrawal' || row.kind === 'investment')) ? ' is-out' : '' %>">
                         <%= (row && row.kind) ? ((row.kind === 'withdrawal' || row.kind === 'investment' ? '−' : '+') + money(row.amount)) : '' %>
                       </td>
-                      <td><%= (row && row.created_at) ? shortDate(row.created_at) : '' %></td>
+                      <td data-label="Date"><%= (row && row.created_at) ? shortDate(row.created_at) : '' %></td>
                     </tr>
                   <% }); %>
                 </tbody>

@@ -2858,6 +2858,37 @@ html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16
     white-space: nowrap;
     line-height: 1.15;
   }
+  /* Transactions become stacked rows: four and six column tables squeeze
+     their cells to a few characters on a phone. */
+  .app-table-wrap { overflow: visible; padding: 2px 12px; }
+  .app-table,
+  .app-table tbody,
+  .app-table tr,
+  .app-table td { display: block; }
+  .app-table thead { display: none; }
+  .app-table tr { padding: 11px 2px; border-top: 1px solid var(--border); }
+  .app-table tr:first-child { border-top: 0; }
+  .app-table td {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 2px 0;
+    border: 0;
+    text-align: right;
+  }
+  .app-table td::before {
+    content: attr(data-label);
+    flex: 0 0 auto;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    text-align: left;
+  }
+  .app-table td.mono { white-space: normal; word-break: break-word; }
+
   .app-main { padding: 104px 0 calc(96px + env(safe-area-inset-bottom, 0px)); }
   .app-actions { grid-template-columns: 1fr; gap: 10px; }
   .app-links { grid-template-columns: 1fr; gap: 10px; }
@@ -2868,7 +2899,8 @@ html[data-theme=dark] .tx-status--approved { background: rgba(62, 207, 188, 0.16
   .app-action { flex-direction: row; align-items: baseline; justify-content: space-between; padding: 15px 18px; }
   .app-card { padding: 20px 18px; }
   .app-ref { flex-direction: column; }
-  .app-ref-copy { padding: 11px 18px; }
+  .app-ref-value { flex: 1 1 auto; padding: 10px 12px; font-size: 0.7rem; }
+  .app-ref-copy { width: 100%; padding: 11px 18px; }
   html[data-theme=dark] .app-nav { background: rgba(7, 17, 15, 0.94); }
 }
 

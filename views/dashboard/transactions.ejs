@@ -30,14 +30,14 @@
               <tbody>
                 <% transactions.forEach(function (row) { %>
                   <tr>
-                    <td class="mono"><%= row.reference %></td>
-                    <td><%= kindLabel(row.kind) %></td>
-                    <td><%= row.note || methodLabel(row.method) %></td>
-                    <td class="tx-amount<%= row.kind === 'withdrawal' || row.kind === 'investment' ? ' is-out' : '' %>">
+                    <td data-label="ID" class="mono"><%= row.reference %></td>
+                    <td data-label="Type"><%= kindLabel(row.kind) %></td>
+                    <td data-label="Detail"><%= row.note || methodLabel(row.method) %></td>
+                    <td data-label="Amount" class="tx-amount<%= row.kind === 'withdrawal' || row.kind === 'investment' ? ' is-out' : '' %>">
                       <%= (row.kind === 'withdrawal' || row.kind === 'investment' ? '−' : '+') + money(row.amount) %>
                     </td>
-                    <td><span class="tx-status tx-status--<%= row.status %>"><%= statusLabel(row.status) %></span></td>
-                    <td><%= when(row.created_at) %></td>
+                    <td data-label="Status"><span class="tx-status tx-status--<%= row.status %>"><%= statusLabel(row.status) %></span></td>
+                    <td data-label="Date"><%= when(row.created_at) %></td>
                   </tr>
                 <% }); %>
               </tbody>
